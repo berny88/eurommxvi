@@ -17,6 +17,7 @@ except IOError:
 # line, it's possible required libraries won't be in your searchable path
 #
 
+print(" start euroXXXVI .....")
 from flaskapp import app as application
 
 #
