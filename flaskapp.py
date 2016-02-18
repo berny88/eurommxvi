@@ -24,7 +24,7 @@ def mainPage():
 
 @app.route('/test/')
 def test():
-    return render_template('test.html')
+    return app.send_static_file('test.html')
 
 @app.errorhandler(404)
 def ma_page_404(error):
