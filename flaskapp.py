@@ -25,7 +25,7 @@ def mainPage():
 
 @app.route('/test/')
 def test():
-    return app.send_static_file('/static/test.html')
+    return app.send_static_file('test.html')
 
 
 @app.errorhandler(404)
