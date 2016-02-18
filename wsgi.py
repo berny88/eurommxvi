@@ -20,7 +20,7 @@ except IOError:
 
 print(" start euroXXXVI .....")
 print(sys.path)
-#from flaskapp import app as application
+from flaskapp import app as application
 
 #
 # Below for testing only
