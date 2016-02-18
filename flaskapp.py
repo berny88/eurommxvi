@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 
 @app.route('/')
 def mainPage():
-    return u"Comming soon", 200
+    return render_template('main.html')
 
 
 @app.errorhandler(404)
