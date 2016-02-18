@@ -22,9 +22,11 @@ logger = logging.getLogger(__name__)
 def mainPage():
     return render_template('main.html')
 
+
 @app.route('/test/')
 def test():
-    return app.send_static_file('test.html')
+    return app.send_static_file('/static/test.html')
+
 
 @app.errorhandler(404)
 def ma_page_404(error):
