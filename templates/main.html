@@ -1,0 +1,50 @@
+{% extends "squelette.html" %}
+
+{% block corps %}
+<div class="container-fluid"  style="background-image:url(http://louismarie.bonduelle.free.fr/HTML/newhaka001n&b_1.jpg)">
+          <div class="jumbotron" style="background-color:white; opacity:0.70">
+            <h1>{{ title}}</h1>
+              <p class="lead">Classement des parieurs : Top Ten</p>
+              <div class="col-xs-6">
+                  <ul class="list-group">
+                      {% for user in topTen%}
+                      <li class="list-group-item list-group-item-success">{{user.code}} : {{user.score}} points</li>
+                      {% endfor %}
+                  </ul>
+              </div>
+              <div class="col-xs-6">
+                  <ul class="list-group">
+                      {% for user in topTenFinal%}
+                      <li class="list-group-item list-group-item-success">{{user.code}} : {{user.score}} points</li>
+                      {% endfor %}
+                  </ul>
+              </div>
+              <p><a class="btn btn-primary btn-lg" href="{{ url_for('score_page.ranking') }}" role="button">Détail du classement</a></p>
+                <p><a class="btn btn-primary btn-lg" href="/rules/" role="button">Règles du jeu</a></p>
+          </div>
+    <div class="row" style="background-color:white; opacity:0.80">
+        <h1>Résultat des matchs</h1>
+        <div class="col-xs-12">
+            <div class="table-responsive">
+            <table class="table">
+                {% for match in matchs %}
+                <tr>
+                    <td>
+                        {{ match.teamA}} vs {{ match.teamB}} : <a href="https://twitter.com/hashtag/{{ match.title }}?src=hash">#{{ match.title }}</a>
+                    </td>
+                    <td>
+                        {{ match.getDisplayDate() }}
+                    </td>
+                    <td>
+                      {{ match.resultA}} - {{ match.resultB}}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table><!-- end panel panel-success -->
+        </div>
+    </div>
+</div><!-- /.container -->
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
