@@ -64,20 +64,20 @@ padding: 0px 0px;
                 <span class="glyphicon glyphicon-signal" aria-hidden="true"></span>&nbsp;Ranking</a></li>
 
             <li><a href="{{ url_for('about') }}">About</a></li>
-            <li><a href="{{ url_for('contact') }}">Contact</a></li>
+            <li><a href="">Contact</a></li>
             {% if session.cookieUserKey %}
                 <li>
-                  <a href="{{ url_for('profile_page.parameter') }}">
+                  <a href="">
                     <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
                     &nbsp;{{session.cookieUserKey}}</a>
                 </li>
                 <li>
-                  <a href="{{url_for('profile_page.logout') }}" role="button">
+                  <a href="" role="button">
                     <span class="glyphicon glyphicon-log-out" aria-hidden="true">&nbsp;logout</span>
                   </a>
                 </li>
             {% else %}
-              <li><a href="{{ url_for('profile_page.parameter') }}">
+              <li><a href="">
               <span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;Login</a></li>
             {% endif %}
           </ul>
