@@ -23,7 +23,7 @@ def mainPage():
     return render_template('main.html')
 
 @app.route('/test/')
-def mainPage():
+def test():
     return render_template('test.html')
 
 @app.errorhandler(404)
