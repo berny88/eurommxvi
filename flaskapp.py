@@ -4,7 +4,6 @@ import logging
 import os
 from flask import Flask
 from flask import render_template
-from reportlab.lib.utils import c
 
 from communities.CommunityServices import communities_page
 
