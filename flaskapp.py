@@ -20,7 +20,10 @@ logger = logging.getLogger(__name__)
 
 @app.route('/')
 def mainPage():
-    return render_template('main.html')
+    """
+    Main single page stored in static folder
+    """
+    return render_template('index.html')
 
 
 @app.route('/test/')
