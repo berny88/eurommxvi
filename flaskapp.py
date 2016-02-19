@@ -4,6 +4,10 @@ import logging
 import os
 from flask import Flask
 from flask import render_template
+from reportlab.lib.utils import c
+
+from communities.CommunityServices import communities_page
+
 #from datetime import date
 #from flask import request, session, flash, redirect
 
@@ -13,6 +17,8 @@ Main application
 app = Flask(__name__)
 app.debug = True
 app.secret_key = u'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT#BB'
+app.register_blueprint(communities_page, url_prefix="/communities", template_folder='templates')
+
 logging.basicConfig(format='%(asctime)s|%(levelname)s|%(message)s',\
     filename='{}/euroxxxvi.log'.format(os.environ['OPENSHIFT_LOG_DIR']), level=logging.INFO)
 app.logger.info('Started')
