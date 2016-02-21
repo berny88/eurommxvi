@@ -57,30 +57,13 @@ padding: 0px 0px;
           <ul class="nav navbar-nav">
               <li><a href="/rules/">
                 <span class="glyphicon glyphicon-cog" aria-hidden="true">&nbsp;Rules</span></a></li>
-              <li><a href="/scores/allusers">
+              <li><a href="/users/userslist">
                 <span class="glyphicon glyphicon-eye-open" aria-hidden="true">&nbsp;Users</span></a></li>
-              <li><a href="/scores/allbets">
+              <li><a href="/bets/bets">
                 <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>&nbsp;All bets</a></li>
-              <li><a href="/scores/allscores">
-                <span class="glyphicon glyphicon-signal" aria-hidden="true"></span>&nbsp;Ranking</a></li>
 
             <li><a href="{{ url_for('about') }}">About</a></li>
             <li><a href="">Contact</a></li>
-            {% if session.cookieUserKey %}
-                <li>
-                  <a href="">
-                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                    &nbsp;{{session.cookieUserKey}}</a>
-                </li>
-                <li>
-                  <a href="" role="button">
-                    <span class="glyphicon glyphicon-log-out" aria-hidden="true">&nbsp;logout</span>
-                  </a>
-                </li>
-            {% else %}
-              <li><a href="">
-              <span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;Login</a></li>
-            {% endif %}
           </ul>
       </div>
     </div>

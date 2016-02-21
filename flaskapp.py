@@ -50,6 +50,10 @@ def about():
     logger.info(u'about ************************')
     return render_template('about.html')
 
+@app.route('/rules/')
+def about():
+    logger.info(u'rules ************************')
+    return render_template('rules.html')
 
 @app.route('/google3ccef6a94eda5129.html')
 def google3ccef6a94eda5129():
