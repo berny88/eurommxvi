@@ -25,7 +25,7 @@ matchs = [
 
 
 @matchs_page.route('/matchslist', methods=['GET'])
-def signon():
+def matchslist():
     return matchs_page.send_static_file('matchs.html')
 
 

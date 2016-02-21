@@ -30,7 +30,7 @@ def signon():
 
 
 @users_page.route('/userslist', methods=['GET'])
-def signon():
+def userslist():
     return users_page.send_static_file('users.html')
 
 

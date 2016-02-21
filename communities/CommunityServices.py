@@ -35,7 +35,7 @@ communities = [
 ]
 
 @communities_page.route('/communities', methods=['GET'])
-def signon():
+def communities():
     return communities_page.send_static_file('communities.html')
 
 @communities_page.route('/apiv1.0/communities', methods=['GET'])
