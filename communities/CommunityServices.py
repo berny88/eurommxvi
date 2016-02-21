@@ -46,7 +46,22 @@ def communities():
 
 @communities_page.route('/apiv1.0/communities', methods=['GET'])
 def getAllComunnities():
-    return jsonify({'communities': coms})
+    return (u"[\n"
+            u"    {\n"
+            u"        'id': 1,\n"
+            u"        'title': u'Buy groceries',\n"
+            u"        'description': u'Milk, Cheese, Pizza, Fruit, Tylenol',\n"
+            u"        'done': False\n"
+            u"    },\n"
+            u"    {\n"
+            u"        'id': 2,\n"
+            u"        'title': u'Learn Python',\n"
+            u"        'description': u'Need to find a good Python tutorial on the web',\n"
+            u"        'done': False\n"
+            u"    }\n"
+            u"    ]"), 200
+
+#return jsonify({'communities': coms})
 
 
 @communities_page.route('/apiv1.0/tasks', methods=['GET'])
