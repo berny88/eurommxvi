@@ -34,7 +34,7 @@ communities = [
     }
 ]
 
-@communities_page.route('/communities', methods=['GET'])
+@communities_page.route('/communities/', methods=['GET'])
 def communities():
     return communities_page.send_static_file('communities.html')
 
