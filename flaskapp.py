@@ -7,7 +7,8 @@ from flask import render_template
 
 from communities.CommunityServices import communities_page
 from users.UserServices import users_page
-
+from bets.BetsServices import bets_page
+from matchs.MatchServices import matchs_page
 #from datetime import date
 #from flask import request, session, flash, redirect
 
@@ -19,6 +20,8 @@ app.debug = True
 app.secret_key = u'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT#BB'
 app.register_blueprint(communities_page, url_prefix="/communities", template_folder='templates')
 app.register_blueprint(users_page, url_prefix="/users", template_folder='templates')
+app.register_blueprint(bets_page, url_prefix="/bets", template_folder='templates')
+app.register_blueprint(matchs_page, url_prefix="/matchs", template_folder='templates')
 
 logging.basicConfig(format='%(asctime)s|%(levelname)s|%(message)s',\
     filename='{}/euroxxxvi.log'.format(os.environ['OPENSHIFT_LOG_DIR']), level=logging.INFO)

@@ -30,6 +30,6 @@ def bets():
 
 
 @bets_page.route('/apiv1.0/bets', methods=['GET'])
-def getUsers():
+def getBets():
     return jsonify({'bets': bets})
 
