@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <style>
 
 th.rotate {
@@ -65,11 +64,20 @@ padding: 0px 0px;
     <div class="container" >
         <div class="row" >
             <div class="col-xs-12">
-                xxxxx
+                <ul>
+                    <li ng-repeat="com in communities">
+                      <span>{{com.title}}</span>
+                    </li>
+                </ul>
+                <table>
+                  <tr><th>row number</th></tr>
+                  <tr ng-repeat="i in [0, 1, 2, 3, 4, 5, 6, 7]"><td>{{i}}</td></tr>
+                </table>
             </div>
         </div>
     </div>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
 
 </body>
