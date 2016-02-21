@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 communities_page = Blueprint('communities_page', __name__,
                         template_folder='templates', static_folder='static')
 
-communities = [
+coms = [
     {
         'id': 1,
         'title': u'Buy groceries',
@@ -46,7 +46,7 @@ def communities():
 
 @communities_page.route('/apiv1.0/communities', methods=['GET'])
 def getAllComunnities():
-    return jsonify({'communities': communities})
+    return jsonify({'communities': coms})
 
 
 @communities_page.route('/apiv1.0/tasks', methods=['GET'])
