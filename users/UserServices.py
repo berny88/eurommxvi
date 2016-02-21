@@ -6,7 +6,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 users_page = Blueprint('users_page', __name__,
-                        template_folder='templates', static_folder="/")
+                       template_folder='templates', static_folder='./')
 
 users = [
     {
