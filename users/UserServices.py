@@ -6,7 +6,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 users_page = Blueprint('users_page', __name__,
-                       template_folder='templates', static_folder='./')
+                       template_folder='templates')
 
 users = [
     {
@@ -30,4 +30,4 @@ def getAllComunnities():
 
 @users_page.route('/signon', methods=['GET'])
 def signon():
-    return users_page.send_static_file('login.html')
+    return users_page.send_static_file('logon.html')
