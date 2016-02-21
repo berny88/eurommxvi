@@ -51,7 +51,7 @@ def about():
     return render_template('about.html')
 
 @app.route('/rules/')
-def about():
+def rules():
     logger.info(u'rules ************************')
     return render_template('rules.html')
 
