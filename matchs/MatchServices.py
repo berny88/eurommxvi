@@ -24,7 +24,7 @@ matchs = [
 ]
 
 
-@matchs_page.route('/matchslist', methods=['GET'])
+@matchs_page.route('/matchslist/', methods=['GET'])
 def matchslist():
     return matchs_page.send_static_file('matchs.html')
 
