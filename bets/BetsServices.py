@@ -5,10 +5,10 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-users_page = Blueprint('users_page', __name__,
+bets_page = Blueprint('bets_page', __name__,
                        template_folder='templates', static_folder='static')
 
-users = [
+bets = [
     {
         'id': 1,
         'nickName': u'PoumPoum',
@@ -24,17 +24,12 @@ users = [
 ]
 
 
-@users_page.route('/signon', methods=['GET'])
-def signon():
-    return users_page.send_static_file('logon.html')
+@bets_page.route('/bets', methods=['GET'])
+def bets():
+    return bets_page.send_static_file('users.html')
 
 
-@users_page.route('/userslist', methods=['GET'])
-def signon():
-    return users_page.send_static_file('users.html')
-
-
-@users_page.route('/apiv1.0/users', methods=['GET'])
+@bets_page.route('/apiv1.0/bets', methods=['GET'])
 def getUsers():
-    return jsonify({'users': users})
+    return jsonify({'bets': bets})
 

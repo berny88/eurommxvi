@@ -6,7 +6,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 communities_page = Blueprint('communities_page', __name__,
-                        template_folder='templates')
+                        template_folder='templates', static_folder='static')
 
 communities = [
     {
@@ -34,6 +34,9 @@ communities = [
     }
 ]
 
+@communities_page.route('/communities', methods=['GET'])
+def signon():
+    return communities_page.send_static_file('communities.html')
 
 @communities_page.route('/apiv1.0/communities', methods=['GET'])
 def getAllComunnities():
