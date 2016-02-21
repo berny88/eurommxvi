@@ -41,6 +41,7 @@ tasks = [
 def communities():
     return communities_page.send_static_file('communities.html')
 
+
 @communities_page.route('/apiv1.0/communities', methods=['GET'])
 def getAllComunnities():
     return jsonify({'communities': communities})
