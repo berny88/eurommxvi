@@ -46,7 +46,7 @@ def communities():
 
 @communities_page.route('/apiv1.0/communities', methods=['GET'])
 def getAllComunnities():
-    return jsonify({'communities': coms})
+    return jsonify(coms)
 
 
 @communities_page.route('/apiv1.0/tasks', methods=['GET'])
