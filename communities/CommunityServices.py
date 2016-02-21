@@ -12,25 +12,12 @@ communities = [
     {
         'id': 1,
         'title': u'First community',
-        'description': u'poum poum chak poum pouum chak',
-        'admins': [
-            {
-                'userId' : u'superUser'
-            }
-        ]
+        'description': u'poum poum chak poum pouum chak'
     },
     {
         'id': 2,
         'title': u'Second community',
-        'description': u'polom polom polom',
-        'admins': [
-            {
-                'userId' : u'superUser'
-            },
-            {
-                'userId' : u'actualSuperUser'
-            }
-        ]
+        'description': u'polom polom polom'
     }
 ]
 
