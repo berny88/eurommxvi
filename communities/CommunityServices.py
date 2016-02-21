@@ -11,13 +11,15 @@ communities_page = Blueprint('communities_page', __name__,
 communities = [
     {
         'id': 1,
-        'title': u'First community',
-        'description': u'poum poum chak poum pouum chak'
+        'title': u'Buy groceries',
+        'description': u'Milk, Cheese, Pizza, Fruit, Tylenol',
+        'done': False
     },
     {
         'id': 2,
-        'title': u'Second community',
-        'description': u'polom polom polom'
+        'title': u'Learn Python',
+        'description': u'Need to find a good Python tutorial on the web',
+        'done': False
     }
 ]
 
