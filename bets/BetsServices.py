@@ -26,7 +26,7 @@ bets = [
 
 @bets_page.route('/bets', methods=['GET'])
 def bets():
-    return bets_page.send_static_file('users.html')
+    return bets_page.send_static_file('bets.html')
 
 
 @bets_page.route('/apiv1.0/bets', methods=['GET'])
