@@ -47,23 +47,11 @@
         <div class="row" >
             <div class="col-xs-12">
                 <ul>
-                    {{communities}}
-                    {{communities.communities}}
                     <li ng-repeat="com in communities">
                         <span>{{com.title}}</span> -
                         <span>{{com.description}}</span>
                     </li>
                 </ul>
-                <ul>
-                    <li ng-repeat="phone in phones">
-                      <span>{{phone.name}}</span>
-                      <p>{{phone.snippet}}</p>
-                    </li>
-                </ul>
-                <table>
-                  <tr><th>test angular : row number</th></tr>
-                  <tr ng-repeat="i in [0, 1, 2, 3, 4, 5, 6, 7]"><td>{{i}}</td></tr>
-                </table>
 
             </div>
         </div>

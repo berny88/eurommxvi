@@ -46,6 +46,7 @@ def communities():
 
 @communities_page.route('/apiv1.0/communities', methods=['GET'])
 def getAllComunnities():
+    logger.info("{}", jsonify({'communities': coms}))
     return (u"[\n"
             u"    {\n"
             u"        \"id\": 1,\n"
