@@ -48,16 +48,14 @@ def communities():
 def getAllComunnities():
     return (u"[\n"
             u"    {\n"
-            u"        id: 1,\n"
-            u"        title: \"Buy groceries\",\n"
-            u"        description: Milk, Cheese, Pizza, Fruit, Tylenol',\n"
-            u"        done: False\n"
+            u"        \"id\": 1,\n"
+            u"        \"title\": \"Buy groceries\",\n"
+            u"        \"description\": Milk, Cheese, Pizza, Fruit, Tylenol',\n"
             u"    },\n"
             u"    {\n"
-            u"        id: 2,\n"
-            u"        title: 'Learn Python',\n"
-            u"        description: 'Need to find a good Python tutorial on the web',\n"
-            u"        done: False\n"
+            u"        \"id\": 2,\n"
+            u"        \"title\": 'Learn Python',\n"
+            u"        \"description\": 'Need to find a good Python tutorial on the web',\n"
             u"    }\n"
             u"    ]"), 200
 
