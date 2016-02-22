@@ -46,19 +46,20 @@ def communities():
 
 @communities_page.route('/apiv1.0/communities', methods=['GET'])
 def getAllComunnities():
-    logger.info(">>{}".format(jsonify({'communities': coms})))
-    return (u"[\n"
-            u"    {\n"
-            u"        \"id\": 1,\n"
-            u"        \"title\": \"Buy groceries\",\n"
-            u"        \"description\": \"Milk, Cheese, Pizza, Fruit, Tylenol\"\n"
-            u"    },\n"
-            u"    {\n"
-            u"        \"id\": 2,\n"
-            u"        \"title\": \"Learn Python\",\n"
-            u"        \"description\": \"Need to find a good Python tutorial on the web\"\n"
-            u"    }\n"
-            u"    ]"), 200
+    logger.info(">>{}".format(jsonify({'communities': coms}).data))
+    return jsonify({'communities': coms})
+    # return (u"[\n"
+    #         u"    {\n"
+    #         u"        \"id\": 1,\n"
+    #         u"        \"title\": \"Buy groceries\",\n"
+    #         u"        \"description\": \"Milk, Cheese, Pizza, Fruit, Tylenol\"\n"
+    #         u"    },\n"
+    #         u"    {\n"
+    #         u"        \"id\": 2,\n"
+    #         u"        \"title\": \"Learn Python\",\n"
+    #         u"        \"description\": \"Need to find a good Python tutorial on the web\"\n"
+    #         u"    }\n"
+    #         u"    ]"), 200
 
 #return jsonify({'communities': coms})
 
