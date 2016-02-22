@@ -11,15 +11,18 @@ communities_page = Blueprint('communities_page', __name__,
 coms = [
     {
         'id': 1,
-        'title': u'Buy groceries',
-        'description': u'Milk, Cheese, Pizza, Fruit, Tylenol',
-        'done': False
+        'title': u'FirstCommunities',
+        'description': u"Berny's communities"
     },
     {
         'id': 2,
-        'title': u'Learn Python',
-        'description': u'Need to find a good Python tutorial on the web',
-        'done': False
+        'title': u'Static but from python',
+        'description': u'yeahhhhh'
+    },
+    {
+        'id': 3,
+        'title': u'rayIsInTheHouse',
+        'description': u'yahoooooo'
     }
 ]
 
@@ -48,20 +51,6 @@ def communities():
 def getAllComunnities():
     logger.info(">>{}".format(jsonify({'communities': coms}).data))
     return jsonify({'communities': coms})
-    # return (u"[\n"
-    #         u"    {\n"
-    #         u"        \"id\": 1,\n"
-    #         u"        \"title\": \"Buy groceries\",\n"
-    #         u"        \"description\": \"Milk, Cheese, Pizza, Fruit, Tylenol\"\n"
-    #         u"    },\n"
-    #         u"    {\n"
-    #         u"        \"id\": 2,\n"
-    #         u"        \"title\": \"Learn Python\",\n"
-    #         u"        \"description\": \"Need to find a good Python tutorial on the web\"\n"
-    #         u"    }\n"
-    #         u"    ]"), 200
-
-#return jsonify({'communities': coms})
 
 
 @communities_page.route('/apiv1.0/tasks', methods=['GET'])
