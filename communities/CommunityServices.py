@@ -49,7 +49,7 @@ def getAllComunnities():
     return (u"[\n"
             u"    {\n"
             u"        id: 1,\n"
-            u"        title: 'Buy groceries',\n"
+            u"        title: \"Buy groceries\",\n"
             u"        description: Milk, Cheese, Pizza, Fruit, Tylenol',\n"
             u"        done: False\n"
             u"    },\n"
