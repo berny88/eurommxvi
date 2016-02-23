@@ -8,6 +8,9 @@
     <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
      <link href="/static/starter-template.css" rel="stylesheet">
+    <!-- controler local -->
+    <script src="./static/bets.js"></script>
+    <title>EURO France XX XVI - bets</title>
 </head>
   <body>
     <nav class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
@@ -38,9 +41,24 @@
         </div>
       </div>
     </nav><!--/.nav-collapse -->
-    <div class="container-fluid"  >
-       <h1>Bets page !</h1>
+    <div class="container" >
+        <div class="row" >
+            <div class="col-xs-12">
+                <h3>Ca ne se voit pas mais la liste des communautés est issues de
+                    <a href="http://euroxxxvi-typhontonus.rhcloud.com/communities/apiv1.0/communities">ça</a></h3>
+                <ul>
+                    <li ng-repeat="bet in bets.bets">
+                        <span>{{bet.teamA}}</span> -
+                        <span>{{bet.teamB}}</span>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
     </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
   </body>
 </html>
 

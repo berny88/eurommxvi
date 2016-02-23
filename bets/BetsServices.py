@@ -24,7 +24,7 @@ bets = [
 ]
 
 
-@bets_page.route('/bets/', methods=['GET'])
+@bets_page.route('/betslist', methods=['GET'])
 def bets():
     return bets_page.send_static_file('bets.html')
 
