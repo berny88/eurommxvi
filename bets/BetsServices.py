@@ -9,20 +9,8 @@ bets_page = Blueprint('bets_page', __name__,
                        template_folder='templates', static_folder='static')
 
 bets = [
-    {
-        'id': 1,
-        'teamA': u'FRA',
-        'teamB': u'ENG',
-        'resA': 1,
-        'resB': 1
-    },
-        {
-        'id': 1,
-        'teamA': u'ALL',
-        'teamB': u'BEL',
-        'resA': 10,
-        'resB': 1
-    }
+    dict(id=1, teamA=u'FRA', teamB=u'ENG', resA=1, resB=1),
+    dict(id=2, teamA=u'ALL', teamB=u'BEL', resA=10, resB=1)
 ]
 
 
@@ -33,5 +21,6 @@ def bets():
 
 @bets_page.route('/apiv1.0/bets', methods=['GET'])
 def getBets():
+    logger.info("bets={}".format(bets))
     return jsonify({'bets': bets})
 
