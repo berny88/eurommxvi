@@ -13,13 +13,13 @@ bets = [
         'id': 1,
         'nickName': u'PoumPoum',
         'email': u'poum@poum.chak',
-        'description': u'poum poum chak poum pouum chak',
+        'description': u'poum poum chak poum pouum chak'
     },
     {
         'id': 2,
         'nickName': u'chakChak',
         'email': u'poum@poum.chak',
-        'description': u'poum poum chak poum pouum chak',
+        'description': u'poum poum chak poum pouum chak'
     },
 ]
 

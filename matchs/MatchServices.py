@@ -11,15 +11,15 @@ matchs_page = Blueprint('matchs_page', __name__,
 matchs = [
     {
         'id': 1,
-        'nickName': u'PoumPoum',
-        'email': u'poum@poum.chak',
-        'description': u'poum poum chak poum pouum chak',
+        'teamA': u'BEL',
+        'teamB': u'NED',
+        'matchDate': u'dd/mm/yyyy HH24:mi:ss'
     },
     {
-        'id': 2,
-        'nickName': u'chakChak',
-        'email': u'poum@poum.chak',
-        'description': u'poum poum chak poum pouum chak',
+        'id': 1,
+        'teamA': u'FRA',
+        'teamB': u'ENG',
+        'matchDate': u'dd/mm/yyyy HH24:mi:ss'
     },
 ]
 
