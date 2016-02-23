@@ -29,7 +29,7 @@ def signon():
     return users_page.send_static_file('logon.html')
 
 
-@users_page.route('/userslist', methods=['GET'])
+@users_page.route('/users', methods=['GET'])
 def userslist():
     return users_page.send_static_file('users.html')
 
