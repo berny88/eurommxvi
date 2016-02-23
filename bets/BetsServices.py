@@ -17,8 +17,8 @@ def bets():
 @bets_page.route('/apiv1.0/bets', methods=['GET'])
 def getBets():
     bets = list()
-    bets.append(dict([('id', 1), ('teamA', u"FRA"), ('teamB', u"ENG"), ('betA', 1), ('betB', 0)]))
-    bets.append(dict([('id', 2), ('teamA', u"ALL"), ('teamB', u"BEL"), ('betA', 10), ('betB', 0)]))
+    bets.append(dict([('id', 1), ('com', 1),('teamA', u"FRA"), ('teamB', u"ENG"), ('betA', 1), ('betB', 0)]))
+    bets.append(dict([('id', 2), ('com', 2),('teamA', u"ALL"), ('teamB', u"BEL"), ('betA', 10), ('betB', 0)]))
 
     logger.info(u" ------------ ")
     logger.info(u"type={}".format(type(bets)))
