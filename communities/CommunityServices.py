@@ -55,4 +55,5 @@ def getAllComunnities():
 
 @communities_page.route('/apiv1.0/tasks', methods=['GET'])
 def get_tasks():
+    logger.info(u"type={}".format(type(tasks)))
     return jsonify({'communities': tasks})
