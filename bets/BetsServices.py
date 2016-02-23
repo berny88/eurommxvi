@@ -11,16 +11,18 @@ bets_page = Blueprint('bets_page', __name__,
 bets = [
     {
         'id': 1,
-        'nickName': u'PoumPoum',
-        'email': u'poum@poum.chak',
-        'description': u'poum poum chak poum pouum chak'
+        'teamA': u'FRA',
+        'teamB': u'ENG',
+        'resA': 1,
+        'resB': 1
     },
-    {
-        'id': 2,
-        'nickName': u'chakChak',
-        'email': u'poum@poum.chak',
-        'description': u'poum poum chak poum pouum chak'
-    },
+        {
+        'id': 1,
+        'teamA': u'ALL',
+        'teamB': u'BEL',
+        'resA': 10,
+        'resB': 1
+    }
 ]
 
 
