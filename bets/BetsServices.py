@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from flask import Blueprint, jsonify
 import logging
-
+import types
 
 logger = logging.getLogger(__name__)
 
@@ -35,6 +35,7 @@ def bets():
 @bets_page.route('/apiv1.0/bets', methods=['GET'])
 def getBets():
     logger.info(u" ------------ ")
+    logger.info(u"type={}".format(type(bets)))
     logger.info(u"bets={}".format(bets))
     return jsonify({'bets': bets})
 
