@@ -9,8 +9,21 @@ bets_page = Blueprint('bets_page', __name__,
                        template_folder='templates', static_folder='static')
 
 bets = [
-    dict(id=1, teamA=u'FRA', teamB=u'ENG', resA=1, resB=1),
-    dict(id=2, teamA=u'ALL', teamB=u'BEL', resA=10, resB=1)
+    {
+        'id': 1,
+        'title': u'FirstCommunities',
+        'description': u"Berny's communities"
+    },
+    {
+        'id': 2,
+        'title': u'Static but from python',
+        'description': u'yeahhhhh'
+    },
+    {
+        'id': 3,
+        'title': u'rayIsInTheHouse',
+        'description': u'yahoooooo'
+    }
 ]
 
 
