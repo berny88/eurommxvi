@@ -21,6 +21,7 @@ def bets():
 
 @bets_page.route('/apiv1.0/bets', methods=['GET'])
 def getBets():
-    logger.info("bets={}".format(bets))
+    logger.info(u" ------------ ")
+    logger.info(u"bets={}".format(bets))
     return jsonify({'bets': bets})
 
