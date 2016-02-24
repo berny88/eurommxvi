@@ -53,7 +53,7 @@ def test():
 # URL: https://euroxxxvi-typhontonus.rhcloud.com/rockmongo/
 
 @app.route('/testmail/')
-def test():
+def testmail():
     sg = sendgrid.SendGridClient("bbougeon138",
                 "s8drhcp01")
 
