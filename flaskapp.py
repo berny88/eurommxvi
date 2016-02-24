@@ -9,6 +9,9 @@ from communities.CommunityServices import communities_page
 from users.UserServices import users_page
 from bets.BetsServices import bets_page
 from matchs.MatchServices import matchs_page
+# using SendGrid's Python Library - https://github.com/sendgrid/sendgrid-python
+import sendgrid
+
 #from datetime import date
 #from flask import request, session, flash, redirect
 
@@ -39,6 +42,32 @@ def mainPage():
 @app.route('/test/')
 def test():
     return app.send_static_file('test.html')
+
+
+#Root User:     admin
+#Root Password: 8ysGbCwRMkEm
+#Database Name: euroxxxvi
+
+# RockMongo User: admin
+#   RockMongo Password: 8ysGbCwRMkEm
+# URL: https://euroxxxvi-typhontonus.rhcloud.com/rockmongo/
+
+@app.route('/testmail/')
+def test():
+    sg = sendgrid.SendGridClient("bbougeon138",
+                "s8drhcp01")
+
+    message = sendgrid.Mail()
+
+    message.add_to("bernard.bougeon@gmail.com")
+    message.add_to("")
+    message.set_from("bernard.bougeon@gmail.com")
+    message.set_subject("test from openshift")
+    message.set_html("<html><head></head><body><h1>Thanks to play with us</h1></hr></body></html>")
+
+    sg.send(message)
+
+    return u"look at your email box", 200
 
 
 @app.errorhandler(404)
