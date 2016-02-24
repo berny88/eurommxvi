@@ -27,6 +27,27 @@
 </div>
 <div class="jumbotron">
   <div class="container">
+    <h1 align="center">Install your dependencies library in setup.py (see install_requires field)</h1>
+      <div class="well well-lg">
+      <pre>
+
+from setuptools import setup
+
+setup(name='euroXXXVI',
+      version='1.0',
+      description='the most simple bet web site to enjoy with friends',
+      author='Bernard Bougeon',
+      author_email='bernard.bougeon@gmail.com',
+      url='http://www.python.org/sigs/distutils-sig/',
+      install_requires=['Flask>=0.10.1', 'pymongo', 'sendgrid>=1.2']
+      )
+        </pre>
+    </div>
+  </div>
+</div>
+
+<div class="jumbotron">
+  <div class="container">
     <h1 align="center">Configure wsgi.py</h1>
       <h2>see <a href="https://fr.wikipedia.org/wiki/Web_Server_Gateway_Interface" target="_blank">Web Server Gateway Interface (WSGI)</a> </h2>
         <div class="well well-lg">
@@ -59,6 +80,11 @@ if __name__ == '__main__':
     httpd.serve_forever()
         </pre>
     </div>
+  </div>
+</div>
+<div class="jumbotron">
+  <div class="container">
+    <h1 align="center"><a href="https://developers.openshift.com/en/python-flask.html">To understand how configure Flask on openshift (with py2.7 but same thing in py3)</a></h1>
   </div>
 </div>
 
