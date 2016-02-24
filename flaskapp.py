@@ -60,10 +60,10 @@ def testmail():
     message = sendgrid.Mail()
 
     message.add_to("bernard.bougeon@gmail.com")
-    message.add_to("")
+    message.add_to("yannick.poireault@gmail.com")
     message.set_from("bernard.bougeon@gmail.com")
     message.set_subject("test from openshift")
-    message.set_html("<html><head></head><body><h1>Thanks to play with us</h1></hr></body></html>")
+    message.set_html("<html><head></head><body><h1>Il faut bien tapper : rhc env set SENDGRID_HOSTNAME=smtp.sendgrid.net -a euroxxxvi</h1></hr></body></html>")
 
     sg.send(message)
 
