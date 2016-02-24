@@ -84,6 +84,34 @@ if __name__ == '__main__':
 </div>
 <div class="jumbotron">
   <div class="container">
+    <h1 align="center">Mini exemple</h1>
+      <div class="well well-lg">
+      <pre>
+          import ......
+        """
+        Main application
+        """
+        app = Flask(__name__)
+        app.debug = True
+        app.secret_key = u'xxxxxxxxx'
+          logging.basicConfig(format='%(asctime)s|%(levelname)s|%(message)s',\
+    filename='{}/euroxxxvi.log'.format(os.environ['OPENSHIFT_LOG_DIR']), level=logging.INFO)
+        app.logger.info('Started')
+        logger = logging.getLogger(__name__)
+
+        @app.route('/')
+        def mainPage():
+            """
+            Main single page stored in static folder
+            """
+            return app.send_static_file('index.html')
+
+      </pre>
+      </div>
+  </div>
+</div>
+<div class="jumbotron">
+  <div class="container">
     <h1 align="center"><a href="https://developers.openshift.com/en/python-flask.html">To understand how configure Flask on openshift (with py2.7 but same thing in py3)</a></h1>
   </div>
 </div>
