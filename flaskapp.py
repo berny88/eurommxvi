@@ -56,6 +56,8 @@ def test():
 def testmongo():
     tool = ToolManager()
     tool.getDb()
+    tmp = tool.getProperty(u"test")
+    logger.info(u'test mongo : tmp={}'.format(tmp))
     tool.saveProperty(u"test", "firstProperties")
     props = tool.getProperties()
     logger.info(u'test mongo : {}'.format(props))

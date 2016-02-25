@@ -82,7 +82,7 @@ class ToolManager:
             bsonProperty ["key"]=key
             bsonProperty ["value"]=value
             logger.info(u'\tkey None - to create : {}'.format(bsonProperty))
-            id = propertiesColl.insert_one(bsonProperty).inserted_id
+            id = self.getDb().properties.insert_one(bsonProperty).inserted_id
             logger.info(u'\tid : {}'.format(id))
 
         else:
