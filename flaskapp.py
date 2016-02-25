@@ -9,6 +9,7 @@ from communities.CommunityServices import communities_page
 from users.UserServices import users_page
 from bets.BetsServices import bets_page
 from matchs.MatchServices import matchs_page
+from tools.Tools import ToolManager
 # using SendGrid's Python Library - https://github.com/sendgrid/sendgrid-python
 import sendgrid
 
@@ -51,6 +52,17 @@ def test():
 # RockMongo User: admin
 #   RockMongo Password: 8ysGbCwRMkEm
 # URL: https://euroxxxvi-typhontonus.rhcloud.com/rockmongo/
+@app.route('/testmongo/')
+def testmongo():
+    tool = ToolManager()
+    tool.getDb()
+    tool.saveProperty(u"test", "firstProperties")
+    props = tool.getProperties()
+    logger.info(u'test mongo : {}'.format(props))
+
+    return u"Test Mongo", 200
+
+
 
 @app.route('/testmail/')
 def testmail():
