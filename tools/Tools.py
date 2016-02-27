@@ -106,7 +106,7 @@ def properties():
     logger.info("properties::propertyList={}".format(propertyList ))
     #Add ever a new property to display a field
     prop = dict()
-    prop[u"key"]=u"new.key"
+    prop[u"key"]=u""
     prop[u"value"]=u""
     propertyList.append(prop)
 
@@ -122,7 +122,7 @@ def saveproperties():
     propDict=dict()
     for key, value in request.values.items():
         logger.info("saveproperties::key=[{}] / value=[{}]".format(key, value))
-        if key != "submit" and value != "":
+        if key != "submit" :
             #the value contains the key as prefix.
             # example : key001_key=key001 or key001_value=theValue
             # for new key :
@@ -137,15 +137,20 @@ def saveproperties():
 
                 logger.info("saveproperties::keyCode=[{}] ".format(keyCode))
                 if keyCode in propDict:
-                    prop = propDict[keyCode]
-                    prop[u"value"] = value
-                    logger.info("saveproperties::keyCode in propDict=[{}] ".format(prop))
+                    if (value == ""):
+                        propDict.pop(keyCode, None)
+                        logger.info("saveproperties::remove keyCode [{}] in propDict ".format(keyCode))
+                    else:
+                        prop = propDict[keyCode]
+                        prop[u"value"] = value
+                        logger.info("saveproperties::keyCode in propDict=[{}] ".format(prop))
                 else:
-                    prop = dict()
-                    prop[u"key"] = keyCode
-                    prop[u"value"] = value
-                    propDict[keyCode]=prop
-                    logger.info("saveproperties::keyCode not in propDict=[{}] ".format(prop))
+                    if (value != ""):
+                        prop = dict()
+                        prop[u"key"] = keyCode
+                        prop[u"value"] = value
+                        propDict[keyCode]=prop
+                        logger.info("saveproperties::keyCode not in propDict=[{}] - new key".format(prop))
                 logger.info("saveproperties::propDict=[{}] ".format(propDict))
 
     for keyProp in propDict:
