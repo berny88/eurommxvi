@@ -120,7 +120,7 @@ def saveproperties():
     logger.info("saveproperties::request:{} / {}".format(request.args, request.method))
     logger.info("\tsaveproperties::request.values:{}".format(request.values))
     propDict=dict()
-    for key, value in request.values.iterlist():
+    for key, value in request.values.items():
         logger.info("saveproperties::key=[{}] / value=[{}]".format(key, value))
         if (key != "submit"):
             #the value contains the key as prefix.
@@ -136,7 +136,7 @@ def saveproperties():
                     keyCode = request.values.get(u"new.key_key")
 
                 logger.info("saveproperties::keyCode=[{}] ".format(keyCode))
-                if (keyCode in propDict):
+                if keyCode in propDict:
                     prop = propDict[keyCode]
                     prop[u"value"] = value
                     logger.info("saveproperties::keyCode in propDict=[{}] ".format(prop))
