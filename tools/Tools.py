@@ -135,8 +135,8 @@ def saveproperties():
                 #extract keyCode
                 keyCode = key.split("_")[0]
                 #case of new key/value
-                if (u"new.key_value" == key):
-                    keyCode = request.values.get(u"new.key_key")
+                if (u"_value" == key):
+                    keyCode = request.values.get(u"_key")
 
                 logger.info("\tsaveproperties::keyCode=[{}] ".format(keyCode))
                 if keyCode in propDict:
@@ -155,10 +155,10 @@ def saveproperties():
                 if (value ==""):
                     logger.info("\t\tsaveproperties::key=[{}] to remove".format(key))
 
-        for keyProp in propDict:
-            prop = propDict[keyProp]
-            logger.info("saveproperties:: final list: prop=[{}]".format(prop))
-            manager = ToolManager()
-            manager.saveProperty(prop[u"key"], prop[u"value"])
+    for keyProp in propDict:
+        prop = propDict[keyProp]
+        logger.info("saveproperties:: final list: prop=[{}]".format(prop))
+        manager = ToolManager()
+        manager.saveProperty(prop[u"key"], prop[u"value"])
 
     return redirect(url_for('tools_page.properties'))
