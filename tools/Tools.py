@@ -139,17 +139,18 @@ def saveproperties():
                     keyCode = request.values.get(u"_key")
 
                 logger.info("\tsaveproperties::keyCode=[{}] ".format(keyCode))
-                if keyCode in propDict:
-                    prop = propDict[keyCode]
-                    prop[u"value"] = value
-                    logger.info("\t\tsaveproperties::keyCode in propDict=[{}] ".format(prop))
-                else:
-                    prop = dict()
-                    prop[u"key"] = keyCode
-                    prop[u"value"] = value
-                    propDict[keyCode]=prop
-                    logger.info("\t\tsaveproperties::keyCode not in propDict=[{}]".format(prop))
-                logger.info("\tsaveproperties::propDict=[{}] ".format(propDict))
+                if (keyCode != u""):
+                    if keyCode in propDict:
+                        prop = propDict[keyCode]
+                        prop[u"value"] = value
+                        logger.info("\t\tsaveproperties::keyCode in propDict=[{}] ".format(prop))
+                    else:
+                        prop = dict()
+                        prop[u"key"] = keyCode
+                        prop[u"value"] = value
+                        propDict[keyCode]=prop
+                        logger.info("\t\tsaveproperties::keyCode not in propDict=[{}]".format(prop))
+                    logger.info("\tsaveproperties::propDict=[{}] ".format(propDict))
             if (key.split("_")[1] == u"key"):
                 value = request.values.get(key.split("_")[0] + "value")
                 if (value ==""):
