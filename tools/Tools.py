@@ -3,7 +3,7 @@ from datetime import datetime
 import logging
 import os
 import re
-from flask import Blueprint, jsonify, session, request, render_template, redirect, url_for
+from flask import Blueprint, request, render_template, redirect, url_for
 from pymongo import MongoClient
 
 
@@ -148,10 +148,10 @@ def saveproperties():
                     logger.info("saveproperties::keyCode not in propDict=[{}] ".format(prop))
                 logger.info("saveproperties::propDict=[{}] ".format(propDict))
 
-        for keyProp in propDict:
-            prop = propDict[keyProp]
-            logger.info("saveproperties:: final list: prop=[{}]".format(prop))
-            manager = ToolManager()
-            manager.saveProperty(prop[u"key"], prop[u"value"])
+    for keyProp in propDict:
+        prop = propDict[keyProp]
+        logger.info("saveproperties:: final list: prop=[{}]".format(prop))
+        manager = ToolManager()
+        manager.saveProperty(prop[u"key"], prop[u"value"])
 
     return redirect(url_for('tools_page.properties'))
