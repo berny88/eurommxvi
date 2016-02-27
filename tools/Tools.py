@@ -12,7 +12,7 @@ tools_page = Blueprint('tools_page', __name__,
                         template_folder='templates')
 
 
-class ToolManager:
+class DbManager:
     """
     Load all match from json file
     """
@@ -51,6 +51,7 @@ class ToolManager:
 
         return self.db
 
+class ToolManager(DbManager):
 
     def getProperties(self):
         """ get the complete list of properties"""
