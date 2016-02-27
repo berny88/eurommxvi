@@ -9,7 +9,7 @@ from communities.CommunityServices import communities_page
 from users.UserServices import users_page
 from bets.BetsServices import bets_page
 from matchs.MatchServices import matchs_page
-from tools.Tools import ToolManager
+from tools.Tools import ToolManager, tools_page
 # using SendGrid's Python Library - https://github.com/sendgrid/sendgrid-python
 import sendgrid
 
@@ -26,6 +26,7 @@ app.register_blueprint(communities_page, url_prefix="/communities", template_fol
 app.register_blueprint(users_page, url_prefix="/users", template_folder='templates')
 app.register_blueprint(bets_page, url_prefix="/bets", template_folder='templates')
 app.register_blueprint(matchs_page, url_prefix="/matchs", template_folder='templates')
+app.register_blueprint(tools_page, url_prefix="/tools", template_folder='templates')
 
 logging.basicConfig(format='%(asctime)s|%(levelname)s|%(message)s',\
     filename='{}/euroxxxvi.log'.format(os.environ['OPENSHIFT_LOG_DIR']), level=logging.INFO)
@@ -51,7 +52,7 @@ def test():
 
 # RockMongo User: admin
 #   RockMongo Password: 8ysGbCwRMkEm
-# URL: https://euroxxxvi-typhontonus.rhcloud.com/rockmongo/
+# URL: https://euroxxxvi-typhontonus.rhcloud.com/rockmongo/<
 @app.route('/testmongo/')
 def testmongo():
     tool = ToolManager()

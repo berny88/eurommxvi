@@ -1,18 +1,15 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 import logging
-import json
 import os
 import re
-import pymongo
+from flask import Blueprint, jsonify, session, request, render_template, redirect, url_for
 from pymongo import MongoClient
-from operator import attrgetter
-import bson
-from bson import json_util
-from bson import objectid
 
 
 logger = logging.getLogger(__name__)
+tools_page = Blueprint('tools_page', __name__,
+                        template_folder='templates')
 
 
 class ToolManager:
@@ -99,3 +96,61 @@ class ToolManager:
         bsonProperty = propertiesColl.find_one({"key": key})
         return bsonProperty
 
+@tools_page.route('/properties/', methods=['GET'])
+def properties():
+    """
+    """
+    logger.info("properties::request:{} / {}".format(request.args, request.method))
+    manager = ToolManager()
+    propertyList = manager.getProperties()
+    logger.info("properties::propertyList={}".format(propertyList ))
+    #Add ever a new property to display a field
+    prop = dict()
+    prop[u"key"]=u"new.key"
+    prop[u"value"]=u""
+    propertyList.append(prop)
+
+    return render_template('properties.html',
+        propertyList=propertyList)
+
+@tools_page.route('/saveproperties/', methods=['POST'])
+def saveproperties():
+    """
+    """
+    logger.info("saveproperties::request:{} / {}".format(request.args, request.method))
+    propDict=dict()
+    for key, value in request.values.iteritems():
+        logger.info("saveproperties::key=[{}] / value=[{}]".format(key, value))
+        if (key != "submit"):
+            #the value contains the key as prefix.
+            # example : key001_key=key001 or key001_value=theValue
+            # for new key :
+            # example : new.key_key=ponpon or new.key_value=theNewValue
+            # we analyze only key=xxx_value
+            if (key.split("_")[1] == u"value"):
+                #extract keyCode
+                keyCode = key.split("_")[0]
+                #case of new key/value
+                if (u"new.key_value" == key):
+                    keyCode = request.values.get(u"new.key_key")
+
+                logger.info("saveproperties::keyCode=[{}] ".format(keyCode))
+                if (keyCode in propDict):
+                    prop = propDict[keyCode]
+                    prop[u"value"] = value
+                    logger.info("saveproperties::keyCode in propDict=[{}] ".format(prop))
+                else:
+                    prop = dict()
+                    prop[u"key"] = keyCode
+                    prop[u"value"] = value
+                    propDict[keyCode]=prop
+                    logger.info("saveproperties::keyCode not in propDict=[{}] ".format(prop))
+                logger.info("saveproperties::propDict=[{}] ".format(propDict))
+
+        for keyProp in propDict:
+            prop = propDict[keyProp]
+            logger.info("saveproperties:: final list: prop=[{}]".format(prop))
+            manager = ToolManager()
+            manager.saveProperty(prop[u"key"], prop[u"value"])
+
+    return redirect(url_for('tools_page.properties'))
