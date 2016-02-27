@@ -1,7 +1,7 @@
-var comApp = angular.module('comApp', []);
+var userApp = angular.module('userApp', []);
 
 
-comApp.controller('UsersListCtrl', function ($scope, $http) {
+userApp.controller('UsersListCtrl', function ($scope, $http) {
         $http.get('apiv1.0/users').success(function(data) {
         $scope.users = data;
     });
