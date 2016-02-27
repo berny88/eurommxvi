@@ -55,7 +55,12 @@ def test():
 @app.route('/testmongo/')
 def testmongo():
     tool = ToolManager()
-    tool.getDb()
+    db = tool.getDb()
+    logger.info(u'test mongo : db={}'.format(db))
+    result = db.properties.insert_one({'x': 1})
+    logger.info(u"insered_id".formt(result.inserted_id));
+    doc = db.properties.find_one({'x': 1})
+    logger.info(u'test mongo : doc={}'.format(doc))
     tmp = tool.getProperty(u"test")
     logger.info(u'test mongo : tmp={}'.format(tmp))
     tool.saveProperty(u"test", "firstProperties")
