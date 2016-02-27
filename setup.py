@@ -6,5 +6,5 @@ setup(name='euroXXXVI',
       author='Bernard Bougeon',
       author_email='bernard.bougeon@gmail.com',
       url='http://www.python.org/sigs/distutils-sig/',
-      install_requires=['Flask>=0.10.1', 'pymongo', 'sendgrid>=1.2']
+      install_requires=['Flask>=0.10.1', 'pymongo>=3.2.1', 'sendgrid>=1.2']
       )
