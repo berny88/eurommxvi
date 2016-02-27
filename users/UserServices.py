@@ -50,7 +50,7 @@ class UserManager(DbManager):
     def getAllUsers(self):
         """ get the complete list of properties"""
         localdb = self.getDb()
-        logger.info(u'getProperties::db={}'.format(localdb))
+        logger.info(u'getAllUsers::db={}'.format(localdb))
 
         usersColl = localdb.users
         usersList = usersColl .find()
