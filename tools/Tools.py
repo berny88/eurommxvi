@@ -122,7 +122,7 @@ def saveproperties():
     propDict=dict()
     for key, value in request.values.items():
         logger.info("saveproperties::key=[{}] / value=[{}]".format(key, value))
-        if (key != "submit"):
+        if key != "submit" and value != "":
             #the value contains the key as prefix.
             # example : key001_key=key001 or key001_value=theValue
             # for new key :
