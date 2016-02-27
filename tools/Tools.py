@@ -83,8 +83,11 @@ class ToolManager:
             logger.info(u'\tid : {}'.format(id))
 
         else:
-            propertiesColl.update({"_id":bsonProperty["_id"]},
-                {"$set":{"key":key, "value":value}}, upsert=True)
+            if (value != ""):
+                propertiesColl.update({"_id":bsonProperty["_id"]},
+                    {"$set":{"key":key, "value":value}}, upsert=True)
+            else:
+                propertiesColl.delete_one({"_id":bsonProperty["_id"]})
         logger.info(u'saveProperty={}'.format(bsonProperty))
 
     def getProperty(self, key):
@@ -135,28 +138,27 @@ def saveproperties():
                 if (u"new.key_value" == key):
                     keyCode = request.values.get(u"new.key_key")
 
-                logger.info("saveproperties::keyCode=[{}] ".format(keyCode))
+                logger.info("\tsaveproperties::keyCode=[{}] ".format(keyCode))
                 if keyCode in propDict:
-                    if (value == ""):
-                        propDict.pop(keyCode, None)
-                        logger.info("saveproperties::remove keyCode [{}] in propDict ".format(keyCode))
-                    else:
-                        prop = propDict[keyCode]
-                        prop[u"value"] = value
-                        logger.info("saveproperties::keyCode in propDict=[{}] ".format(prop))
+                    prop = propDict[keyCode]
+                    prop[u"value"] = value
+                    logger.info("\t\tsaveproperties::keyCode in propDict=[{}] ".format(prop))
                 else:
-                    if (value != ""):
-                        prop = dict()
-                        prop[u"key"] = keyCode
-                        prop[u"value"] = value
-                        propDict[keyCode]=prop
-                        logger.info("saveproperties::keyCode not in propDict=[{}] - new key".format(prop))
-                logger.info("saveproperties::propDict=[{}] ".format(propDict))
+                    prop = dict()
+                    prop[u"key"] = keyCode
+                    prop[u"value"] = value
+                    propDict[keyCode]=prop
+                    logger.info("\t\tsaveproperties::keyCode not in propDict=[{}]".format(prop))
+                logger.info("\tsaveproperties::propDict=[{}] ".format(propDict))
+            if (key.split("_")[1] == u"key"):
+                value = request.values.get(key.split("_")[0] + "value")
+                if (value ==""):
+                    logger.info("\t\tsaveproperties::key=[{}] to remove".format(key))
 
-    for keyProp in propDict:
-        prop = propDict[keyProp]
-        logger.info("saveproperties:: final list: prop=[{}]".format(prop))
-        manager = ToolManager()
-        manager.saveProperty(prop[u"key"], prop[u"value"])
+        for keyProp in propDict:
+            prop = propDict[keyProp]
+            logger.info("saveproperties:: final list: prop=[{}]".format(prop))
+            manager = ToolManager()
+            manager.saveProperty(prop[u"key"], prop[u"value"])
 
     return redirect(url_for('tools_page.properties'))
