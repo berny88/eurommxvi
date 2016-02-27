@@ -118,6 +118,7 @@ def saveproperties():
     """
     """
     logger.info("saveproperties::request:{} / {}".format(request.args, request.method))
+    logger.info("\tsaveproperties::request.values:{}".format(request.values))
     propDict=dict()
     for key, value in request.values.iteritems():
         logger.info("saveproperties::key=[{}] / value=[{}]".format(key, value))
