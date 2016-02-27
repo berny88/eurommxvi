@@ -31,6 +31,7 @@ def signon():
 
 @users_page.route('/users', methods=['GET'])
 def userslist():
+    logger.info(">>{}".format(jsonify({'users': users}).data))
     return users_page.send_static_file('users.html')
 
 
