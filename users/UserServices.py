@@ -36,7 +36,7 @@ def userslist():
 def getusers():
     mgr = UserManager()
     users = mgr.getAllUsers()
-    logger.info(">>{}".format(jsonify({'users': users}).data))
+    logger.info("getusers::users={}".format(users))
     return jsonify({'users': users})
 
 u"""
@@ -44,6 +44,33 @@ u"""
 Service layer
 """
 
+class User:
+
+    def __init__(self):
+        self.description = u""
+        self.email = u""
+        self.nickName = u""
+
+
+    def convertFromBson(self, elt):
+        """
+        convert a User object from mongo
+        """
+        self.description = elt['description']
+        self.email = elt['email']
+        self.nickName = elt['nickName']
+        #self._id = elt['_id']
+
+    def convertIntoBson(self):
+        """
+        convert a User object into mongo Bson format
+        """
+        elt = dict()
+        #elt['_id'] = self._id
+        elt['description'] = self.description
+        elt['email'] = self.email
+        elt['nickName'] = self.nickName
+        return elt
 
 class UserManager(DbManager):
 
@@ -53,31 +80,20 @@ class UserManager(DbManager):
         logger.info(u'getAllUsers::db={}'.format(localdb))
 
         usersColl = localdb.users
-        usersList = usersColl .find()
-        logger.info(u'usersList={}'.format(usersList))
+        usersList = usersColl.find()
+        logger.info(u'getAllUsers::usersList={}'.format(usersList))
         #Faut-il changer de list ou retourner le bson directement ?
         result = list()
 
-
-        users = [
-            {
-                'id': 1,
-                'nickName': u'PoumPoum',
-                'email': u'poum@poum.chak',
-                'description': u'poum poum chak poum pouum chak',
-            },
-            {
-                'id': 2,
-                'nickName': u'chakChak',
-                'email': u'poum@poum.chak',
-                'description': u'poum poum chak poum pouum chak',
-            },
-        ]
-
-        for user in usersList:
-            logger.info(u'\tuser={}'.format(user))
-            result.append(user)
-        return users
+        for userbson in usersList:
+            logger.info(u'\tgetAllUsers::userbson={}'.format(userbson))
+            user = User()
+            user.convertFromBson(userbson)
+            logger.info(u'\tgetAllUsers::user={}'.format(user))
+            tmpdict = user.__dict__
+            logger.info(u'\tgetAllUsers::tmpdict={}'.format(tmpdict))
+            result.append(tmpdict)
+        return result
 
     def saveUser(self, key, value):
         """ save a user"""

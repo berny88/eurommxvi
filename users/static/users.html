@@ -10,23 +10,39 @@
     <link href="/static/starter-template.css" rel="stylesheet">
     <!-- controler local -->
     <script src="./static/users.js"></script>
-    <title>EURO France XX XVI - communities</title>
+    <title>EURO France XX XVI - users</title>
+
+<style>
+table, td  {
+  border: 1px solid grey;
+  border-collapse: collapse;
+  padding: 5px;
+}
+</style>
+
 </head>
 <body ng-controller="UsersListCtrl">
    <div ng-include src="'/static/topbar.html'"></div>
 
   <div class="container-fluid"  >
-      <h1>Users list page : TODO !</h1>
+      <h1>Users list page : TO COMPLETE !</h1>
       <div class="col-xs-12">
           <div class="">
             <h3>Ca ne se voit pas mais la liste des communautés est issue de
-                <a href="/users/apiv1.0/users">ça</a></h3>
-            <ul>
-                <li ng-repeat="user in users.users">
-                    <span>{{user.nickName}}</span> -
-                    <span>{{user.description}}</span>
-                </li>
-            </ul>
+                <a href="/users/apiv1.0/users">ça</a> en provenance de mongodb</h3>
+            <table>
+                <tr><td>NickName</td><td>Description</td></tr>
+                <tr ng-repeat="user in users.users">
+                    <td ng-if="$odd" style="background-color:#f1f1f1">
+                    {{ user.nickName }}</td>
+                    <td ng-if="$even">
+                    {{ user.nickName }}</td>
+                    <td ng-if="$odd" style="background-color:#f1f1f1">
+                    {{ user.description }}</td>
+                    <td ng-if="$even">
+                    {{ user.description }}</td>
+                </tr>
+            </table>
             </div>
       </div>
     </div>
