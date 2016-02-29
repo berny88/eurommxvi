@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, redirect, request
 import logging
 from pymongo import MongoClient
 from datetime import datetime
 import os
 import re
+import sendgrid
 
 from tools.Tools import DbManager
 
@@ -38,6 +39,33 @@ def getusers():
     users = mgr.getAllUsers()
     logger.info("getusers::users={}".format(users))
     return jsonify({'users': users})
+
+@users_page.route('/subscription', methods=['GET'])
+def subscriptionGet():
+    return users_page.send_static_file('logon.html')
+
+@users_page.route('/subscription', methods=['POST'])
+def subscriptionPost():
+    logger.info("subscriptionPost")
+    logger.info(u"request:{} / {}".format(request.args.get('target'), request.method))
+    email = request.form['email']
+    sg = sendgrid.SendGridClient("bbougeon138",
+                "s8drhcp01")
+
+    message = sendgrid.Mail()
+
+    message.add_to(email)
+
+    message.add_to("bernard.bougeon@gmail.com")
+    message.add_to("guedeu.stephane@gmail.com")
+    message.set_from("bernard.bougeon@gmail.com")
+    message.set_subject("euroxxxvi - subscription confirmation")
+    message.set_html("<html><head></head><body><h1>blablabla</h1><h1><a href=\"/\">Confirmation</a></h1></hr></body></html>")
+
+    sg.send(message)
+
+    return users_page.send_static_file('logon_successfull.html')
+
 
 u"""
 **************************************************

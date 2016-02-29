@@ -13,19 +13,10 @@
 <body >
   <div ng-include src="'/static/topbar.html'"></div>
   <div class="container-fluid"  >
-    <h1></h1>
     <div class="jumbotron" >
-      <form action="/users/subscription" method="POST">
-        <div class="form-group">
-            <h1>Vous avez fait le bon choix !</h1>
-
-          <label for="email" class="control-label">Saisissez vous adresse email pour vous inscrire (un email de confirmation vous sera envoyez dans quelques secondes)</label>
-          <input type="email" class="form-control" id="email" name="email"
-              placeholder="your email" value="">
-        </div>
-        <button type="submit" id="submit" name="submit" value="Sign in"
-          class="btn btn-primary btn-lg">Sign on</button>
-      </form>
+        <h1 align="center">Un email de confirmation vous a été envoyé !</h1>
+        <h3 align="center">Merci de de patientez si l'email n'est pas encore dans votre boîte aux lettres</h3>
+        <h3 align="center">Veuillez cliquez sur le lien présent dans l'email pour confirmer votre inscription.</h3>
     </div>
   </div>
 
