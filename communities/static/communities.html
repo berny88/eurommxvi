@@ -5,32 +5,74 @@
     <meta http-equiv="Pragma" content="no_cache" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap -->
     <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>
-    <link href="/static/starter-template.css" rel="stylesheet">
+
+    <!-- AngularJS -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-touch.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-animate.js"></script>
+
+    <!-- Custom css -->
+    <style type="text/css">
+        .grid {
+            width: 500px;
+            height: 250px;
+        }
+    </style>
+
+    <!-- ui-grid stuffs
+    <link rel="stylesheet" href="/static/ui-grid/ui-grid.css"/>
+    <script src="/static/ui-grid/ui-grid.js"></script>-->
+    <script src="http://ui-grid.info/release/ui-grid.js"></script>
+    <link rel="stylesheet" href="http://ui-grid.info/release/ui-grid.css" type="text/css">
+
     <!-- controler local -->
     <script src="./static/com.js"></script>
+
     <title>EURO France XX XVI - communities</title>
 </head>
 <body ng-controller="CommunitiesListCtrl">
-   <div ng-include src="'/static/topbar.html'"></div>
+    <div ng-include src="'/static/topbar.html'"></div>
 
-    <h1>Communities page : TODO !</h1>
-    <div class="container" >
-        <div class="row" >
-            <div class="col-xs-12">
-                <h3>Ca ne se voit pas mais la liste des communautés est issue de
-                    <a href="http://euroxxxvi-typhontonus.rhcloud.com/communities/apiv1.0/communities">ça</a></h3>
-                <ul>
-                    <li ng-repeat="com in communities.communities">
-                        <span>{{com.title}}</span> -
-                        <span>{{com.description}}</span>
-                    </li>
-                </ul>
+    <br/>
+    <br/>
+    <br/>
 
-            </div>
+    <div class="row-fluid" >
+        <h3>Ca ne se voit pas mais la liste des communautés est issue de
+            <a href="http://euroxxxvi-typhontonus.rhcloud.com/communities/apiv1.0/communities">ça</a></h3>
+    </div>
+
+    <div class="row-fluid" >
+        <h1>Communities page : ng-repeat table</h1>
+    </div>
+    <div class="row-fluid" >
+        <div class="col-xs-12">
+            <ul>
+                <li ng-repeat="com in communities.communities">
+                    <span>{{com.title}}</span> -
+                    <span>{{com.description}}</span>
+                </li>
+            </ul>
+
         </div>
     </div>
+
+   <br/>
+
+   <div class="row-fluid" >
+       <h1>Communities page : <a target="_blank" href="http://ui-grid.info/docs/#/tutorial">ui-grid</a></h1>
+   </div>
+    <div class="row-fluid" >
+        <div class="col-xs-12">
+            <button type="button" id="addData" class="btn btn-success" ng-click="addData()">Add Data</button>
+            <button type="button" id="removeFirstRow" class="btn btn-success" ng-click="removeFirstRow()">Remove First Row</button>
+            <button type="button" id="reset" class="btn btn-success" ng-click="reset()">Reset</button>
+            <div id="commRemoteGrid" ui-grid-edit ui-grid="gridOptions" class="grid"></div>
+        </div>
+   </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
