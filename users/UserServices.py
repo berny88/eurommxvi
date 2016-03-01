@@ -5,6 +5,7 @@ from pymongo import MongoClient
 from datetime import datetime
 import os
 import re
+from uuid import uuid4
 import sendgrid
 
 from tools.Tools import DbManager
@@ -49,23 +50,59 @@ def subscriptionPost():
     logger.info("subscriptionPost")
     logger.info(u"request:{} / {}".format(request.args.get('target'), request.method))
     email = request.form['email']
+
+    mgr = UserManager()
+    user = mgr.getUserByEmail(email)
+    if user is None:
+        sg = sendgrid.SendGridClient("bbougeon138",
+                    "s8drhcp01")
+
+        message = sendgrid.Mail()
+
+        message.add_to(email)
+
+        message.add_to("bernard.bougeon@gmail.com")
+        message.add_to("guedeu.stephane@gmail.com")
+        message.set_from("bernard.bougeon@gmail.com")
+        message.set_subject("euroxxxvi - subscription")
+
+        uuid = str(uuid4())
+        logger.info(u"subscriptionPost::user_id:{}".format(uuid))
+        mgr.saveUser(email, "", "", uuid, False)
+        logger.info(u"\tsubscriptionPost::save done")
+        urlcallback=u"http://euroxxxvi-typhontonus.rhcloud.com/users/{}/confirmation".format(uuid)
+        message.set_html("<html><head></head><body><h1>MERCI DE</h1><h1><a href='{}'>Confirmer votre inscription</a></h1></hr></body></html>".format(urlcallback))
+
+        sg.send(message)
+        return users_page.send_static_file('logon_successfull.html')
+    else:
+        return redirect(u"/")
+
+@users_page.route('/<user_id>/confirmation', methods=['GET'])
+def confirmationSubscription(user_id):
+    logger.info("confirmationSubscription")
+    logger.info(u"confirmationSubscription::user_id:{} ".format(user_id))
     sg = sendgrid.SendGridClient("bbougeon138",
                 "s8drhcp01")
 
     message = sendgrid.Mail()
+    mgr = UserManager()
+    user = mgr.getUserByUserId(user_id)
+    logger.info(u'confirmationSubscription::user={}'.format(user))
 
-    message.add_to(email)
+    mgr.saveUser(user.email, "", "", user.user_id, True)
+
+    message.add_to(user.email)
 
     message.add_to("bernard.bougeon@gmail.com")
     message.add_to("guedeu.stephane@gmail.com")
     message.set_from("bernard.bougeon@gmail.com")
-    message.set_subject("euroxxxvi - subscription confirmation")
-    message.set_html("<html><head></head><body><h1>blablabla</h1><h1><a href=\"/\">Confirmation</a></h1></hr></body></html>")
+    message.set_subject("euroxxxvi - confirmation")
+    message.set_html("<html><head></head><body><h1>Félicitations pour votre inscription ! </a></h1></hr></body></html>")
 
     sg.send(message)
 
-    return users_page.send_static_file('logon_successfull.html')
-
+    return users_page.send_static_file('user.html')
 
 u"""
 **************************************************
@@ -78,16 +115,24 @@ class User:
         self.description = u""
         self.email = u""
         self.nickName = u""
+        self.user_id=u""
+        self.validated = False
 
 
     def convertFromBson(self, elt):
         """
         convert a User object from mongo
         """
-        self.description = elt['description']
-        self.email = elt['email']
-        self.nickName = elt['nickName']
-        #self._id = elt['_id']
+        if 'description' in elt.keys():
+            self.description = elt['description']
+        if 'email' in elt.keys():
+            self.email = elt['email']
+        if 'nickName' in elt.keys():
+            self.nickName = elt['nickName']
+        if 'user_id' in elt.keys():
+            self.user_id = elt['user_id']
+        if 'validated' in elt.keys():
+            self.validated = elt['validated']
 
     def convertIntoBson(self):
         """
@@ -98,6 +143,8 @@ class User:
         elt['description'] = self.description
         elt['email'] = self.email
         elt['nickName'] = self.nickName
+        elt['user_id'] = self.user_id
+        elt['validated'] = self.validated
         return elt
 
 class UserManager(DbManager):
@@ -123,16 +170,53 @@ class UserManager(DbManager):
             result.append(tmpdict)
         return result
 
-    def saveUser(self, key, value):
+    def saveUser(self, email, nickName, description, user_id, validated):
         """ save a user"""
-        #localdb = self.getDb()
-        # TODO
+        localdb = self.getDb()
+        bsonUser = localdb.users.find_one({"user_id": user_id})
+        logger.info(u'saveUser::bsonProperty ={}'.format(bsonUser ))
+        if (bsonUser is None):
+            bsonUser =dict()
+            bsonUser ["email"]=email
+            bsonUser ["nickName"]=nickName
+            bsonUser["user_id"]=str(uuid4())
+            bsonUser["validated"]=validated
+            logger.info(u'\tkey None - to create : {}'.format(bsonUser))
+            id = localdb.users.insert_one(bsonUser).inserted_id
+            logger.info(u'\tid : {}'.format(id))
+        else:
+            logger.info(u'\t try update to bsonUser["_id" : {}'.format(bsonUser["_id"]))
+            localdb.users.update({"_id":bsonUser["_id"]},
+                    {"$set":{"email":email, "nickName":nickName,
+                             "description" : description, "user_id" : user_id, "validated":validated}}, upsert=True)
 
-    def getUser(self, email):
+
+    def getUserByEmail(self, email):
         """ get one property by key"""
         localdb = self.getDb()
-        logger.info(u'getUser::db={}'.format(localdb))
+        logger.info(u'getUserByEmail::email={}'.format(email))
 
         usersColl = localdb.users
         bsonUser = usersColl.find_one({"email": email})
-        return bsonUser
+        logger.info(u'getUserByEmail::bsonUser={}'.format(bsonUser))
+        if bsonUser is not None:
+            user = User()
+            return user.convertFromBson(bsonUser)
+        else:
+            return None
+
+    def getUserByUserId(self, user_id):
+        """ get one property by key"""
+        localdb = self.getDb()
+        logger.info(u'getUserByUserId::user_id={}'.format(user_id))
+
+        usersColl = localdb.users
+        bsonUser = usersColl.find_one({"user_id": user_id})
+        logger.info(u'getUserByUserId::bsonUser={}'.format(bsonUser))
+        user = User()
+        if bsonUser is not None:
+            user.convertFromBson(bsonUser)
+            logger.info(u'\tgetUserByUserId::res={}'.format(user))
+            return user
+        else:
+            return None
