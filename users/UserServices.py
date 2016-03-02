@@ -173,12 +173,14 @@ class UserManager(DbManager):
         """ save a user"""
         localdb = self.getDb()
         bsonUser = localdb.users.find_one({"user_id": user_id})
-        logger.info(u'saveUser::bsonProperty ={}'.format(bsonUser ))
+        logger.info(u'saveUser::{} trouve ? bsonProperty ={}'.format(user_id, bsonUser ))
         if (bsonUser is None):
             bsonUser =dict()
             bsonUser ["email"]=email
             bsonUser ["nickName"]=nickName
-            bsonUser["user_id"]=str(uuid4())
+            if user_id is None:
+                user_id=str(uuid4())
+            bsonUser["user_id"]=user_id
             bsonUser["validated"]=validated
             logger.info(u'\tkey None - to create : {}'.format(bsonUser))
             id = localdb.users.insert_one(bsonUser).inserted_id
