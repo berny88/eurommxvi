@@ -48,7 +48,6 @@ def subscriptionGet():
 @users_page.route('/subscription', methods=['POST'])
 def subscriptionPost():
     logger.info("subscriptionPost")
-    logger.info(u"request:{} / {}".format(request.args.get('target'), request.method))
     email = request.form['email']
 
     mgr = UserManager()
@@ -201,7 +200,8 @@ class UserManager(DbManager):
         logger.info(u'getUserByEmail::bsonUser={}'.format(bsonUser))
         if bsonUser is not None:
             user = User()
-            return user.convertFromBson(bsonUser)
+            user.convertFromBson(bsonUser)
+            return user
         else:
             return None
 
@@ -213,8 +213,8 @@ class UserManager(DbManager):
         usersColl = localdb.users
         bsonUser = usersColl.find_one({"user_id": user_id})
         logger.info(u'getUserByUserId::bsonUser={}'.format(bsonUser))
-        user = User()
         if bsonUser is not None:
+            user = User()
             user.convertFromBson(bsonUser)
             logger.info(u'\tgetUserByUserId::res={}'.format(user))
             return user

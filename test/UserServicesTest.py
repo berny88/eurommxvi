@@ -19,5 +19,19 @@ class TestUser(unittest.TestCase):
             print(u)
         self.assertIsNotNone(users)
 
+    def test_getsaveuser(self):
+        os.environ['OPENSHIFT_MONGODB_DB_URL']=u"mongodb://mmxvi:eurommxvi@127.0.0.1:27017/euroxxxvi"
+        mgr = UserManager()
+
+        usera = mgr.saveUser("email@test.fr", "", "", "uuidxxx", False)
+
+        user = mgr.getUserByEmail(u"email@test.fr")
+
+
+        self.assertIsNotNone(user)
+
+        self.assertIsNotNone(user.email)
+        self.assertIsNotNone(user.user_id)
+
 if __name__ == '__main__':
     unittest.main()
