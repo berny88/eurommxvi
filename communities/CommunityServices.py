@@ -2,30 +2,31 @@
 from flask import Blueprint, jsonify
 import logging
 from tools.Tools import DbManager
-
+from users.UserServices import User
+from uuid import uuid4
 
 logger = logging.getLogger(__name__)
 
 communities_page = Blueprint('communities_page', __name__,
                         template_folder='templates', static_folder='static')
 
-coms = [
-    {
-        'id': 1,
-        'title': u'FirstCommunities',
-        'description': u"Berny's communities"
-    },
-    {
-        'id': 2,
-        'title': u'Static but from python',
-        'description': u'yeahhhhh'
-    },
-    {
-        'id': 3,
-        'title': u'rayIsInTheHouse',
-        'description': u'yahoooooo'
-    }
-]
+# coms = [
+#     {
+#         'id': 1,
+#         'title': u'FirstCommunities',
+#         'description': u"Berny's communities"
+#     },
+#     {
+#         'id': 2,
+#         'title': u'Static but from python',
+#         'description': u'yeahhhhh'
+#     },
+#     {
+#         'id': 3,
+#         'title': u'rayIsInTheHouse',
+#         'description': u'yahoooooo'
+#     }
+# ]
 
 
 
@@ -36,6 +37,8 @@ def communities():
 
 @communities_page.route('/apiv1.0/communities', methods=['GET'])
 def getAllComunnities():
+    mgr = CommunityManager()
+    coms=mgr.getAllCommunities()
     logger.info(">>{}".format(jsonify({'communities': coms}).data))
     return jsonify({'communities': coms})
 
@@ -71,11 +74,15 @@ class Community:
         if 'description' in elt.keys():
             self.description = elt['description']
         if 'title' in elt.keys():
-            self.email = elt['title']
+            self.title = elt['title']
         if 'com_id' in elt.keys():
-            self.nickName = elt['com_id']
+            self.com_id = elt['com_id']
         if 'admins' in elt.keys():
-            self.community_id = elt['admins']
+            adms=list()
+            for uson in elt['admins']:
+                u=User()
+                adms.append(u.convertFromBson(uson))
+                self.admins=adms
 
     def convertIntoBson(self):
         """
@@ -86,7 +93,10 @@ class Community:
         elt['description'] = self.description
         elt['title'] = self.title
         elt['com_id'] = self.com_id
-        elt['admins'] = self.admins
+        adms=list()
+        for u in self.admins:
+            adms.append(u.convertIntoBson())
+        elt['admins'] = adms
         return elt
 
 
@@ -97,7 +107,7 @@ class CommunityManager(DbManager):
         localdb = self.getDb()
         logger.info(u'getAllCommunities::db={}'.format(localdb))
 
-        communitysColl = localdb.communitiess
+        communitysColl = localdb.communities
         communitiesList = communitysColl.find()
         logger.info(u'getAllCommunities::communitysList={}'.format(communitiesList))
         #Faut-il changer de list ou retourner le bson directement ?
@@ -129,3 +139,31 @@ class CommunityManager(DbManager):
             return community
         else:
             return None
+
+
+    def save(self, com):
+        """ save com """
+        localdb = self.getDb()
+        logger.info(u'CommunityManager::save={}'.format(com.com_id))
+        bsonCom = localdb.communities.find_one({"com_id": com.com_id})
+        logger.info(u'\tCommunityManager::save::{} trouve ? bsonProperty ={}'.format(com.com_id, bsonCom ))
+        if (bsonCom is None):
+            if com.com_id is None or com.com_id == u"":
+                com.com_id=str(uuid4())
+            bsonCom =com.convertIntoBson()
+            logger.info(u'\tkey None - to create : {}'.format(bsonCom))
+            id = localdb.communities.insert_one(bsonCom).inserted_id
+            logger.info(u'\tid : {}'.format(id))
+        else:
+            logger.info(u'\t try update to bsonUser["_id" : {}'.format(bsonCom["_id"]))
+            bsonCom2 =com.convertIntoBson()
+            localdb.communities.update({"_id":bsonCom["_id"]},
+                    {"$set":{"title":com.title, "com_id":com.com_id,
+                             "description" : com.description, "adms" : bsonCom2[u"admins"]}}, upsert=True)
+        return com
+
+    def delete(self, com):
+        """ save com """
+        localdb = self.getDb()
+        logger.info(u'CommunityManager::delete={}'.format(com.com_id))
+        bsonCom = localdb.communities.delete_one({"com_id": com.com_id})

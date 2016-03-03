@@ -8,7 +8,7 @@ comApp.controller('CommunitiesListCtrl', ['$scope', '$http', '$q', function ($sc
         };
 
         $scope.gridOptions.columnDefs = [
-            {name:'id', displayName: 'Id Tech.', enableCellEdit: false, width: '20%' },
+            {name:'com_id', displayName: 'Id Tech.', enableCellEdit: false, width: '20%' },
             {name:'title', displayName: 'Titre (editable)', width: '40%'},
             {name:'description', displayName: 'Description (editable)', width: '40%'}
 
