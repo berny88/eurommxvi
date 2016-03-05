@@ -21,11 +21,6 @@ users_page = Blueprint('users_page', __name__,
                        template_folder='templates', static_folder='static')
 
 
-@users_page.route('/signon', methods=['GET'])
-def signon():
-    return users_page.send_static_file('logon.html')
-
-
 @users_page.route('/apiv1.0/users', methods=['GET'])
 def getusers():
     mgr = UserManager()
@@ -33,9 +28,6 @@ def getusers():
     logger.info("getusers::users={}".format(users))
     return jsonify({'users': users})
 
-@users_page.route('/subscription', methods=['GET'])
-def subscriptionGet():
-    return users_page.send_static_file('logon.html')
 
 @users_page.route('/subscription', methods=['POST'])
 def subscriptionPost():
@@ -65,7 +57,7 @@ def subscriptionPost():
         message.set_html("<html><head></head><body><h1>MERCI DE</h1><h1><a href='{}'>Confirmer votre inscription</a></h1></hr></body></html>".format(urlcallback))
 
         sg.send(message)
-        return users_page.send_static_file('logon_successfull.html')
+        return redirect(u"/#logon_successfull")
     else:
         return redirect(u"/")
 
