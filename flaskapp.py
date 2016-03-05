@@ -90,16 +90,6 @@ def testmail():
 def ma_page_404(error):
     return u"Page not found !<br/> <h1>404 error code !</h1> Where do you really want to go ?", 404
 
-@app.route('/about/')
-def about():
-    logger.info(u'about ************************')
-    return render_template('about.html')
-
-@app.route('/rules/')
-def rules():
-    logger.info(u'rules ************************')
-    return render_template('rules.html')
-
 @app.route('/google3ccef6a94eda5129.html')
 def google3ccef6a94eda5129():
     """

@@ -26,14 +26,6 @@ def signon():
     return users_page.send_static_file('logon.html')
 
 
-@users_page.route('/users', methods=['GET'])
-def userslist():
-    u"""
-    :return: static file (angular) to see / manager users
-    """
-    return users_page.send_static_file('users.html')
-
-
 @users_page.route('/apiv1.0/users', methods=['GET'])
 def getusers():
     mgr = UserManager()
