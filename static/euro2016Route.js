@@ -24,6 +24,10 @@ euro2016App.config(function($routeProvider) {
 
         // route for about page : "static page"
         .when('/about', { templateUrl:'static/about.html', controller:'indexCtrl' })
+
+        // route for about page : "static page"
+        .when('/contact', { templateUrl:'static/contact.html', controller:'indexCtrl' })
+
         // default
         .otherwise({ templateUrl:'static/accueil.html', controller:'indexCtrl' });
 });

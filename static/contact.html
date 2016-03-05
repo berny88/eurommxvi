@@ -1,13 +1,7 @@
-{% extends "squelette.html" %}
-
-{% block titre %}Page de contact {{ name }}{% endblock %}
-
-{% block corps %}
-
-<h1>Ask me anything : {{ name }}</h1>
 <div class="container">
+<h1>Ask me anything : {{ name }}</h1>
 
-<form action="{{url_for('send_message')}}" method="post" class="form-horizontal">
+<form action="javascript:alert('not yet implemented');" method="post" class="form-horizontal">
     <div class="row">
         <div class="col-xs-12">
             <div class="panel panel-default">
@@ -30,9 +24,3 @@
     </div>
 </form>
 </div>
-
-{% endblock %}
-
-{% block footer %}
-<footer>Copyright monsite.fr 2009-2012</footer>
-{% endblock %}
