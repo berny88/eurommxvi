@@ -22,11 +22,13 @@ euro2016App.controller('UserDetailCtrl', ['$scope', '$http', '$q', '$location', 
 
         var canceler = $q.defer();
         $scope.getUserDetail = function() {
+        //$location.search().uuid
     //TODO : get user id and call REST API
-            $http.get('/users/apiv1.0/users', {timeout: canceler.promise})
+            $http.get('/users/apiv1.0/users/'+$location.search().uuid, {timeout: canceler.promise})
             .success(function(data) {
                 //ng-repeat :
-                $scope.users = data;
+                $scope.user = data.user;
+                //alert($scope.user.email)
             });
         }
 
@@ -35,6 +37,5 @@ euro2016App.controller('UserDetailCtrl', ['$scope', '$http', '$q', '$location', 
         });
 
         $scope.getUserDetail();
-        alert($location.search().uuid);
 
 }]);

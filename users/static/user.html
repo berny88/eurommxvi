@@ -1,8 +1,27 @@
 <div class="container-fluid"  >
       <h1>Users detail page : TO COMPLETE !</h1>
       <div class="col-xs-12">
-          <div class="">
-            </div>
+          <div class="form-group">
+              <label for="uuid" class="control-label">uuid</label>
+              <input type="uuid" class="form-control" id="uuid" name="uuid"
+              placeholder="Id" value="{{user.user_id}}" readonly>
+
+              <label for="email" class="control-label">email</label>
+              <input type="email" class="form-control" id="email" name="email"
+              placeholder="your email" value="{{user.email}}" readonly>
+
+              <label for="nickName" class="control-label">email</label>
+              <input type="nickName" class="form-control" id="nickName" name="nickName"
+              placeholder="nickName" value="{{user.nickName}}" >
+
+              <label for="description" class="control-label">description</label>
+              <input type="description" class="form-control" id="description" name="description"
+              placeholder="description" value="{{user.description}}" >
+
+              <label for="validated" class="control-label">validated</label>
+              <input type="validated" class="form-control" id="validated" name="validated"
+              placeholder="validated" value="{{user.validated}}" readonly>
+          </div>
       </div>
 </div>
 
