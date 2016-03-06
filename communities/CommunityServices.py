@@ -10,37 +10,19 @@ logger = logging.getLogger(__name__)
 communities_page = Blueprint('communities_page', __name__,
                         template_folder='templates', static_folder='static')
 
-# coms = [
-#     {
-#         'id': 1,
-#         'title': u'FirstCommunities',
-#         'description': u"Berny's communities"
-#     },
-#     {
-#         'id': 2,
-#         'title': u'Static but from python',
-#         'description': u'yeahhhhh'
-#     },
-#     {
-#         'id': 3,
-#         'title': u'rayIsInTheHouse',
-#         'description': u'yahoooooo'
-#     }
-# ]
-
-
-
-@communities_page.route('/communitieslist', methods=['GET'])
-def communities():
-    return communities_page.send_static_file('communities.html')
-
-
 @communities_page.route('/apiv1.0/communities', methods=['GET'])
 def getAllComunnities():
     mgr = CommunityManager()
     coms=mgr.getAllCommunities()
     logger.info(">>{}".format(jsonify({'communities': coms}).data))
     return jsonify({'communities': coms})
+
+@communities_page.route('/apiv1.0/communities/<com_id>', methods=['GET'])
+def getCommunity(com_id):
+    mgr = CommunityManager()
+    community = mgr.getCommunityBycommunityId(com_id)
+    logger.info("getCommunity::uuid={}=community={}".format(com_id, community))
+    return jsonify({'community': community.__dict__})
 
 u"""
 **************************************************
