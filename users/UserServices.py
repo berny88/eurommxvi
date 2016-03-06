@@ -85,7 +85,7 @@ def confirmationSubscription(user_id):
 
     sg.send(message)
 
-    return users_page.send_static_file('user.html')
+    return redirect("/#user_detail?uuid={}".format(user_id))
 
 u"""
 **************************************************

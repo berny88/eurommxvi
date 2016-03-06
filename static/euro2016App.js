@@ -7,3 +7,4 @@ euro2016App.controller('indexCtrl', function($scope) {
     $scope.message = 'EURO 2016';
     $scope.comment = 'Amazing bet site';
 });
+

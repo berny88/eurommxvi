@@ -18,7 +18,7 @@ euro2016App.controller('UsersListCtrl', ['$scope', '$http', '$q', function ($sco
 
 }]);
 
-euro2016App.controller('UsersDetailCtrl', ['$scope', '$http', '$q', function ($scope, $http, $q) {
+euro2016App.controller('UserDetailCtrl', ['$scope', '$http', '$q', '$location', function ($scope, $http, $q, $location) {
 
         var canceler = $q.defer();
         $scope.getUserDetail = function() {
@@ -35,5 +35,6 @@ euro2016App.controller('UsersDetailCtrl', ['$scope', '$http', '$q', function ($s
         });
 
         $scope.getUserDetail();
+        alert($location.search().uuid);
 
 }]);
