@@ -28,6 +28,12 @@ def getusers():
     logger.info("getusers::users={}".format(users))
     return jsonify({'users': users})
 
+@users_page.route('/apiv1.0/users/<user_id>', methods=['GET'])
+def getuser(user_id):
+    mgr = UserManager()
+    user = mgr.getUserByUserId(user_id)
+    logger.info("getuser::uuid={}=user={}".format(user_id, user))
+    return jsonify({'user': user.__dict__})
 
 @users_page.route('/subscription', methods=['POST'])
 def subscriptionPost():
