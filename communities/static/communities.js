@@ -14,18 +14,9 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
 
         $scope.getCommunity = function() {
             // TODO : implémenter la recherche d'une communauté
-            $scope.getCommunities();
-            $scope.community = getCommunity($routeParams.com_id);
-        }
-
-        // get locally (ie in the scope, NOT remote) a community by its id
-        function getCommunity(id) {
-            for (var key in $scope.communities.communities) {
-                var comm = $scope.communities.communities[key];
-                if (comm.com_id === id) {
-                    return comm
-                }
-            }
+            $scope.community.com_id = $routeParams.com_id;
+            $scope.community.title = "Fake Title";
+            $scope.community.description = "Fake description";
         }
 
         // Aborts the $http request if it isn't finished.
