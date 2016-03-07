@@ -14,17 +14,15 @@ euro2016App.controller('UsersListCtrl', ['$scope', '$http', '$q', function ($sco
             canceler.resolve();  // Aborts the $http request if it isn't finished.
         });
 
-        $scope.getUsers();
+        //$scope.getUsers();
 
 }]);
 
-euro2016App.controller('UserDetailCtrl', ['$scope', '$http', '$q', '$location', function ($scope, $http, $q, $location) {
+euro2016App.controller('UserDetailCtrl', ['$scope', '$http', '$q', '$routeParams', function ($scope, $http, $q, $routeParams) {
 
         var canceler = $q.defer();
         $scope.getUserDetail = function() {
-        //$location.search().uuid
-    //TODO : get user id and call REST API
-            $http.get('/users/apiv1.0/users/'+$location.search().uuid, {timeout: canceler.promise})
+            $http.get('/users/apiv1.0/users/'+$routeParams.user_id, {timeout: canceler.promise})
             .success(function(data) {
                 //ng-repeat :
                 $scope.user = data.user;

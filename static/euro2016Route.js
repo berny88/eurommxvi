@@ -14,7 +14,7 @@ euro2016App.config(function($routeProvider) {
         .when('/logon_successfull', { templateUrl:'users/static/logon_successfull.html', controller:'indexCtrl' })
 
         // just page to confirm email sent
-        .when('/user_detail', { templateUrl:'users/static/user.html', controller:'UserDetailCtrl' })
+        .when('/user_detail/:user_id', { templateUrl:'users/static/user.html', controller:'UserDetailCtrl' })
 
         // route for list of users
         .when('/users', { templateUrl:'users/static/users.html', controller:'UsersListCtrl' })

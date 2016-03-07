@@ -4,22 +4,36 @@
       <div class="">
         <h3>Ca ne se voit pas mais la liste des communautés est issue de
             <a href="/users/apiv1.0/users">ça</a> en provenance de mongodb</h3>
-        <table>
-            <tr><td>NickName</td><td>Description</td><td>validé</td></tr>
-            <tr ng-repeat="user in users.users">
-                <td ng-if="$odd" style="background-color:#f1f1f1">
-                {{ user.nickName }}</td>
-                <td ng-if="$even">
-                {{ user.nickName }}</td>
-                <td ng-if="$odd" style="background-color:#f1f1f1">
-                {{ user.description }}</td>
-                <td ng-if="$even">
-                {{ user.description }}</td>
-                <td ng-if="$odd" style="background-color:#f1f1f1">
-                {{ user.validated }}</td>
-                <td ng-if="$even">
-                {{ user.validated }}</td>
-            </tr>
+        <table class="table table-condensed table-striped">
+            <thead>
+                <tr>
+                    <th class="nickName">nickName</th>
+                    <th class="description">Description</th>
+                    <th class="validated">Validé ?</th>
+                    <th></th>
+                </tr>
+                </thead>
+            <tbody ng-init="getUsers();">
+                <tr ng-repeat="user in users.users">
+                    <td ng-if="$odd" style="background-color:#f1f1f1">
+                    {{ user.nickName }}</td>
+                    <td ng-if="$even">
+                    {{ user.nickName }}</td>
+                    <td ng-if="$odd" style="background-color:#f1f1f1">
+                    {{ user.description }}</td>
+                    <td ng-if="$even">
+                    {{ user.description }}</td>
+                    <td ng-if="$odd" style="background-color:#f1f1f1">
+                    {{ user.validated }}</td>
+                    <td ng-if="$even">
+                    {{ user.validated }}</td>
+                    <td>
+                        <!--<span><a class="btn btn-danger btn-xs" href="#del_community/{{community.com_id}}"><i class="glyphicon glyphicon-remove-sign"></i></a></span>
+                        <span><a class="btn btn-default btn-xs" href="#edit_community/{{community.com_id}}"><i class="glyphicon glyphicon-pencil"></i></a></span>-->
+                        <span><a class="btn btn-info btn-xs" href="#/user_detail/{{user.user_id}}"><i class="glyphicon glyphicon-eye-open"></i></a></span>
+                    </td>
+                </tr>
+            </tbody>
         </table>
         </div>
   </div>

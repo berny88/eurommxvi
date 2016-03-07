@@ -91,7 +91,7 @@ def confirmationSubscription(user_id):
 
     sg.send(message)
 
-    return redirect("/#user_detail?uuid={}".format(user_id))
+    return redirect("/#user_detail/{}".format(user_id))
 
 u"""
 **************************************************

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import logging
-import os
+import os, sys
 from flask import Flask
 from flask import render_template
 
@@ -28,10 +28,14 @@ app.register_blueprint(bets_page, url_prefix="/bets", template_folder='templates
 app.register_blueprint(matchs_page, url_prefix="/matchs", template_folder='templates')
 app.register_blueprint(tools_page, url_prefix="/tools", template_folder='templates')
 
-logging.basicConfig(format='%(asctime)s|%(levelname)s|%(message)s',\
+logging.basicConfig(format='%(asctime)s|%(levelname)s|%(name)s|%(message)s',\
     filename='{}/euroxxxvi.log'.format(os.environ['OPENSHIFT_LOG_DIR']), level=logging.INFO)
 app.logger.info('Started')
+ch = logging.StreamHandler(sys.stdout)
+ch.setLevel(logging.DEBUG)
+
 logger = logging.getLogger(__name__)
+logger.addHandler(ch)
 
 @app.route('/')
 def mainPage():
