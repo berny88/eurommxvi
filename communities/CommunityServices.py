@@ -111,7 +111,7 @@ class CommunityManager(DbManager):
         localdb = self.getDb()
         logger.info(u'getcommunityBycommunityId::community_id={}'.format(com_id))
 
-        communitysColl = localdb.communitys
+        communitysColl = localdb.communities
         bsoncommunity = communitysColl.find_one({"com_id": com_id})
         logger.info(u'getcommunityBycommunityId::bsoncommunity={}'.format(bsoncommunity))
         if bsoncommunity is not None:
