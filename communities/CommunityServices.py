@@ -24,6 +24,12 @@ def getCommunity(com_id):
     logger.info("getCommunity::uuid={}=community={}".format(com_id, community))
     return jsonify({'community': community.__dict__})
 
+@communities_page.route('/apiv1.0/communities/<com_id>', methods=['DELETE'])
+def deleteCommunity(com_id):
+    mgr = CommunityManager()
+    coms=mgr.delete(com_id)
+    return jsonify({'communities': coms})
+
 u"""
 **************************************************
 Service layer
@@ -144,8 +150,10 @@ class CommunityManager(DbManager):
                              "description" : com.description, "adms" : bsonCom2[u"admins"]}}, upsert=True)
         return com
 
-    def delete(self, com):
-        """ save com """
+    def delete(self, com_id):
+        """ delete com """
         localdb = self.getDb()
+        com = CommunityManager.getCommunityBycommunityId(self,com_id)
         logger.info(u'CommunityManager::delete={}'.format(com.com_id))
         bsonCom = localdb.communities.delete_one({"com_id": com.com_id})
+        return CommunityManager.getAllCommunities(self)
