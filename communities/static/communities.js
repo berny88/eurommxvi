@@ -3,6 +3,7 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
         var canceler = $q.defer();
 
         $scope.community = {};
+        $scope.communityToDelete = {};
         $scope.communities = {};
 
         $scope.getCommunities = function() {
@@ -14,15 +15,26 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
 
         $scope.getCommunity = function() {
             $http.get('communities/apiv1.0/communities/' + $routeParams.com_id, {timeout: canceler.promise})
-            .success(function(data) {
+            .success(function(data, status, headers, config) {
                 $scope.community = data;
             });
         }
 
-        $scope.deleteCommunity = function(community) {
-            $http.delete('communities/apiv1.0/communities/' + community.com_id, {timeout: canceler.promise})
-            .success(function(data) {
+        $scope.deleteCommunity = function(communityToDelete) {
+            $scope.communityToDelete = communityToDelete;
+            showModal();
+        }
+
+        // launched when the "OK" button of the confirmation modal is pressed :
+        $scope.confirm = function() {
+            $http.delete('communities/apiv1.0/communities/' + $scope.communityToDelete.com_id, {timeout: canceler.promise})
+            .success(function(data, status, headers, config) {
                 $scope.communities = data;
+                closeModal();
+            })
+            .error(function(data, status, headers, config) {
+                closeModal();
+                alert("Erreur :"+status)
             });
         }
 
