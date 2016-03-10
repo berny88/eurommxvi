@@ -50,13 +50,6 @@ def test():
     return app.send_static_file('test.html')
 
 
-#Root User:     admin
-#Root Password: 8ysGbCwRMkEm
-#Database Name: euroxxxvi
-
-# RockMongo User: admin
-#   RockMongo Password: 8ysGbCwRMkEm
-# URL: https://euroxxxvi-typhontonus.rhcloud.com/rockmongo/<
 @app.route('/testmongo/')
 def testmongo():
     tool = ToolManager()
