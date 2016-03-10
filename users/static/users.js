@@ -37,3 +37,26 @@ euro2016App.controller('UserDetailCtrl', ['$scope', '$http', '$q', '$routeParams
         $scope.getUserDetail();
 
 }]);
+
+euro2016App.controller('LoginCtrl', ['$scope', '$http', '$q', '$routeParams', function ($scope, $http, $q, $routeParams) {
+
+        $scope.login = function(){
+            alert('yeah');
+        }
+
+        var canceler = $q.defer();
+        $scope.getUserDetail = function() {
+            $http.get('/users/apiv1.0/users/'+$routeParams.user_id, {timeout: canceler.promise})
+            .success(function(data) {
+                //ng-repeat :
+                $scope.user = data.user;
+                //alert($scope.user.email)
+            });
+        }
+
+        $scope.$on('$destroy', function(){
+            canceler.resolve();  // Aborts the $http request if it isn't finished.
+        });
+
+
+}]);

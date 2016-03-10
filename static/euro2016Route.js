@@ -7,8 +7,11 @@ euro2016App.config(function($routeProvider) {
         .when('/accueil', { templateUrl:'static/accueil.html', controller:'indexCtrl' })
         .when('/', { templateUrl:'static/accueil.html', controller:'indexCtrl' })
 
-        // route for list of users
+        // to subscribe to the site
         .when('/signon', { templateUrl:'users/static/logon.html', controller:'indexCtrl' })
+
+        // to subscribe to the site
+        .when('/signin', { templateUrl:'users/static/signin.html', controller:'LoginCtrl' })
 
         // just page to confirm email sent
         .when('/logon_successfull', { templateUrl:'users/static/logon_successfull.html', controller:'indexCtrl' })
