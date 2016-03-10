@@ -40,6 +40,10 @@ euro2016App.controller('UserDetailCtrl', ['$scope', '$http', '$q', '$routeParams
 
 euro2016App.controller('LoginCtrl', ['$scope', '$http', '$q', '$routeParams', function ($scope, $http, $q, $routeParams) {
 
+        $scope.login = function(){
+            alert('yeah');
+        }
+
         var canceler = $q.defer();
         $scope.getUserDetail = function() {
             $http.get('/users/apiv1.0/users/'+$routeParams.user_id, {timeout: canceler.promise})
@@ -54,6 +58,5 @@ euro2016App.controller('LoginCtrl', ['$scope', '$http', '$q', '$routeParams', fu
             canceler.resolve();  // Aborts the $http request if it isn't finished.
         });
 
-        $scope.getUserDetail();
 
 }]);
