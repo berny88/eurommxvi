@@ -1,4 +1,4 @@
-euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$q', function ($scope, $routeParams, $http, $q) {
+euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$q', '$location', '$timeout', function ($scope, $routeParams, $http, $q, $location, $timeout) {
 
         var canceler = $q.defer();
 
@@ -27,6 +27,22 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
             .error(function(data, status, headers, config) {
                 showAlertError("Erreur lors de la récupération de la communauté ; erreur HTTP : " + status);
             });
+        }
+
+        $scope.createCommunity = function() {
+            hideAlerts();
+            $http.post('communities/apiv1.0/communities', {communityToCreate: $scope.communityToCreate, timeout: canceler.promise})
+            .success(function(data, status, headers, config) {
+                $location.path("/communities")
+                $timeout(function() {
+                       showAlertSuccess("Communauté créée avec succès !!");
+                    }, 1000);
+
+            })
+            .error(function(data, status, headers, config) {
+                showAlertError("Erreur lors de la création de la communauté ; erreur HTTP : " + status);
+            });
+
         }
 
         $scope.deleteCommunity = function(communityToDelete) {

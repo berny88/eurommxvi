@@ -1,0 +1,35 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<div class="panel-title">
+			<div class="pull-left">
+				<h4>Liste des ordres HERMES / ALTO</h4>
+			</div>
+			<div class="pull-right">
+				<a class="btn btn-success" href="#import_ordre_hermes_alto"><i class="glyphicon glyphicon-upload"></i> Importer les ordres</a>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+	</div>
+
+	<div class="panel-body" ng-controller="ordreHermesAltoCtrl">
+		<div class="table-responsive">
+			<table class="table-condensed">
+				<thead>
+					<tr>
+						<th>FJU</th><th>Site</th><th>Produit</th><th>CoforH</th><th>Code</th><th>Sgr</th><th>Ligne</th><th>Pt Conso</th><th>Qty th</th><th>Qty recu</th><th>Quai</th>
+						<th>D</th><th>Recetion</th><th>DHEO</th><th>DHEF</th><th>DHXC</th><th>DHRC</th><th>DHRQ</th><th>DHLV</th><th>Oet Code</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="ordre in ordres">
+						<td>{{ordre.dh_fju}}</td><td>{{ordre.site}}</td><td>{{ordre.product}}</td><td>{{ordre.coforHybrid}}</td><td>{{ordre.numOrder}}</td><td>{{ordre.sgr}}</td><td>{{ordre.line}}</td><td>{{ordre.pt_conso}}</td>
+						<td>{{ordre.quantity_comm}}</td><td>{{ordre.quantity_recu}}</td><td>{{ordre.quai}}</td><td>{{ordre.depart}}</td><td>{{ordre.reception}}</td>
+						<td>{{ordre.dheo | myDateFormat}}</td><td>{{ordre.dhef | myDateFormat}}</td><td>{{ordre.dhxc | myDateFormat}}</td><td>{{ordre.dhrc | myDateFormat}}</td><td>{{ordre.dhrq | myDateFormat}}</td><td>{{ordre.dhlv | myDateFormat}}</td><td>{{ordre.oetCode}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<!--pagination total-items="totalItems" max-size="maxSize" ng-model="currentPage" ng-change="pageChanged()"></pagination-->
+		 <uib-pagination total-items="totalItems" ng-model="currentPage" max-size="maxSize" class="pagination-sm" boundary-link-numbers="true" rotate="false" ng-change="pageChanged()"></uib-pagination>
+	</div>
+</div>

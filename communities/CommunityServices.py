@@ -1,9 +1,14 @@
 # -*- coding: utf-8 -*-
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, redirect, request
 import logging
-from tools.Tools import DbManager
-from users.UserServices import User
+from pymongo import MongoClient
+from datetime import datetime
+import os
+import re
 from uuid import uuid4
+import sendgrid
+
+from tools.Tools import DbManager
 
 logger = logging.getLogger(__name__)
 
@@ -20,7 +25,7 @@ def getAllComunnities():
 @communities_page.route('/apiv1.0/communities/<com_id>', methods=['GET'])
 def getCommunity(com_id):
     mgr = CommunityManager()
-    community = mgr.getCommunityBycommunityId(com_id)
+    community = mgr.getCommunityByCommunityId(com_id)
     logger.info("getCommunity::uuid={}=community={}".format(com_id, community))
     return jsonify({'community': community.__dict__})
 
@@ -29,6 +34,23 @@ def deleteCommunity(com_id):
     mgr = CommunityManager()
     coms=mgr.delete(com_id)
     return jsonify({'communities': coms})
+
+@communities_page.route('/apiv1.0/communities', methods=['POST'])
+def createCommunity():
+    logger.info(u"savecommunity::json param:{} ".format(request.json))
+    communityToCreateJSON = request.json["communityToCreate"]
+
+    communityToCreate=Community()
+    communityToCreate.title=communityToCreateJSON['title'];
+    if 'description' in communityToCreateJSON:
+        communityToCreate.description=communityToCreateJSON['description'];
+
+    #call Service (DAO)
+    mgr = CommunityManager()
+    communityCreated = mgr.saveCommunity(communityToCreate)
+
+    return jsonify({'community': communityCreated})
+
 
 u"""
 **************************************************
@@ -112,7 +134,7 @@ class CommunityManager(DbManager):
         return result
 
 
-    def getCommunityBycommunityId(self, com_id):
+    def getCommunityByCommunityId(self, com_id):
         """ get one property by key"""
         localdb = self.getDb()
         logger.info(u'getcommunityBycommunityId::community_id={}'.format(com_id))
@@ -129,31 +151,38 @@ class CommunityManager(DbManager):
             return None
 
 
-    def save(self, com):
+    def saveCommunity(self, com):
         """ save com """
         localdb = self.getDb()
-        logger.info(u'CommunityManager::save={}'.format(com.com_id))
+
+        bsonCom =dict()
+        com_id=str(uuid4())
+        bsonCom["com_id"]=com_id
+        bsonCom["title"]=com.title
+        bsonCom["description"]=com.description
+
+        logger.info(u'\tkey None - to create : {}'.format(bsonCom))
+        id = localdb.communities.insert_one(bsonCom).inserted_id
+        logger.info(u'\tid : {}'.format(id))
+        return None
+
+
+    def updateCommunity(self, com):
+        """ update com """
+        localdb = self.getDb()
+        logger.info(u'CommunityManager::update={}'.format(com.com_id))
         bsonCom = localdb.communities.find_one({"com_id": com.com_id})
-        logger.info(u'\tCommunityManager::save::{} trouve ? bsonProperty ={}'.format(com.com_id, bsonCom ))
-        if (bsonCom is None):
-            if com.com_id is None or com.com_id == u"":
-                com.com_id=str(uuid4())
-            bsonCom =com.convertIntoBson()
-            logger.info(u'\tkey None - to create : {}'.format(bsonCom))
-            id = localdb.communities.insert_one(bsonCom).inserted_id
-            logger.info(u'\tid : {}'.format(id))
-        else:
-            logger.info(u'\t try update to bsonUser["_id" : {}'.format(bsonCom["_id"]))
-            bsonCom2 =com.convertIntoBson()
-            localdb.communities.update({"_id":bsonCom["_id"]},
-                    {"$set":{"title":com.title, "com_id":com.com_id,
-                             "description" : com.description, "adms" : bsonCom2[u"admins"]}}, upsert=True)
-        return com
+        logger.info(u'\tCommunityManager::update::{} trouve ? bsonProperty ={}'.format(com.com_id, bsonCom ))
+        bsonCom2 =com.convertIntoBson()
+        id = localdb.communities.update({"_id":bsonCom["_id"]},
+                                       {"$set":{"title":com.title, "com_id":com.com_id,
+                                                "description" : com.description, "adms" : bsonCom2[u"admins"]}}, upsert=True)
+        return CommunityManager.getCommunityByCommunityId(self,id)
 
     def delete(self, com_id):
         """ delete com """
         localdb = self.getDb()
-        com = CommunityManager.getCommunityBycommunityId(self,com_id)
+        com = CommunityManager.getCommunityByCommunityId(self,com_id)
         logger.info(u'CommunityManager::delete={}'.format(com.com_id))
         bsonCom = localdb.communities.delete_one({"com_id": com.com_id})
         return CommunityManager.getAllCommunities(self)

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope" xmlns:str="http://xml.inetpsa.com/Structure/Informatique/DeveloppementSI/ReferentielEchange" xmlns:pxd="http://xml.inetpsa.com/Fabrication/FluxConstituant/Messages/PrixDepart" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:odt="http://www.odette.org/core" xsi:schemaLocation="http://xml.inetpsa.com/Structure/Informatique/DeveloppementSI/ReferentielEchange../../MessageDepartCRL.xsd">
+	<SOAP-ENV:Header>
+		<str:Flow>
+			<str:MessageID>414D5120474558454149424B5041533056229F6B29FC0699</str:MessageID>
+			<str:From>GEFCO</str:From>
+			<str:To>MAESTRO</str:To>
+			<str:TimeStamp>2015-11-19T12:01:54</str:TimeStamp>
+		</str:Flow>
+	</SOAP-ENV:Header>
+	<SOAP-ENV:Body>
+		<str:Action>
+			<str:Do>Insert</str:Do>
+			<str:Parameters>
+				<pxd:MilestoneInfo>
+					<pxd:Ship-fromPartyID>13736E  02</pxd:Ship-fromPartyID>
+					<pxd:NetShipmentDate>2015-11-19T11:30:00</pxd:NetShipmentDate>
+					<pxd:SupplierID>68891F  01</pxd:SupplierID>
+					<pxd:SellerID>68891F  01</pxd:SellerID>
+					<pxd:ShipperID>68891F  01</pxd:ShipperID>
+					<pxd:ConsigneeID>26859U  06</pxd:ConsigneeID>
+					<pxd:DeliveryDate>2015-11-19T16:30:00</pxd:DeliveryDate>
+					<pxd:PlatformID>26859U  06QCD</pxd:PlatformID>
+					<pxd:TowID>RENSEIGNER PLAQUE</pxd:TowID>
+				</pxd:MilestoneInfo>
+				<pxd:DeliveryList>
+					<pxd:TrackID>C001U9*002</pxd:TrackID>
+					<pxd:CarriageOrderID>P81531</pxd:CarriageOrderID>
+					<pxd:DeliveryFullID>
+						<pxd:DeliveryID>515859</pxd:DeliveryID>
+						<pxd:UmShipmentID>0</pxd:UmShipmentID>
+						<pxd:UmCrlID>0</pxd:UmCrlID>
+					</pxd:DeliveryFullID>
+					<pxd:DeliveryFullID>
+						<pxd:DeliveryID>515731</pxd:DeliveryID>
+						<pxd:UmShipmentID>0</pxd:UmShipmentID>
+						<pxd:UmCrlID>0</pxd:UmCrlID>
+					</pxd:DeliveryFullID>
+				</pxd:DeliveryList>
+			</str:Parameters>
+		</str:Action>
+	</SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

@@ -1,0 +1,34 @@
+﻿<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <div class="pull-left">
+                <h4>Ajouter une alerte Maestro</h4>
+            </div>
+            <div class="pull-right"></div>
+            <div class="clearfix"></div>
+        </h4>
+    </div>
+    <div class="panel-body">
+        <form name="alerte_maestro" class="form-horizontal" ng-submit="add_alerte_maestro()">
+            <div class="form-group">
+                <label class="control-label col-xs-3" for="reference">Référence:</label>
+                <div class="col-xs-9">
+                    <input ng-model="alerte_maestro.reference" type="text" class="form-control" id="reference" placeholder="reference">
+                </div>
+            </div>        
+            <div class="form-group">
+                <label class="control-label col-xs-3" for="designation">Désignation:</label>
+                <div class="col-xs-9">
+                    <input ng-model="alerte_maestro.designation" type="text" class="form-control" id="designation" placeholder="designation">
+                </div>
+            </div>          
+            <br>
+            <div class="form-group">
+                <div class="col-xs-offset-3 col-xs-9">
+                    <input type="submit" class="btn btn-success" value="Submit">
+                    <a class="btn" href="#alertes_maestro">Retour</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

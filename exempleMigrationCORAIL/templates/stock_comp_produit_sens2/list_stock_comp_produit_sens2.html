@@ -1,0 +1,71 @@
+﻿<div class="panel panel-default">
+	<div class="panel-heading">
+		<h4 class="panel-title">
+			<div class="pull-left">
+				<h4>Produits sans stock SENS2 ({{stocks_comp_produit_sens2.length}} éléments)</h4>
+			</div>
+			<div class="pull-right">
+				<a class="btn btn-success" ng-click="init_stock_comp_produit_sens2()"><i class="glyphicon glyphicon-plus"></i> Initialiser les produits sans stock</a>
+				<a class="btn btn-success" ng-click="export_stock_comp_produit_sens2()"><i class="glyphicon glyphicon-export"></i> Exporter les produits sans stock</a>
+			</div>
+			<div class="clearfix"></div>
+		</h4>
+	</div>
+	<div class="panel-body">
+		<div class="input-group input-group-md">
+			<span class="input-group-addon">
+				<i class="glyphicon glyphicon-filter"></i>
+			</span>
+			<input class="form-control" type="search" ng-model="stock_comp_produit_sens2_filter">
+		</div>
+		<div id="exportable">
+			<table class="table table-condensed table-striped">
+				<thead>
+					<tr>
+						<th class="id">
+							<a ng-click="sortType='id';sortReverse=!sortReverse">Id<span ng-show="sortType=='id'&&!sortReverse" class="glyphicon glyphicon-chevron-down"></span><span ng-show="sortType=='id' && sortReverse" class="glyphicon glyphicon-chevron-up"></span></a>
+						</th>
+						<th class="reference">
+							<a ng-click="sortType='reference';sortReverse=!sortReverse">Reference<span ng-show="sortType=='reference'&&!sortReverse" class="glyphicon glyphicon-chevron-down"></span><span ng-show="sortType=='reference' && sortReverse" class="glyphicon glyphicon-chevron-up"></span></a>
+						</th>
+                        <th class="cu">
+                            <a ng-click="sortType='cu';sortReverse=!sortReverse">CU<span ng-show="sortType=='cu'&&!sortReverse" class="glyphicon glyphicon-chevron-down"></span><span ng-show="sortType=='cu' && sortReverse" class="glyphicon glyphicon-chevron-up"></span></a>
+                        </th>
+                        <th class="quai">
+                            <a ng-click="sortType='quai';sortReverse=!sortReverse">Quai<span ng-show="sortType=='quai'&&!sortReverse" class="glyphicon glyphicon-chevron-down"></span><span ng-show="sortType=='quai' && sortReverse" class="glyphicon glyphicon-chevron-up"></span></a>
+                        </th>
+						<th class="designation">
+							<a ng-click="sortType='designation';sortReverse=!sortReverse">Designation<span ng-show="sortType=='designation'&&!sortReverse" class="glyphicon glyphicon-chevron-down"></span><span ng-show="sortType=='designation' && sortReverse" class="glyphicon glyphicon-chevron-up"></span></a>
+						</th>
+                        <th class="comment">
+                            <a ng-click="sortType='commentaire';sortReverse=!sortReverse">Commentaire<span ng-show="sortType=='commentaire'&&!sortReverse" class="glyphicon glyphicon-chevron-down"></span><span ng-show="sortType=='commentaire' && sortReverse" class="glyphicon glyphicon-chevron-up"></span></a>
+                        </th>
+					</tr>
+				</thead>
+				<tbody ng-init="get_stocks_comp_produit_sens2(); get_cu();">
+					<tr ng-repeat="stock_comp_produit_sens2 in stocks_comp_produit_sens2 | filter : stock_comp_produit_sens2_filter | orderBy:sortType:sortReverse">
+						<td>{{stock_comp_produit_sens2.id}}</td>
+						<td>{{stock_comp_produit_sens2.reference}}</td>  
+                        <td>{{stock_comp_produit_sens2.cu}}</td> 
+                        <td>{{stock_comp_produit_sens2.quai}}</td>  
+						<td class="overflowhide">{{stock_comp_produit_sens2.designation}}</td>
+                        <td class="overflowhide" ng-click="enableCommentaire(stock_comp_produit_sens2)">
+                            <span ng-hide="editingData[stock_comp_produit_sens2.id]">{{stock_comp_produit_sens2.commentaire}}</span>
+                            <span ng-show="editingData[stock_comp_produit_sens2.id]">
+                                <form class="form-horizontal" ng-submit="update_stock_comp_produit_sens2(stock_comp_produit_sens2)">
+                                    <input type="text" ng-model="stock_comp_produit_sens2.commentaire"/>
+                                    <a class="btn btn-default btn-xs" ng-click="update_stock_comp_produit_sens2(stock_comp_produit_sens2)"><i class="glyphicon glyphicon-save"></i></a>
+                                </form>
+                            </span>
+                        </td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="panel-footer"></div>
+</div>
+<div ng-init="get_stock_comp_produit_sens2_log()" class="alert alert-info">
+	<h4>Logfile {{log.file}}</h4>
+	<textarea ng-model="log.text" class="form-control log" readonly="readonly" rows="10" >
+</div>

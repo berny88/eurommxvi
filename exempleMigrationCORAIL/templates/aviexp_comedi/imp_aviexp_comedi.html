@@ -1,0 +1,29 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <div class="pull-left">
+                <h4>Importer les aviexp COMEDI</h4>
+            </div>          
+            <div class="pull-right"></div>
+            <div class="clearfix"></div>
+        </h4>
+    </div>
+    
+    <div class="panel-body">
+        <div class="alert alert-info">
+            <i class="glyphicon glyphicon-info-sign"></i>
+            <strong>Info !</strong><br>
+            A partir du cumul des fichiers COMEDI des aviexp recu en prod CORAIL
+        </div>
+        <div ng-controller = "aviexpComediCtrl">
+            <input type="file" ng-model="model.file"/>
+            <br>
+            <button class="btn btn-primary" ng-click="upload(model)" ng-disabled="isSomethingLoading">Upload <span ng-show="isSomethingLoading">en cours...</span></button>
+            <a class="btn" href="#aviexps_comedi" ng-disabled="isSomethingLoading">Retour</a>
+        </div>
+    </div>
+</div>
+<div ng-init="get_aviexp_comedi_import_log()" class="alert alert-info">
+    <h4>Logfile {{log_import.file}}</h4>
+    <textarea ng-model="log_import.text" class="form-control log" readonly="readonly" rows="10" >
+</div>

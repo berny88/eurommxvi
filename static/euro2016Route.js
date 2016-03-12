@@ -25,6 +25,7 @@ euro2016App.config(function($routeProvider) {
         // route for communities
         .when('/communities', { templateUrl:'communities/static/communities.html', controller:'CommunitiesCtrl' })
         .when('/view_community/:com_id', { templateUrl:'communities/static/view_community.html', controller:'CommunitiesCtrl' })
+        .when('/create_community', { templateUrl:'communities/static/create_community.html', controller:'CommunitiesCtrl' })
 		
         // route for matchs page: "static page"
         .when('/matchs', { templateUrl:'matchs/static/matchs.html', controller:'matchsCtrl' })

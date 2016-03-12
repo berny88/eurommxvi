@@ -1,0 +1,57 @@
+﻿<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <div class="pull-left">
+                <h4>Visualiser une alerte Maestro</h4>
+            </div>
+            <div class="pull-right"></div>
+            <div class="clearfix"></div>
+        </h4>
+    </div>
+    <div class="panel-body">
+        <form ng_init="load_alerte_maestro()" class="form-horizontal">
+            <div class="form-group">
+                <label class="control-label col-xs-3" for="id">Id:</label>
+                <div class="col-xs-9">
+                    <input ng-model="alerte_maestro.id" type="text" class="form-control" id="id" placeholder="Id" readonly="readonly">
+                </div>
+            </div>  
+    		<div class="form-group">
+                <label class="control-label col-xs-3" for="reference">Référence:</label>
+                <div class="col-xs-9">
+                    <input ng-model="alerte_maestro.reference" type="text" class="form-control" id="reference" placeholder="reference" readonly="readonly">
+                </div>
+            </div>     
+            <div class="form-group">
+                <label class="control-label col-xs-3" for="designation">Désignation:</label>
+                <div class="col-xs-9">
+                    <input ng-model="alerte_maestro.designation" type="text" class="form-control" id="designation" placeholder="designation" readonly="readonly">
+                </div>
+            </div>     
+            <div class="form-group">
+                <label class="control-label col-xs-3" for="date_rupture">Date rupture:</label>
+                <div class="col-xs-9">
+                    <input ng-model="alerte_maestro.date_rupture" type="text" class="form-control" id="date_rupture" placeholder="date rupture" readonly="readonly">
+                </div>
+            </div>        
+            <div class="form-group">
+                <label class="control-label col-xs-3" for="date_rupture_dotation_atelier">Date rupture avec dotation:</label>
+                <div class="col-xs-9">
+                    <input ng-model="alerte_maestro.date_rupture_dotation_atelier" type="text" class="form-control" id="date_rupture_dotation_atelier" placeholder="Date rupture dotation atelier" readonly="readonly">
+                </div>
+            </div>        
+            <div class="form-group">
+                <label class="control-label col-xs-3" for="commentaire">Commentaire:</label>
+                <div class="col-xs-9">
+                    <input ng-model="alerte_maestro.commentaire" type="text" class="form-control" id="commentaire" placeholder="commentaire" readonly="readonly">
+                </div>
+            </div>   
+            <br>
+            <div class="form-group">
+                <div class="col-xs-offset-3 col-xs-9">
+                    <a class="btn" href="#alertes_maestro">Retour</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

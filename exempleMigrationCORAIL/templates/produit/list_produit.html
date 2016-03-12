@@ -1,0 +1,56 @@
+﻿<div class="panel panel-default">
+	<div class="panel-heading">
+		<h4 class="panel-title">
+			<div class="pull-left">
+				<h4>Liste des produits de la vague ({{produits.length}} éléments)</h4>
+			</div>
+			<div class="pull-right">			
+				<a class="btn btn-success" href="#new_produit"><i class="glyphicon glyphicon-plus"></i> Ajouter un produit</a>
+				<a class="btn btn-success" ng-click="export_produit()"><i class="glyphicon glyphicon-export"></i> Exporter les produits</a>
+				<a class="btn btn-success" href="#import_produit"><i class="glyphicon glyphicon-upload"></i> Importer les produits</a>
+			</div>
+			<div class="clearfix"></div>
+		</h4>
+	</div>
+	<div class="panel-body">
+		<div class="input-group input-group-md">
+			<span class="input-group-addon">
+				<i class="glyphicon glyphicon-filter"></i>
+			</span>
+			<input class="form-control" type="search" ng-model="produit_filter">
+		</div>
+		<div id="exportable">
+			<table class="table table-condensed table-striped">
+			  <thead>
+				<tr>
+				  <th class="id">Id</th>
+				  <th class="reference">Référence</th>
+				  <th class="cu">CU</th>
+				  <th class="quai">Quai</th>
+				  <th class="designation">Désignation</th>
+				  <th></th>
+				</tr>
+			  </thead>
+			  <tbody ng-init="get_produits()">
+				<tr ng-repeat="produit in produits | filter : produit_filter">
+				  <td>{{produit.id}}</td>
+				  <td>{{produit.reference}}</td> 
+				  <td>{{produit.cu}}</td>
+				  <td>{{produit.quai}}</td>  
+				  <td>{{produit.designation}}</td>   
+				  <td>
+					<span><a class="btn btn-danger btn-xs" href="#del_produit/{{produit.id}}"><i class="glyphicon glyphicon-remove-sign"></i></a></span>
+					<span><a class="btn btn-default btn-xs" href="#edit_produit/{{produit.id}}"><i class="glyphicon glyphicon-pencil"></i></a></span>
+					<span><a class="btn btn-info btn-xs" href="#view_produit/{{produit.id}}"><i class="glyphicon glyphicon-eye-open"></i></a></span>
+				  </td>
+				</tr>
+			  </tbody>
+			</table>
+		</div>
+	</div>
+	<div class="panel-footer"></div>
+</div>
+<div ng-init="get_produit_log()" class="alert alert-info">
+	<h4>Logfile {{log.file}}</h4>
+	<textarea ng-model="log.text" class="form-control log" readonly="readonly" rows="10" >
+</div>
