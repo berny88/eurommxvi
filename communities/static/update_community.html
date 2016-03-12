@@ -2,35 +2,36 @@
     <div class="panel-heading">
         <h4 class="panel-title">
             <div class="pull-left">
-                <h4>Visualiser une communauté</h4>
+                <h4>Modification d'une communauté</h4>
             </div>
             <div class="pull-right"></div>
             <div class="clearfix"></div>
         </h4>
     </div>
     <div class="panel-body">
-        <form ng-init="getCommunity()" class="form-horizontal">
+        <form ng-init="getCommunity()" ng-submit="updateCommunity()" class="form-horizontal">
             <div class="form-group">
                 <label class="control-label col-xs-3" for="id">Id:</label>
                 <div class="col-xs-9">
                     <input ng-model="community.community.com_id" type="text" class="form-control" id="id" placeholder="Id" readonly="readonly">
                 </div>
             </div>  
-    		<div class="form-group">
+    		<div class="form-group required">
                 <label class="control-label col-xs-3" for="title">Titre:</label>
                 <div class="col-xs-9">
-                    <input ng-model="community.community.title" type="text" class="form-control" id="title" placeholder="Titre" readonly="readonly">
+                    <input ng-model="community.community.title" type="text" class="form-control" id="title" placeholder="Titre" required="required">
                 </div>
             </div>     
             <div class="form-group">
                 <label class="control-label col-xs-3" for="description">Description:</label>
                 <div class="col-xs-9">
-                    <input ng-model="community.community.description" type="text" class="form-control" id="description" placeholder="Description" readonly="readonly">
+                    <input ng-model="community.community.description" type="text" class="form-control" id="description" placeholder="Description">
                 </div>
             </div>     
             <br>
             <div class="form-group">
                 <div class="col-xs-offset-3 col-xs-9">
+                    <input type="submit" class="btn btn-success" value="Modifier la communauté">
                     <a class="btn" href="#communities">Retour</a>
                 </div>
             </div>

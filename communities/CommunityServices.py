@@ -51,6 +51,22 @@ def createCommunity():
 
     return jsonify({'community': communityCreated})
 
+@communities_page.route('/apiv1.0/communities', methods=['PATCH'])
+def updateCommunity():
+    logger.info(u"updatecommunity::json param:{} ".format(request.json))
+    communityToUpdateJSON = request.json["communityToUpdate"]
+
+    communityToUpdate=Community()
+    communityToUpdate.com_id=communityToUpdateJSON['com_id'];
+    communityToUpdate.title=communityToUpdateJSON['title'];
+    if 'description' in communityToUpdateJSON:
+        communityToUpdate.description=communityToUpdateJSON['description'];
+
+    #call Service (DAO)
+    mgr = CommunityManager()
+    communityUpdated = mgr.updateCommunity(communityToUpdate)
+
+    return jsonify({'community': communityUpdated})
 
 u"""
 **************************************************
@@ -176,8 +192,8 @@ class CommunityManager(DbManager):
         bsonCom2 =com.convertIntoBson()
         id = localdb.communities.update({"_id":bsonCom["_id"]},
                                        {"$set":{"title":com.title, "com_id":com.com_id,
-                                                "description" : com.description, "adms" : bsonCom2[u"admins"]}}, upsert=True)
-        return CommunityManager.getCommunityByCommunityId(self,id)
+                                                "description" : com.description}}, upsert=True)
+        return None
 
     def delete(self, com_id):
         """ delete com """
