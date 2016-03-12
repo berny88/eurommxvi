@@ -23,6 +23,7 @@ euro2016App.controller('UserDetailCtrl', ['$scope', '$http', '$q', '$routeParams
 
     var canceler = $q.defer();
     $scope.getUserDetail = function() {
+        hideAlerts();
         $http.get('/users/apiv1.0/users/'+$routeParams.user_id, {timeout: canceler.promise})
         .success(function(data) {
             //ng-repeat :
@@ -32,6 +33,7 @@ euro2016App.controller('UserDetailCtrl', ['$scope', '$http', '$q', '$routeParams
     }
 
     $scope.$on('$destroy', function(){
+        hideAlerts();
         canceler.resolve();  // Aborts the $http request if it isn't finished.
     });
     //called to display le detail of user, when the page is displayed
