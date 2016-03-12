@@ -2,6 +2,9 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
 
         var canceler = $q.defer();
 
+        $scope.sortType     = ''; // set the default sort type
+        $scope.sortReverse  = false;  // set the default sort order
+
         $scope.community = {};
         $scope.communityToDelete = {};
         $scope.communities = {};

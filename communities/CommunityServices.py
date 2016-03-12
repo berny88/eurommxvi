@@ -134,7 +134,7 @@ class CommunityManager(DbManager):
         logger.info(u'getAllCommunities::db={}'.format(localdb))
 
         communitysColl = localdb.communities
-        communitiesList = communitysColl.find()
+        communitiesList = communitysColl.find().sort("title")
         logger.info(u'getAllCommunities::communitysList={}'.format(communitiesList))
         #Faut-il changer de list ou retourner le bson directement ?
         result = list()
