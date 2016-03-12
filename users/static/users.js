@@ -50,7 +50,13 @@ euro2016App.controller('UserDetailCtrl', ['$scope', '$http', '$q', '$routeParams
             showAlertSuccess("User [" + $scope.user.email + "] sauvegardé avec succès !");
         })
         .error(function(data, status, headers, config) {
-            showAlertError("Erreur lors de la mise à jour ; erreur HTTP : " + status);
+            if (status==403){
+                showAlertError("Même pas en rêve ! status=" + status+ " " + data);
+            }else if (status==401){
+                showAlertError("Des problèmes de mémoire ? un Pirate en formation ? : status=" + status + " " + data);
+            }else{
+                showAlertError("Erreur lors de connexion ; erreur HTTP : " + status + " " + data);
+            }
         });
 
     }
@@ -58,16 +64,32 @@ euro2016App.controller('UserDetailCtrl', ['$scope', '$http', '$q', '$routeParams
 
 }]);
 
-euro2016App.controller('LoginCtrl', ['$scope', '$http', '$q', '$routeParams', function ($scope, $http, $q, $routeParams) {
+euro2016App.controller('LoginCtrl', ['$scope', '$http', '$q', '$routeParams', '$location','$timeout',
+    function ($scope, $http, $q, $routeParams, $location, $timeout) {
 
         $scope.login = function(){
-            alert($scope.thepwd);
-            $http.get('/users/apiv1.0/users/'+$routeParams.user_id, {timeout: canceler.promise})
+            connect={email:$scope.email, thepwd:$scope.thepwd};
+
+            $http.post('/users/apiv1.0/login', {connect: connect, timeout: canceler.promise})
             .success(function(data) {
                 //ng-repeat :
+                hideAlerts();
                 $scope.user = data.user;
-                //alert($scope.user.email)
+                $location.path("/communities")
+                $timeout(function() {
+                       showAlertSuccess("Bienvenu "+$scope.user.nickName +" !!");
+                    }, 1000);                //alert($scope.user.email)
+            })
+            .error(function(data, status, headers, config) {
+                if (status==404){
+                    showAlertError("Ben, tu veux allez en vrai ? : status=" + status);
+                }else if (status==401){
+                    showAlertError("Des problèmes de mémoire ? un Pirate en formation ? : status=" + status + " " + data);
+                }else{
+                    showAlertError("Erreur lors de connexion ; erreur HTTP : " + status + " " + data);
+                }
             });
+
         }
 
         var canceler = $q.defer();

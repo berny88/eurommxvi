@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from flask import Blueprint, jsonify, redirect, request
+from flask import Blueprint, jsonify, redirect, request, session
 import logging
 from pymongo import MongoClient
 from datetime import datetime
@@ -41,41 +41,34 @@ def getuser(user_id):
     :return: user in json format
     """
     logger.info("API USER:: user_id={} / method={}".format(user_id, request.method))
+    logger.info(u"saveuser::user_id:{} / json param:{}".format(user_id, request.json))
+    mgr = UserManager()
+    user = mgr.getUserByUserId(user_id)
     if request.method == 'PATCH':
-        return saveUser(user_id)
+        userFromClient = request.json["user"]
+        #call Service (DAO)
+        logger.info(u'saveuser::user={}'.format(user))
+        checkRight=False
+        if user.pwd=="" or user.pwd is None:
+            checkRight=True
+        else:
+            if "cookieUserKey" in session:
+                cookieUserKey = session['cookieUserKey']
+                logger.info(u"getuser::cookieUserKey={}".format(cookieUserKey))
+                if (user.user_id==cookieUserKey):
+                    checkRight=True
+        if (checkRight):
+            mgr.saveUser(user.email, userFromClient["nickName"],
+                         userFromClient["description"], user.user_id, user.validated,
+                         userFromClient["pwd"])
+
+            return jsonify({'user': request.json["user"]})
+        else:
+            return "Ha ha ha ! Mais t'es pas la bonne personne pour faire ça, mon loulou", 403
     else:
         #= GET
-        return getuser(user_id)
-
-def getuser(user_id):
-    u"""
-    retrieve the json representation of a by its user_id
-    :param user_id: uuid
-    :return: user in json format
-    """
-    mgr = UserManager()
-    user = mgr.getUserByUserId(user_id)
-    logger.info("getuser::uuid={}=user={}".format(user_id, user))
-    return jsonify({'user': user.__dict__})
-
-
-def saveUser(user_id):
-    u"""
-    save some attribute of user but not user_id and email
-    :return: user in json
-    """
-    logger.info(u"saveuser::user_id:{} ".format(user_id))
-    logger.info(u"saveuser::json param:{} ".format(request.json))
-    userFromClient = request.json["user"]
-
-    #call Service (DAO)
-    mgr = UserManager()
-    user = mgr.getUserByUserId(user_id)
-    logger.info(u'saveuser::user={}'.format(user))
-
-    mgr.saveUser(user.email, userFromClient["nickName"], userFromClient["description"], user.user_id, user.validated)
-
-    return jsonify({'user': request.json["user"]})
+        logger.info("getuser::uuid={}=user={}".format(user_id, user))
+        return jsonify({'user': user.__dict__})
 
 
 @users_page.route('/subscription', methods=['POST'])
@@ -104,7 +97,7 @@ def subscriptionPost():
 
         uuid = str(uuid4())
         logger.info(u"subscriptionPost::user_id:{}".format(uuid))
-        mgr.saveUser(email, "", "", uuid, False)
+        mgr.saveUser(email, "", "", uuid, False, "")
         logger.info(u"\tsubscriptionPost::save done")
         urlcallback=u"http://euroxxxvi-typhontonus.rhcloud.com/users/{}/confirmation".format(uuid)
         message.set_html("<html><head></head><body><h1>MERCI DE</h1><h1><a href='{}'>Confirmer votre inscription</a></h1></hr></body></html>".format(urlcallback))
@@ -132,7 +125,7 @@ def confirmationSubscription(user_id):
     user = mgr.getUserByUserId(user_id)
     logger.info(u'confirmationSubscription::user={}'.format(user))
 
-    mgr.saveUser(user.email, "", "", user.user_id, True)
+    mgr.saveUser(user.email, "", "", user.user_id, True, "")
 
     message.add_to(user.email)
 
@@ -146,6 +139,18 @@ def confirmationSubscription(user_id):
 
     return redirect("/#user_detail/{}".format(user_id))
 
+@users_page.route('/apiv1.0/login', methods=['POST'])
+def login():
+    logger.info("API LOGIN:: param={}/ method={}".format(request.json, request.method))
+    connect = request.json["connect"]
+    mgr = UserManager()
+    user = mgr.authenticate(connect["email"], connect["thepwd"])
+    logger.info("auth user={}".format(user))
+    if (user is None):
+        return "not authenticated", 401
+    else:
+        session['cookieUserKey'] = user.user_id
+        return jsonify({'user': user.__dict__}), 200
 
 
 
@@ -163,6 +168,7 @@ class User:
         self.nickName = u""
         self.user_id=u""
         self.validated = False
+        self.pwd=u""
 
 
     def convertFromBson(self, elt):
@@ -179,6 +185,8 @@ class User:
             self.user_id = elt['user_id']
         if 'validated' in elt.keys():
             self.validated = elt['validated']
+        if 'pwd' in elt.keys():
+            self.pwd= elt['pwd']
 
     def convertIntoBson(self):
         """
@@ -191,6 +199,7 @@ class User:
         elt['nickName'] = self.nickName
         elt['user_id'] = self.user_id
         elt['validated'] = self.validated
+        elt['pwd'] = self.pwd
         return elt
 
 class UserManager(DbManager):
@@ -216,7 +225,7 @@ class UserManager(DbManager):
             result.append(tmpdict)
         return result
 
-    def saveUser(self, email, nickName, description, user_id, validated):
+    def saveUser(self, email, nickName, description, user_id, validated, pwd):
         """ save a user"""
         localdb = self.getDb()
         bsonUser = localdb.users.find_one({"user_id": user_id})
@@ -229,14 +238,16 @@ class UserManager(DbManager):
                 user_id=str(uuid4())
             bsonUser["user_id"]=user_id
             bsonUser["validated"]=validated
+            bsonUser["pwd"]=pwd
             logger.info(u'\tkey None - to create : {}'.format(bsonUser))
             id = localdb.users.insert_one(bsonUser).inserted_id
             logger.info(u'\tid : {}'.format(id))
         else:
-            logger.info(u'\t try update to bsonUser["_id" : {}'.format(bsonUser["_id"]))
+            logger.info(u'\t try update to bsonUser["_id" : {}] p={}'.format(bsonUser["_id"], pwd))
             localdb.users.update({"_id":bsonUser["_id"]},
                     {"$set":{"email":email, "nickName":nickName,
-                             "description" : description, "user_id" : user_id, "validated":validated}}, upsert=True)
+                             "description" : description, "user_id" : user_id,
+                             "validated":validated, "pwd":pwd}}, upsert=True)
 
 
     def getUserByEmail(self, email):
@@ -269,3 +280,24 @@ class UserManager(DbManager):
             return user
         else:
             return None
+
+    def authenticate(self, email, pwd):
+        """ authenticate user and retrieve it if ok"""
+        localdb = self.getDb()
+        logger.info(u'authenticate::email={}/pwd={}'.format(email, pwd))
+
+        usersColl = localdb.users
+        bsonUser = usersColl.find_one({"email": email})
+        logger.info(u'authenticate::bsonUser={}'.format(bsonUser))
+        if bsonUser is not None:
+            user = User()
+            user.convertFromBson(bsonUser)
+            logger.info(u'authenticate::user.pwd={}'.format(user.pwd))
+            if (pwd == user.pwd):
+                logger.info(u'authenticated::user={}'.format(user))
+                return user
+            else:
+                return None
+        else:
+            return None
+
