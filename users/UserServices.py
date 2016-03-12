@@ -23,20 +23,67 @@ users_page = Blueprint('users_page', __name__,
 
 @users_page.route('/apiv1.0/users', methods=['GET'])
 def getusers():
+    u"""
+    return the complete list of user without filter neither sort
+    :return: collection of users in jso format
+    """
     mgr = UserManager()
     users = mgr.getAllUsers()
     logger.info("getusers::users={}".format(users))
     return jsonify({'users': users})
 
-@users_page.route('/apiv1.0/users/<user_id>', methods=['GET'])
+
+@users_page.route('/apiv1.0/users/<user_id>', methods=['GET', 'PATCH'])
 def getuser(user_id):
+    u"""
+    main route for user
+    :param user_id: uuid
+    :return: user in json format
+    """
+    logger.info("API USER:: user_id={} / method={}".format(user_id, request.method))
+    if request.method == 'PATCH':
+        return saveUser(user_id)
+    else:
+        #= GET
+        return getuser(user_id)
+
+def getuser(user_id):
+    u"""
+    retrieve the json representation of a by its user_id
+    :param user_id: uuid
+    :return: user in json format
+    """
     mgr = UserManager()
     user = mgr.getUserByUserId(user_id)
     logger.info("getuser::uuid={}=user={}".format(user_id, user))
     return jsonify({'user': user.__dict__})
 
+
+def saveUser(user_id):
+    u"""
+    save some attribute of user but not user_id and email
+    :return: user in json
+    """
+    logger.info(u"saveuser::user_id:{} ".format(user_id))
+    logger.info(u"saveuser::json param:{} ".format(request.json))
+    userFromClient = request.json["user"]
+
+    #call Service (DAO)
+    mgr = UserManager()
+    user = mgr.getUserByUserId(user_id)
+    logger.info(u'saveuser::user={}'.format(user))
+
+    mgr.saveUser(user.email, userFromClient["nickName"], userFromClient["description"], user.user_id, user.validated)
+
+    return jsonify({'user': request.json["user"]})
+
+
 @users_page.route('/subscription', methods=['POST'])
 def subscriptionPost():
+    u"""
+    first step of subscription : store user in db  and email send (before user validation)
+    :return: forward to a page (not angular style : TODO change it if necessary)
+    """
     logger.info("subscriptionPost")
     email = request.form['email']
 
@@ -67,8 +114,14 @@ def subscriptionPost():
     else:
         return redirect(u"/")
 
+
 @users_page.route('/<user_id>/confirmation', methods=['GET'])
 def confirmationSubscription(user_id):
+    u"""
+    url called from email to confirm subscription
+    :return: redirect to user detail page (normal not return json data as angular style because user
+    is in its email client and not in our site)
+    """
     logger.info("confirmationSubscription")
     logger.info(u"confirmationSubscription::user_id:{} ".format(user_id))
     sg = sendgrid.SendGridClient("bbougeon138",
@@ -92,6 +145,10 @@ def confirmationSubscription(user_id):
     sg.send(message)
 
     return redirect("/#user_detail/{}".format(user_id))
+
+
+
+
 
 u"""
 **************************************************
