@@ -125,7 +125,7 @@ euro2016App.controller('LogoutCtrl', ['$scope', '$http', '$q', '$location','$tim
                 .success(function(data) {
                     hideAlerts();
                     $window.sessionStorage["currentUser"] = null;
-                    // Remove the user in the topbar :
+                    // Remove the user from the topbar :
                     $("#connectedUserInTopbar").html(" / ");
                     $location.path("/")
                     $timeout(function() {
