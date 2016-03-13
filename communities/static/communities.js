@@ -84,13 +84,15 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
             });
         }
 
-        // only the connected people can create a community
+        // only the connected people can create/delete/modify a community
         $scope.isConnected = function() {
-            if ($window.sessionStorage["currentUser"] != "null") {
-                return true;
-            } else {
+            if (typeof $window.sessionStorage["currentUser"] == 'undefined') {
                 return false;
             }
+            if ($window.sessionStorage["currentUser"] == "null") {
+                return false;
+            }
+            return true
         }
 
         // Aborts the $http request if it isn't finished.
