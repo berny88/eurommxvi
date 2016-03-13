@@ -2,6 +2,9 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
 
         var canceler = $q.defer();
 
+        $scope.sortType     = ''; // set the default sort type
+        $scope.sortReverse  = false;  // set the default sort order
+
         $scope.community = {};
         $scope.communityToDelete = {};
         $scope.communities = {};
@@ -29,6 +32,22 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
             });
         }
 
+        $scope.updateCommunity = function() {
+            hideAlerts();
+            $scope.communityToUpdate = $scope.community.community;
+            $http.patch('communities/apiv1.0/communities', {communityToUpdate: $scope.communityToUpdate, timeout: canceler.promise})
+            .success(function(data, status, headers, config) {
+                $location.path("/communities")
+                $timeout(function() {
+                       showAlertSuccess("Communauté modifiée avec succès !!");
+                    }, 1000);
+
+            })
+            .error(function(data, status, headers, config) {
+                showAlertError("Erreur lors de la modification de la communauté ; erreur HTTP : " + status);
+            });
+        }
+
         $scope.createCommunity = function() {
             hideAlerts();
             $http.post('communities/apiv1.0/communities', {communityToCreate: $scope.communityToCreate, timeout: canceler.promise})
@@ -42,7 +61,6 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
             .error(function(data, status, headers, config) {
                 showAlertError("Erreur lors de la création de la communauté ; erreur HTTP : " + status);
             });
-
         }
 
         $scope.deleteCommunity = function(communityToDelete) {
