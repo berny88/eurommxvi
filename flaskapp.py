@@ -21,6 +21,7 @@ Main application
 """
 app = Flask(__name__)
 app.debug = True
+# use env variable !!
 app.secret_key = u'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT#BB'
 app.register_blueprint(communities_page, url_prefix="/communities", template_folder='templates')
 app.register_blueprint(users_page, url_prefix="/users", template_folder='templates')
