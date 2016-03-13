@@ -1,4 +1,5 @@
-euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$q', '$location', '$timeout', function ($scope, $routeParams, $http, $q, $location, $timeout) {
+euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$q', '$location', '$timeout', '$window',
+                            function ($scope, $routeParams, $http, $q, $location, $timeout, $window) {
 
         var canceler = $q.defer();
 
@@ -81,6 +82,15 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
                 closeModal();
                 showAlertError("Erreur lors de la suppression de la communauté ; erreur HTTP : " + status);
             });
+        }
+
+        // only the connected people can create a community
+        $scope.isConnected = function() {
+            if ($window.sessionStorage["currentUser"] != "null") {
+                return true;
+            } else {
+                return false;
+            }
         }
 
         // Aborts the $http request if it isn't finished.
