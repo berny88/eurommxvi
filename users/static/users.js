@@ -74,10 +74,10 @@ euro2016App.controller('LoginCtrl', ['$scope', '$http', '$q', '$routeParams', '$
             .success(function(data) {
                 //ng-repeat :
                 hideAlerts();
-                $scope.user = data.user;
+                $scope.currentuser = data.user;
                 $location.path("/communities")
                 $timeout(function() {
-                       showAlertSuccess("Bienvenu "+$scope.user.nickName +" !!");
+                       showAlertSuccess("Bienvenue "+$scope.currentuser.nickName +" !!");
                     }, 1000);                //alert($scope.user.email)
             })
             .error(function(data, status, headers, config) {
