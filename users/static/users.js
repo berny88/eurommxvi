@@ -18,9 +18,10 @@ euro2016App.controller('UsersListCtrl', ['$scope', '$http', '$q', function ($sco
 
 }]);
 
-euro2016App.controller('UserDetailCtrl', ['$scope', '$http', '$q', '$routeParams', '$location', '$timeout',
-    function ($scope, $http, $q, $routeParams, $location, $timeout) {
+euro2016App.controller('UserDetailCtrl', ['$scope', '$http', '$q', '$routeParams', '$location', '$timeout', '$window',
+    function ($scope, $http, $q, $routeParams, $location, $timeout, $window) {
 
+    $scope.user = {};
 
     var canceler = $q.defer();
     $scope.getUserDetail = function() {
@@ -31,6 +32,14 @@ euro2016App.controller('UserDetailCtrl', ['$scope', '$http', '$q', '$routeParams
             $scope.user = data.user;
             //alert($scope.user.email)
         });
+    }
+
+    $scope.hasAuthorization = function() {
+        var currentUser = {};
+        if ($window.sessionStorage["currentUser"]) {
+            currentUser = JSON.parse($window.sessionStorage["currentUser"]);
+        }
+        return currentUser.user_id == $scope.user.user_id ? true : false;
     }
 
     $scope.$on('$destroy', function(){
@@ -69,8 +78,8 @@ euro2016App.controller('UserDetailCtrl', ['$scope', '$http', '$q', '$routeParams
 
 }]);
 
-euro2016App.controller('LoginCtrl', ['$scope', '$http', '$q', '$routeParams', '$location','$timeout',
-    function ($scope, $http, $q, $routeParams, $location, $timeout) {
+euro2016App.controller('LoginCtrl', ['$scope', '$http', '$q', '$routeParams', '$location','$timeout', '$window',
+    function ($scope, $http, $q, $routeParams, $location, $timeout, $window) {
 
         $scope.login = function(){
             connect={email:$scope.email, thepwd:$scope.thepwd};
@@ -79,10 +88,10 @@ euro2016App.controller('LoginCtrl', ['$scope', '$http', '$q', '$routeParams', '$
             .success(function(data) {
                 //ng-repeat :
                 hideAlerts();
-                $scope.currentuser = data.user;
+                $window.sessionStorage["currentUser"] = JSON.stringify(data.user);
                 $location.path("/communities")
                 $timeout(function() {
-                       showAlertSuccess("Bienvenue "+$scope.currentuser.nickName +" !!");
+                       showAlertSuccess("Bienvenue "+data.user.nickName +" !!");
                     }, 1000);                //alert($scope.user.email)
             })
             .error(function(data, status, headers, config) {
@@ -104,8 +113,8 @@ euro2016App.controller('LoginCtrl', ['$scope', '$http', '$q', '$routeParams', '$
         });
 }]);
 
-euro2016App.controller('LogoutCtrl', ['$scope', '$http', '$q', '$location','$timeout',
-    function ($scope, $http, $q, $location, $timeout) {
+euro2016App.controller('LogoutCtrl', ['$scope', '$http', '$q', '$location','$timeout', '$window',
+    function ($scope, $http, $q, $location, $timeout, $window) {
 
         //alert("logout");
         //to remove the cookie from "session"
@@ -114,7 +123,7 @@ euro2016App.controller('LogoutCtrl', ['$scope', '$http', '$q', '$location','$tim
             .success(function(data) {
                 //ng-repeat :
                 hideAlerts();
-                $scope.currentuser = "";
+                $window.sessionStorage["currentUser"] = null;
                 $location.path("/")
                 $timeout(function() {
                        showAlertSuccess("Goog bye  !!");
