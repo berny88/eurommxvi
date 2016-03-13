@@ -18,7 +18,8 @@ euro2016App.controller('UsersListCtrl', ['$scope', '$http', '$q', function ($sco
 
 }]);
 
-euro2016App.controller('UserDetailCtrl', ['$scope', '$http', '$q', '$routeParams', function ($scope, $http, $q, $routeParams) {
+euro2016App.controller('UserDetailCtrl', ['$scope', '$http', '$q', '$routeParams', '$location', '$timeout',
+    function ($scope, $http, $q, $routeParams, $location, $timeout) {
 
 
     var canceler = $q.defer();
@@ -47,7 +48,11 @@ euro2016App.controller('UserDetailCtrl', ['$scope', '$http', '$q', '$routeParams
         $http.patch('/users/apiv1.0/users/'+$routeParams.user_id, {user:$scope.user, timeout: canceler.promise})
         .success(function(data, status, headers, config) {
             $scope.user = data.user;
-            showAlertSuccess("User [" + $scope.user.email + "] sauvegardé avec succès !");
+            $location.path("/users")
+            $timeout(function() {
+                showAlertSuccess("User [" + $scope.user.email + "] sauvegardé avec succès !");
+            }, 1000);                //alert($scope.user.email)
+
         })
         .error(function(data, status, headers, config) {
             if (status==403){
