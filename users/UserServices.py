@@ -153,6 +153,14 @@ def login():
         return jsonify({'user': user.__dict__}), 200
 
 
+"""
+users_page= remove cookieUserKey
+"""
+@users_page.route('/apiv1.0/logout', methods=['POST'])
+def logout():
+    logger.info(u"API LOGOUT::logout - remove ={}".format(session['cookieUserKey']))
+    del session['cookieUserKey']
+    return u"Goog bye", 200
 
 
 u"""

@@ -7,20 +7,21 @@ euro2016App.config(function($routeProvider) {
         .when('/accueil', { templateUrl:'static/accueil.html', controller:'indexCtrl' })
         .when('/', { templateUrl:'static/accueil.html', controller:'indexCtrl' })
 
+        //subscription process
         // to subscribe to the site
         .when('/signon', { templateUrl:'users/static/logon.html', controller:'indexCtrl' })
-
-        // to subscribe to the site
-        .when('/signin', { templateUrl:'users/static/signin.html', controller:'LoginCtrl' })
-
         // just page to confirm email sent
         .when('/logon_successfull', { templateUrl:'users/static/logon_successfull.html', controller:'indexCtrl' })
 
-        // just page to confirm email sent
-        .when('/user_detail/:user_id', { templateUrl:'users/static/user.html', controller:'UserDetailCtrl' })
-
         // route for list of users
         .when('/users', { templateUrl:'users/static/users.html', controller:'UsersListCtrl' })
+        // user page modification
+        .when('/user_detail/:user_id', { templateUrl:'users/static/user.html', controller:'UserDetailCtrl' })
+
+        // to sign in
+        .when('/signin', { templateUrl:'users/static/signin.html', controller:'LoginCtrl' })
+        // to logout
+        .when('/logout', { templateUrl:'users/static/logout.html', controller:'LogoutCtrl' })
 
         // route for communities
         .when('/communities', { templateUrl:'communities/static/communities.html', controller:'CommunitiesCtrl' })

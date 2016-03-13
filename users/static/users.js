@@ -99,3 +99,33 @@ euro2016App.controller('LoginCtrl', ['$scope', '$http', '$q', '$routeParams', '$
         });
 }]);
 
+euro2016App.controller('LogoutCtrl', ['$scope', '$http', '$q', '$location','$timeout',
+    function ($scope, $http, $q, $location, $timeout) {
+
+        //alert("logout");
+        //to remove the cookie from "session"
+        $scope.logout = function(){
+            $http.post('/users/apiv1.0/logout', {})
+            .success(function(data) {
+                //ng-repeat :
+                hideAlerts();
+                $scope.currentuser = "";
+                $location.path("/")
+                $timeout(function() {
+                       showAlertSuccess("Goog bye  !!");
+                    }, 1000);
+            })
+            .error(function(data, status, headers, config) {
+                showAlertError("Erreur lors de connexion ; erreur HTTP : " + status + " " + data);
+            });
+
+        }
+
+        $scope.logout();
+
+        var canceler = $q.defer();
+
+        $scope.$on('$destroy', function(){
+            canceler.resolve();  // Aborts the $http request if it isn't finished.
+        });
+}]);
