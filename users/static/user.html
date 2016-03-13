@@ -28,7 +28,7 @@
               placeholder="validated" value="{{user.validated}}" readonly>
           </div>
           <div class="form-group">
-              <button type="submit" id="submit" name="submit" value="Sauvegarder"
+              <button ng-show="hasAuthorization()" type="submit" id="submit" name="submit" value="Sauvegarder"
                 class="btn btn-primary btn-lg">Sauvegarder</button>
               <a class="btn" href="#users">Retour</a>
           </div>
