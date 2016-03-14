@@ -50,7 +50,7 @@ def add_header(response):
     response.headers['Cache-Control'] = 'public, max-age=0, no-cache, no-store, must-revalidate'
     response.headers["Pragma"] = "no-cache"
     response.headers["Expires"] = "0"
-    logger.info(u'response.headers={}'.format(response.headers))
+    #logger.info(u'response.headers={}'.format(response.headers))
     return response
 
 @app.route('/')
