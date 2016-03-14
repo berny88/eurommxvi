@@ -33,7 +33,7 @@ def getusers():
     return jsonify({'users': users})
 
 
-@users_page.route('/apiv1.0/users/<user_id>', methods=['GET', 'PATCH'])
+@users_page.route('/apiv1.0/users/<user_id>', methods=['GET', 'POST'])
 def getuser(user_id):
     u"""
     main route for user
@@ -44,7 +44,7 @@ def getuser(user_id):
     logger.info(u"saveuser::user_id:{} / json param:{}".format(user_id, request.json))
     mgr = UserManager()
     user = mgr.getUserByUserId(user_id)
-    if request.method == 'PATCH':
+    if request.method == 'POST':
         userFromClient = request.json["user"]
         #call Service (DAO)
         logger.info(u'saveuser::user={}'.format(user))

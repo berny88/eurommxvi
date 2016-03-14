@@ -54,7 +54,7 @@ euro2016App.controller('UserDetailCtrl', ['$scope', '$http', '$q', '$routeParams
     $scope.saveUser = function() {
         //alert(" nickname="+$scope.user.nickName)
 
-        $http.patch('/users/apiv1.0/users/'+$routeParams.user_id, {user:$scope.user, timeout: canceler.promise})
+        $http.post('/users/apiv1.0/users/'+$routeParams.user_id, {user:$scope.user, timeout: canceler.promise})
         .success(function(data, status, headers, config) {
             $scope.user = data.user;
             $location.path("/users")
