@@ -38,6 +38,20 @@ ch.setLevel(logging.DEBUG)
 logger = logging.getLogger(__name__)
 logger.addHandler(ch)
 
+
+
+@app.after_request
+def add_header(response):
+    """
+    Add headers to both force latest IE rendering engine or Chrome Frame,
+    and also to cache the rendered page for 10 minutes.
+    """
+    response.headers['X-UA-Compatible'] = 'IE=Edge,chrome=1'
+    response.headers['Cache-Control'] = 'public, max-age=0, no-cache, no-store, must-revalidate'
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "0"
+    return response
+
 @app.route('/')
 def mainPage():
     """
