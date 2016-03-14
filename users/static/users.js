@@ -86,9 +86,10 @@ euro2016App.controller('LoginCtrl', ['$scope', '$http', '$q', '$routeParams', '$
 
             $http.post('/users/apiv1.0/login', {connect: connect, timeout: canceler.promise})
             .success(function(data) {
-                //ng-repeat :
                 hideAlerts();
                 $window.sessionStorage["currentUser"] = JSON.stringify(data.user);
+                // Display the user in the topbar :
+                $("#connectedUserInTopbar").html(data.user.nickName);
                 $location.path("/communities")
                 $timeout(function() {
                        showAlertSuccess("Bienvenue "+data.user.nickName +" !!");
@@ -118,24 +119,27 @@ euro2016App.controller('LogoutCtrl', ['$scope', '$http', '$q', '$location','$tim
 
         //alert("logout");
         //to remove the cookie from "session"
-        $scope.logout = function(){
-            $http.post('/users/apiv1.0/logout', {})
-            .success(function(data) {
-                //ng-repeat :
-                hideAlerts();
-                $window.sessionStorage["currentUser"] = null;
-                $location.path("/")
-                $timeout(function() {
-                       showAlertSuccess("Goog bye  !!");
-                    }, 1000);
-            })
-            .error(function(data, status, headers, config) {
-                showAlertError("Erreur lors de connexion ; erreur HTTP : " + status + " " + data);
-            });
+        if ($window.sessionStorage["currentUser"] != "null") {
+            $scope.logout = function(){
+                $http.post('/users/apiv1.0/logout', {})
+                .success(function(data) {
+                    hideAlerts();
+                    $window.sessionStorage["currentUser"] = null;
+                    // Remove the user from the topbar :
+                    $("#connectedUserInTopbar").html(" / ");
+                    $location.path("/")
+                    $timeout(function() {
+                           showAlertSuccess("Goog bye  !!");
+                        }, 1000);
+                })
+                .error(function(data, status, headers, config) {
+                    showAlertError("Erreur lors de connexion ; erreur HTTP : " + status + " " + data);
+                });
 
+            }
+
+            $scope.logout();
         }
-
-        $scope.logout();
 
         var canceler = $q.defer();
 
