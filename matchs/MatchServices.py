@@ -41,7 +41,7 @@ class Match:
        "resultA": "",
        "resultB": "",
        "category": "GROUPE",
-       "NomCategorie": "GROUPEE"
+       "categoryName": "GROUPEE"
     """""
     def __init__(self):
         self.key = u""
@@ -52,7 +52,7 @@ class Match:
         self.resultA=-1
         self.resultB=-1
         self.category = u""
-        self.NomCategorie = u""
+        self.categoryName = u""
 
 
     def convertFromBson(self, elt):
@@ -75,8 +75,8 @@ class Match:
             self.resultB = elt['resultB']
         if 'category' in elt.keys():
             self.category = elt['category']
-        if 'NomCategorie' in elt.keys():
-            self.NomCategorie = elt['NomCategorie']
+        if 'categoryName' in elt.keys():
+            self.categoryName = elt['categoryName']
 
 
     def convertIntoBson(self):
@@ -93,7 +93,7 @@ class Match:
         elt['resultA'] = self.resultA
         elt['resultB'] = self.resultB
         elt['category'] = self.category
-        elt['NomCategorie'] = self.NomCategorie
+        elt['categoryName'] = self.categoryName
         return elt
 
 
