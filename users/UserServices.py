@@ -135,7 +135,7 @@ def confirmationSubscription(user_id):
 
     sg.send(message)
 
-    return redirect("/#user_detail/{}".format(user_id))
+    return redirect("/#user_detail/{}/?firstConnection=true".format(user_id))
 
 @users_page.route('/apiv1.0/login', methods=['POST'])
 def login():

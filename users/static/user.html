@@ -1,8 +1,8 @@
 <div class="container-fluid"  >
   <div class="row">
     <div class="col-xs-8" > <!-- I notice here for include ng-controller to your main div -->
-        <form name="thelogin" ng-submit="saveUser()" >
-          <div class="form-group">
+        <form name="thelogin" ng-submit="saveUser()">
+          <div class="form-group" required>
               <label for="uuid" class="control-label">uuid</label>
               <input type="uuid" class="form-control" id="uuid" name="uuid" ng-model="user.user_id"
               placeholder="Id" value="{{user.user_id}}" readonly>
@@ -13,7 +13,7 @@
 
               <label for="nickName" class="control-label">Nickname</label>
               <input type="nickName" class="form-control" id="nickName" name="nickName" ng-model="user.nickName"
-              placeholder="nickName" value="{{user.nickName}}" >
+              placeholder="nickName" value="{{user.nickName}}" required="required">
 
               <label for="description" class="control-label">Description</label>
               <input type="description" class="form-control" id="description" name="description" ng-model="user.description"
@@ -21,7 +21,7 @@
 
               <label for="thepwd" class="control-label">Password</label>
               <input type="password" class="form-control" id="thepwd" name="thepwd" ng-model="user.pwd"
-                  placeholder="Password" value="">
+                  placeholder="Password" value="" required="required">
 
               <label for="validated" class="control-label">Validated</label>
               <input type="validated" class="form-control" id="validated" name="validated" ng-model="user.validated"
