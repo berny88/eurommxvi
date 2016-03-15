@@ -36,7 +36,7 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
         $scope.updateCommunity = function() {
             hideAlerts();
             $scope.communityToUpdate = $scope.community.community;
-            $http.patch('communities/apiv1.0/communities', {communityToUpdate: $scope.communityToUpdate, timeout: canceler.promise})
+            $http.post('communities/apiv1.0/communities', {communityToUpdate: $scope.communityToUpdate, timeout: canceler.promise})
             .success(function(data, status, headers, config) {
                 $location.path("/communities")
                 $timeout(function() {
