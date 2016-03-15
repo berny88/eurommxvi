@@ -23,6 +23,6 @@ euro2016App.controller('topbarCtrl', function($scope, $window) {
     if (isConnected($window)) {
         $("#connectedUserInTopbar").html(getConnectedUser($window).nickName);
     } else {
-        $("#connectedUserInTopbar").html("Vous n'êtes pas connecté !");
+        $("#connectedUserInTopbar").html("Vous n'êtes pas connectés !");
     }
 });
