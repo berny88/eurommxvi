@@ -17,3 +17,12 @@ euro2016App.controller('indexCtrl', function($scope) {
     $scope.comment = 'Amazing bet site';
 });
 
+// create the controller and inject Angular's $scope
+euro2016App.controller('topbarCtrl', function($scope, $window) {
+    // security.js
+    if (isConnected($window)) {
+        $("#connectedUserInTopbar").html(getConnectedUser($window).nickName);
+    } else {
+        $("#connectedUserInTopbar").html("Vous n'êtes pas connectés !");
+    }
+});

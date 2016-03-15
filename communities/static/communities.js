@@ -36,7 +36,7 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
         $scope.updateCommunity = function() {
             hideAlerts();
             $scope.communityToUpdate = $scope.community.community;
-            $http.post('communities/apiv1.0/communities', {communityToUpdate: $scope.communityToUpdate, timeout: canceler.promise})
+            $http.put('communities/apiv1.0/communities', {communityToUpdate: $scope.communityToUpdate, timeout: canceler.promise})
             .success(function(data, status, headers, config) {
                 $location.path("/communities")
                 $timeout(function() {
@@ -86,13 +86,8 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
 
         // only the connected people can create/delete/modify a community
         $scope.isConnected = function() {
-            if (typeof $window.sessionStorage["currentUser"] == 'undefined') {
-                return false;
-            }
-            if ($window.sessionStorage["currentUser"] == "null") {
-                return false;
-            }
-            return true
+            // security.js :
+            return isConnected($window);
         }
 
         // Aborts the $http request if it isn't finished.
