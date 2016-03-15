@@ -90,9 +90,8 @@ def subscriptionPost():
 
         message.add_to(email)
 
-        message.add_to("bernard.bougeon@gmail.com")
-        message.add_to("guedeu.stephane@gmail.com")
-        message.set_from("bernard.bougeon@gmail.com")
+        message.add_to("eurommxvi.foot@gmail.com")
+        message.set_from("eurommxvi.foot@gmail.com")
         message.set_subject("euroxxxvi - subscription")
 
         uuid = str(uuid4())
@@ -129,9 +128,8 @@ def confirmationSubscription(user_id):
 
     message.add_to(user.email)
 
-    message.add_to("bernard.bougeon@gmail.com")
-    message.add_to("guedeu.stephane@gmail.com")
-    message.set_from("bernard.bougeon@gmail.com")
+    message.add_to("eurommxvi.foot@gmail.com")
+    message.set_from("eurommxvi.foot@gmail.com")
     message.set_subject("euroxxxvi - confirmation")
     message.set_html("<html><head></head><body><h1>Félicitations pour votre inscription ! </a></h1></hr></body></html>")
 
