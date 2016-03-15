@@ -20,10 +20,10 @@
                     <thead>
                     <tr>
                         <!--<th class="id">Id</th>-->
-                        <th class="NomCategory">
-                            <a ng-click="sortType='NomCategory';sortReverse=!sortReverse">Catégorie
-                                <span ng-show="sortType=='NomCategory'&&!sortReverse" class="glyphicon glyphicon-chevron-down"></span>
-                                <span ng-show="sortType=='NomCategory' && sortReverse" class="glyphicon glyphicon-chevron-up"></span></a>
+                        <th class="NomCategorie">
+                            <a ng-click="sortType='NomCategorie';sortReverse=!sortReverse">Catégorie
+                                <span ng-show="sortType=='NomCategorie'&&!sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+                                <span ng-show="sortType=='NomCategorie' && sortReverse" class="glyphicon glyphicon-chevron-up"></span></a>
                         </th>
                         <th class="teamA">
                             <a ng-click="sortType='teamA';sortReverse=!sortReverse">Team A
@@ -40,7 +40,7 @@
                     <tbody ng-init="getMatchs();">
                     <tr ng-repeat="match in matchs.matchs| filter : match_filter | orderBy:sortType:sortReverse">
                         <!--<td>{{community.com_id}}</td>-->
-                        <td>{{match.NomCategory}}</td>
+                        <td>{{match.NomCategorie}}</td>
                         <td>{{match.libteamA}}</td>
                         <td>{{match.libteamB}}</td>
                     </tr>
