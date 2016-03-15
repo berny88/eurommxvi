@@ -93,7 +93,7 @@ class Match:
         elt['resultA'] = self.resultA
         elt['resultB'] = self.resultB
         elt['category'] = self.category
-        elt['NomCategory'] = self.NomCategory
+        elt['NomCategorie'] = self.NomCategorie
         return elt
 
 
