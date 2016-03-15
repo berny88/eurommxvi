@@ -20,17 +20,29 @@
                     <thead>
                     <tr>
                         <!--<th class="id">Id</th>-->
-                        <th class="title">
-                            <a ng-click="sortType='teamA';sortReverse=!sortReverse">TeamA<span ng-show="sortType=='teamA'&&!sortReverse" class="glyphicon glyphicon-chevron-down"></span><span ng-show="sortType=='teamA' && sortReverse" class="glyphicon glyphicon-chevron-up"></span></a>
+                        <th class="NomCategorie">
+                            <a ng-click="sortType='NomCategorie';sortReverse=!sortReverse">Catégorie
+                                <span ng-show="sortType=='NomCategorie'&&!sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+                                <span ng-show="sortType=='NomCategorie' && sortReverse" class="glyphicon glyphicon-chevron-up"></span></a>
                         </th>
-                        <th class="description">TeamB</th>
+                        <th class="teamA">
+                            <a ng-click="sortType='teamA';sortReverse=!sortReverse">Team A
+                                <span ng-show="sortType=='teamA'&&!sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+                                <span ng-show="sortType=='teamA' && sortReverse" class="glyphicon glyphicon-chevron-up"></span></a>
+                        </th>
+                        <th class="teamB">
+                            <a ng-click="sortType='teamB';sortReverse=!sortReverse">Team B
+                                <span ng-show="sortType=='teamB'&&!sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+                                <span ng-show="sortType=='teamB' && sortReverse" class="glyphicon glyphicon-chevron-up"></span></a>
+                        </th>
                     </tr>
                     </thead>
                     <tbody ng-init="getMatchs();">
                     <tr ng-repeat="match in matchs.matchs| filter : match_filter | orderBy:sortType:sortReverse">
                         <!--<td>{{community.com_id}}</td>-->
-                        <td>{{match.teamA}}</td>
-                        <td>{{match.teamB}}</td>
+                        <td>{{match.NomCategorie}}</td>
+                        <td>{{match.libteamA}}</td>
+                        <td>{{match.libteamB}}</td>
                     </tr>
                     </tbody>
                 </table>
