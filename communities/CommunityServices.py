@@ -51,7 +51,7 @@ def createCommunity():
 
     return jsonify({'community': communityCreated})
 
-@communities_page.route('/apiv1.0/communities', methods=['POST'])
+@communities_page.route('/apiv1.0/communities', methods=['PUT'])
 def updateCommunity():
     logger.info(u"updatecommunity::json param:{} ".format(request.json))
     communityToUpdateJSON = request.json["communityToUpdate"]

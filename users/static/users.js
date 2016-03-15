@@ -36,8 +36,8 @@ euro2016App.controller('UserDetailCtrl', ['$scope', '$http', '$q', '$routeParams
 
     $scope.hasAuthorization = function() {
         var currentUser = {};
-        if ($window.sessionStorage["currentUser"]) {
-            currentUser = JSON.parse($window.sessionStorage["currentUser"]);
+        if (isConnected($window)) {
+            currentUser = getConnectedUser($window);
         }
         return currentUser.user_id == $scope.user.user_id ? true : false;
     }
@@ -87,7 +87,7 @@ euro2016App.controller('LoginCtrl', ['$scope', '$http', '$q', '$routeParams', '$
             $http.post('/users/apiv1.0/login', {connect: connect, timeout: canceler.promise})
             .success(function(data) {
                 hideAlerts();
-                $window.sessionStorage["currentUser"] = JSON.stringify(data.user);
+                setConnectedUserInStorage($window, data.user)
                 // Display the user in the topbar :
                 $("#connectedUserInTopbar").html(data.user.nickName);
                 $location.path("/communities")
@@ -124,9 +124,9 @@ euro2016App.controller('LogoutCtrl', ['$scope', '$http', '$q', '$location','$tim
                 $http.post('/users/apiv1.0/logout', {})
                 .success(function(data) {
                     hideAlerts();
-                    $window.sessionStorage["currentUser"] = null;
+                    setConnectedUserInStorage($window, null);
                     // Remove the user from the topbar :
-                    $("#connectedUserInTopbar").html(" / ");
+                    $("#connectedUserInTopbar").html("Vous n'êtes pas connecté !");
                     $location.path("/")
                     $timeout(function() {
                            showAlertSuccess("Goog bye  !!");
