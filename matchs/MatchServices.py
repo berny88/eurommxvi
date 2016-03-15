@@ -62,21 +62,21 @@ class Match:
         if 'key' in elt.keys():
             self.description = elt['key']
         if 'teamA' in elt.keys():
-            self.title = elt['teamA']
+            self.teamA = elt['teamA']
         if 'teamB' in elt.keys():
-            self.com_id = elt['teamB']
+            self.teamB = elt['teamB']
         if 'libteamA' in elt.keys():
-            self.com_id = elt['libteamA']
+            self.libteamA = elt['libteamA']
         if 'libteamB' in elt.keys():
-            self.com_id = elt['libteamB']
+            self.libteamB = elt['libteamB']
         if 'resultA' in elt.keys():
-            self.com_id = elt['resultA']
+            self.resultA = elt['resultA']
         if 'resultB' in elt.keys():
-            self.com_id = elt['resultB']
+            self.resultB = elt['resultB']
         if 'category' in elt.keys():
-            self.com_id = elt['category']
+            self.category = elt['category']
         if 'NomCategory' in elt.keys():
-            self.com_id = elt['NomCategory']
+            self.NomCategory = elt['NomCategory']
 
 
     def convertIntoBson(self):
