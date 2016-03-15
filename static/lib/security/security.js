@@ -3,7 +3,7 @@ Security stuff
 
 Provide function to manage the security :
 - isConnected() : true/false
-- getCurrentUser() : the current user who has sign in or null if not connected
+- getConnectedUser() : the current user who has sign in or null if not connected
 
 Waring : you have to inject "$window" to you controller who uses these methods !!!
 
