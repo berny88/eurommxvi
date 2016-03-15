@@ -1,6 +1,14 @@
-<div class="container-fluid"  >
-  <div class="row">
-    <div class="col-xs-8" > <!-- I notice here for include ng-controller to your main div -->
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <div class="pull-left">
+                <h4>Détail d'un parieur</h4>
+            </div>
+            <div class="pull-right"></div>
+            <div class="clearfix"></div>
+        </h4>
+    </div>
+    <div class="panel-body">
         <form name="thelogin" ng-submit="saveUser()">
           <div class="form-group" required>
               <label for="uuid" class="control-label">uuid</label>
@@ -32,7 +40,8 @@
                 class="btn btn-primary btn-lg">Sauvegarder</button>
               <a class="btn" href="#users">Retour</a>
           </div>
-      </div>
+        </form>
+    </div>
 </div>
 
 
