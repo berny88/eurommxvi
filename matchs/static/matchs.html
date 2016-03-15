@@ -23,11 +23,10 @@
                         <th class="title">
                             <a ng-click="sortType='teamA';sortReverse=!sortReverse">TeamA<span ng-show="sortType=='teamA'&&!sortReverse" class="glyphicon glyphicon-chevron-down"></span><span ng-show="sortType=='teamA' && sortReverse" class="glyphicon glyphicon-chevron-up"></span></a>
                         </th>
-                        <th class="description">teamB</th>
-                        <th></th>
+                        <th class="description">TeamB</th>
                     </tr>
                     </thead>
-                    <tbody ng-init="getCommunities();">
+                    <tbody ng-init="getMatchs();">
                     <tr ng-repeat="match in matchs.matchs| filter : match_filter | orderBy:sortType:sortReverse">
                         <!--<td>{{community.com_id}}</td>-->
                         <td>{{match.teamA}}</td>
