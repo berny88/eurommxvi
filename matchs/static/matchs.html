@@ -40,7 +40,7 @@
                     <tbody ng-init="getMatchs();">
                     <tr ng-repeat="match in matchs.matchs| filter : match_filter | orderBy:sortType:sortReverse">
                         <!--<td>{{community.com_id}}</td>-->
-                        <td>{{match.NomCategorie}}</td>
+                        <td>{{match.categoryName}}</td>
                         <td>{{match.libteamA}}</td>
                         <td>{{match.libteamB}}</td>
                     </tr>
