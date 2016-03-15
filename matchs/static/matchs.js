@@ -1,6 +1,6 @@
 euro2016App.controller('matchsCtrl', ['$scope', '$http', '$q', function ($scope, $http, $q) {
 
-/*        var canceler = $q.defer();
+        var canceler = $q.defer();
 
         $scope.getMatchs = function() {
             $http.get('matchs/apiv1.0/matchs', {timeout: canceler.promise})
@@ -15,5 +15,5 @@ euro2016App.controller('matchsCtrl', ['$scope', '$http', '$q', function ($scope,
         });
 
         $scope.getMatchs();
-*/
+
 }]);
