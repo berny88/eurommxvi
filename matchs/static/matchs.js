@@ -14,6 +14,6 @@ euro2016App.controller('matchsCtrl', ['$scope', '$http', '$q', function ($scope,
             canceler.resolve();  // Aborts the $http request if it isn't finished.
         });
 
-        $scope.getMatchs();
+        //$scope.getMatchs();
 
 }]);

@@ -76,7 +76,7 @@ class Match:
         if 'category' in elt.keys():
             self.category = elt['category']
         if 'NomCategorie' in elt.keys():
-            self.NomCategory = elt['NomCategorie']
+            self.NomCategorie = elt['NomCategorie']
 
 
     def convertIntoBson(self):
