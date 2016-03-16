@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from flask import Blueprint, jsonify, redirect, request
+from flask import Blueprint, jsonify, redirect, request, session
 import logging
 from pymongo import MongoClient
 from datetime import datetime
@@ -34,8 +34,22 @@ def getCommunity(com_id):
 @communities_page.route('/apiv1.0/communities/<com_id>', methods=['DELETE'])
 def deleteCommunity(com_id):
     mgr = CommunityManager()
-    coms=mgr.delete(com_id)
-    return jsonify({'communities': coms})
+    com = mgr.getCommunityByCommunityId(com_id)
+    checkRight=False
+    if "cookieUserKey" in session:
+        cookieUserKey = session['cookieUserKey']
+        logger.info(u"getuser::cookieUserKey={}".format(cookieUserKey))
+        if (com.admin_user_id==cookieUserKey):
+            checkRight=True
+        userMgr = UserManager()
+        userFromCookie = userMgr.getUserByUserId(cookieUserKey)
+        if (userFromCookie.isAdmin):
+            checkRight=True
+    if (checkRight):
+        coms=mgr.deleteCommunity(com)
+        return jsonify({'communities': coms})
+    else:
+        return "Ha ha ha ! Mais t'es pas la bonne personne pour faire ça, mon loulou", 403
 
 @communities_page.route('/apiv1.0/communities', methods=['POST'])
 def createCommunity():
@@ -67,9 +81,23 @@ def updateCommunity():
 
     #call Service (DAO)
     mgr = CommunityManager()
-    communityUpdated = mgr.updateCommunity(communityToUpdate)
+    com = mgr.getCommunityByCommunityId(communityToUpdate.com_id)
+    checkRight=False
+    if "cookieUserKey" in session:
+        cookieUserKey = session['cookieUserKey']
+        logger.info(u"getuser::cookieUserKey={}".format(cookieUserKey))
+        if (com.admin_user_id==cookieUserKey):
+            checkRight=True
+        userMgr = UserManager()
+        userFromCookie = userMgr.getUserByUserId(cookieUserKey)
+        if (userFromCookie.isAdmin):
+            checkRight=True
+    if (checkRight):
+        communityUpdated = mgr.updateCommunity(communityToUpdate)
+        return jsonify({'community': communityUpdated})
+    else:
+        return "Ha ha ha ! Mais t'es pas la bonne personne pour faire ça, mon loulou", 403
 
-    return jsonify({'community': communityUpdated})
 
 u"""
 **************************************************
@@ -208,10 +236,9 @@ class CommunityManager(DbManager):
                                                 "description" : com.description}}, upsert=True)
         return None
 
-    def delete(self, com_id):
+    def deleteCommunity(self, com):
         """ delete com """
         localdb = self.getDb()
-        com = CommunityManager.getCommunityByCommunityId(self,com_id)
-        logger.info(u'CommunityManager::delete={}'.format(com.com_id))
         bsonCom = localdb.communities.delete_one({"com_id": com.com_id})
+        logger.info(u'CommunityManager::delete={}'.format(com.com_id))
         return CommunityManager.getAllCommunities(self)

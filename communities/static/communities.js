@@ -42,10 +42,13 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
                 $timeout(function() {
                        showAlertSuccess("Communauté modifiée avec succès !!");
                     }, 1000);
-
             })
             .error(function(data, status, headers, config) {
-                showAlertError("Erreur lors de la modification de la communauté ; erreur HTTP : " + status);
+                if (status==403){
+                    showAlertError("Même pas en rêve ! status=" + status+ " " + data);
+                } else {
+                    showAlertError("Erreur lors de la modification de la communauté ; erreur HTTP : " + status);
+                }
             });
         }
 
@@ -81,7 +84,11 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
             })
             .error(function(data, status, headers, config) {
                 closeModal();
-                showAlertError("Erreur lors de la suppression de la communauté ; erreur HTTP : " + status);
+                if (status==403){
+                    showAlertError("Même pas en rêve ! status=" + status+ " " + data);
+                } else {
+                    showAlertError("Erreur lors de la suppression de la communauté ; erreur HTTP : " + status);
+                }
             });
         }
 
