@@ -51,6 +51,7 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
 
         $scope.createCommunity = function() {
             hideAlerts();
+            $scope.communityToCreate.admin_user_id = getConnectedUser($window).user_id;
             $http.post('communities/apiv1.0/communities', {communityToCreate: $scope.communityToCreate, timeout: canceler.promise})
             .success(function(data, status, headers, config) {
                 $location.path("/communities")

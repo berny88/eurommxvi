@@ -44,6 +44,7 @@ def createCommunity():
     communityToCreate.title=communityToCreateJSON['title'];
     if 'description' in communityToCreateJSON:
         communityToCreate.description=communityToCreateJSON['description'];
+    communityToCreate.admin_user_id=communityToCreateJSON['admin_user_id'];
 
     #call Service (DAO)
     mgr = CommunityManager()
@@ -176,6 +177,7 @@ class CommunityManager(DbManager):
         bsonCom["com_id"]=com_id
         bsonCom["title"]=com.title
         bsonCom["description"]=com.description
+        bsonCom["admin_user_id"]=com.admin_user_id
 
         logger.info(u'\tkey None - to create : {}'.format(bsonCom))
         id = localdb.communities.insert_one(bsonCom).inserted_id
