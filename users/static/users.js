@@ -39,7 +39,7 @@ euro2016App.controller('UserDetailCtrl', ['$scope', '$http', '$q', '$routeParams
         if (isConnected($window)) {
             currentUser = getConnectedUser($window);
         }
-        return ((currentUser.user_id == $scope.user.user_id) || $routeParams.firstConnection) ? true : false;
+        return ((currentUser.user_id == $scope.user.user_id) || $routeParams.firstConnection || isAdmin($window)) ? true : false;
     }
 
     $scope.$on('$destroy', function(){

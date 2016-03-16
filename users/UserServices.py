@@ -57,6 +57,9 @@ def getuser(user_id):
                 logger.info(u"getuser::cookieUserKey={}".format(cookieUserKey))
                 if (user.user_id==cookieUserKey):
                     checkRight=True
+                userFromCookie = mgr.getUserByUserId(cookieUserKey)
+                if (userFromCookie.isAdmin):
+                    checkRight=True
         if (checkRight):
             mgr.saveUser(user.email, userFromClient["nickName"],
                          userFromClient["description"], user.user_id, user.validated,
@@ -175,6 +178,7 @@ class User:
         self.user_id=u""
         self.validated = False
         self.pwd=u""
+        self.isAdmin=u""
 
 
     def convertFromBson(self, elt):
@@ -193,6 +197,8 @@ class User:
             self.validated = elt['validated']
         if 'pwd' in elt.keys():
             self.pwd= elt['pwd']
+        if 'isAdmin' in elt.keys():
+            self.isAdmin= elt['isAdmin']
 
     def convertIntoBson(self):
         """
@@ -206,6 +212,7 @@ class User:
         elt['user_id'] = self.user_id
         elt['validated'] = self.validated
         elt['pwd'] = self.pwd
+        elt['isAmin'] = self.isAdmin
         return elt
 
 class UserManager(DbManager):
