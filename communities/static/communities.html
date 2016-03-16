@@ -34,6 +34,7 @@
                             <a ng-click="sortType='title';sortReverse=!sortReverse">Titre<span ng-show="sortType=='title'&&!sortReverse" class="glyphicon glyphicon-chevron-down"></span><span ng-show="sortType=='title' && sortReverse" class="glyphicon glyphicon-chevron-up"></span></a>
                         </th>
                         <th class="description">Description</th>
+                        <th class="administrator">Administrateur</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -42,6 +43,7 @@
                         <!--<td>{{community.com_id}}</td>-->
                         <td>{{community.title}}</td>
                         <td>{{community.description}}</td>
+                        <td>{{community.admin_user_nickName}}</td>
                         <td>
                             <span ng-show="isConnected()"><a class="btn btn-danger" ng-click="deleteCommunity(community)"><i class="glyphicon glyphicon-remove-sign"></i></a></span>
                             <span ng-show="isConnected()"><a class="btn btn-default" href="#update_community/{{community.com_id}}"><i class="glyphicon glyphicon-pencil"></i></a></span>

@@ -10,6 +10,8 @@ import sendgrid
 
 from tools.Tools import DbManager
 
+from users.UserServices import UserManager
+
 logger = logging.getLogger(__name__)
 
 communities_page = Blueprint('communities_page', __name__,
@@ -84,14 +86,14 @@ class Community:
     id : autoincrement par mongoDB ou  UUID
     title : texte libre mais unique max 50c
     description : texte libre
-    admins : liste des id des communityId des administrateurs
+    admin_user_id : id de l'administrateur (=celui qui a créé la communauté)
     """""
 
     def __init__(self):
         self.description = u""
         self.title = u""
         self.com_id=u""
-        self.admins = list()
+        self.admin_user_id =u""
 
 
     def convertFromBson(self, elt):
@@ -104,12 +106,8 @@ class Community:
             self.title = elt['title']
         if 'com_id' in elt.keys():
             self.com_id = elt['com_id']
-        if 'admins' in elt.keys():
-            adms=list()
-            for uson in elt['admins']:
-                u=User()
-                adms.append(u.convertFromBson(uson))
-                self.admins=adms
+        if 'admin_user_id' in elt.keys():
+            self.admin_user_id = elt['admin_user_id']
 
     def convertIntoBson(self):
         """
@@ -120,11 +118,7 @@ class Community:
         elt['description'] = self.description
         elt['title'] = self.title
         elt['com_id'] = self.com_id
-        adms=list()
-        for u in self.admins:
-            adms.append(u.convertIntoBson())
-        elt['admins'] = adms
-        return elt
+        elt['admin_user_id'] = self.admin_user_id
 
 
 class CommunityManager(DbManager):
@@ -141,9 +135,18 @@ class CommunityManager(DbManager):
         result = list()
 
         for communitybson in communitiesList:
+
             logger.info(u'\tgetAllCommunities::communitybson={}'.format(communitybson))
             community = Community()
             community.convertFromBson(communitybson)
+
+            userMgr = UserManager()
+            user = userMgr.getUserByUserId(community.admin_user_id)
+            if user is None:
+                community.admin_user_nickName = "Admin inconnu !"
+            else:
+                community.admin_user_nickName = user.nickName
+
             logger.info(u'\tgetAllCommunities::community={}'.format(community))
             tmpdict = community.__dict__
             logger.info(u'\tgetAllCommunities::tmpdict={}'.format(tmpdict))
@@ -162,6 +165,14 @@ class CommunityManager(DbManager):
         if bsoncommunity is not None:
             community = Community()
             community.convertFromBson(bsoncommunity)
+
+            userMgr = UserManager()
+            user = userMgr.getUserByUserId(community.admin_user_id)
+            if user is None:
+                community.admin_user_nickName = "Admin inconnu !"
+            else:
+                community.admin_user_nickName = user.nickName
+
             logger.info(u'\tgetcommunityBycommunityId::res={}'.format(community))
             return community
         else:
