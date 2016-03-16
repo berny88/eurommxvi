@@ -92,6 +92,14 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
             });
         }
 
+        $scope.hasAuthorization = function(community) {
+            var currentUser = {};
+            if (isConnected($window)) {
+                currentUser = getConnectedUser($window);
+            }
+            return ((currentUser.user_id == community.admin_user_id) || isAdmin($window)) ? true : false;
+        }
+
         // only the connected people can create/delete/modify a community
         $scope.isConnected = function() {
             // security.js :

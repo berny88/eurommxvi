@@ -45,9 +45,9 @@
                         <td>{{community.description}}</td>
                         <td>{{community.admin_user_nickName}}</td>
                         <td>
-                            <span ng-show="isConnected()"><a class="btn btn-danger" ng-click="deleteCommunity(community)"><i class="glyphicon glyphicon-remove-sign"></i></a></span>
-                            <span ng-show="isConnected()"><a class="btn btn-default" href="#update_community/{{community.com_id}}"><i class="glyphicon glyphicon-pencil"></i></a></span>
                             <span><a class="btn btn-info" href="#view_community/{{community.com_id}}"><i class="glyphicon glyphicon-eye-open"></i></a></span>
+                            <span ng-show="hasAuthorization(community)"><a class="btn btn-danger" ng-click="deleteCommunity(community)"><i class="glyphicon glyphicon-remove-sign"></i></a></span>
+                            <span ng-show="hasAuthorization(community)"><a class="btn btn-default" href="#update_community/{{community.com_id}}"><i class="glyphicon glyphicon-pencil"></i></a></span>
                         </td>
                     </tr>
                     </tbody>
