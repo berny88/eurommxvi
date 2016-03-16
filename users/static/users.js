@@ -59,7 +59,11 @@ euro2016App.controller('UserDetailCtrl', ['$scope', '$http', '$q', '$routeParams
             $scope.user = data.user;
             $location.path("/users")
             $timeout(function() {
-                showAlertSuccess("User [" + $scope.user.email + "] sauvegardé avec succès !");
+                if ($routeParams.firstConnection) {
+                    showAlertSuccess("Bienvenue " + $scope.user.nickName + " ! Cliquez <a href='#/signin'>ici</a> pour vous identifier.");
+                } else {
+                    showAlertSuccess("User [" + $scope.user.email + "] sauvegardé avec succès !");
+                }
             }, 1000);                //alert($scope.user.email)
 
         })
