@@ -25,3 +25,40 @@ def getBets():
     logger.info(u"bets={}".format(bets))
     return jsonify({'bets': bets})
 
+
+
+
+class Bet:
+    u""""
+    object_id
+    user_id (=uuid)
+    com_id (uuid)
+    key_match : "GROUPEE_SWE_BEL"
+    resultA : 0
+    resultB : 0
+    """""
+    def __init__(self):
+        self.object_id = u""
+        self.user_id= u""
+        self.com_id = u""
+        self.key_match = u""
+        self.resultA=-1
+        self.resultB=-1
+
+
+    def convertFromBson(self, elt):
+        """
+        convert a community object from mongo
+        """
+        for k in elt.keys():
+            self.__dict__[k]=k
+
+
+    def convertIntoBson(self):
+        """
+        convert a community object into mongo Bson format
+        """
+        elt = dict()
+        for k in self.__dict__ :
+            elt[k]=self.__dict__[k]
+        return elt
