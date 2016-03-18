@@ -1,6 +1,6 @@
 <div ng-controller="topbarCtrl">
-    <nav class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
-        <div class="container-fluid" id="navfluid">
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container" id="navfluid">
           <div class="navbar-header">
               <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigationbar">
                   <span class="sr-only">Toggle navigation</span>
@@ -20,11 +20,15 @@
                   <li><a href="#communities">
                     <span class="glyphicon glyphicon-globe" aria-hidden="true"></span>&nbsp;Communautés</a></li>
                   <li><a href="#matchs">
-                    <span class="glyphicon glyphicon-tower" aria-hidden="true"></span>&nbsp;Matchs</a></li>
-                  <li><a href="#about">About</a></li>
+                    <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>&nbsp;Matchs</a></li>
+                  <li><a href="#about">
+                      <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>&nbsp;A propos</a></li>
                   <li><a href="#contact">Contact</a></li>
-                  <li><a href="#logout">Déconnexion</a></li>
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
                   <li><a href=""><span id="connectedUserInTopbar" class="label label-success"></span></a></li>
+                  <li><a href="#logout">
+                      <span class="glyphicon glyphicon-off" aria-hidden="true"></span>&nbsp;Déconnexion</a></li>
               </ul>
           </div>
         </div>
