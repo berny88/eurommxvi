@@ -5,6 +5,7 @@ import os, sys
 from flask import Flask
 from flask import render_template
 
+from chat.ChatServices import chat_page
 from communities.CommunityServices import communities_page
 from users.UserServices import users_page
 from bets.BetsServices import bets_page
@@ -28,6 +29,7 @@ app.register_blueprint(users_page, url_prefix="/users", template_folder='templat
 app.register_blueprint(bets_page, url_prefix="/bets", template_folder='templates')
 app.register_blueprint(matchs_page, url_prefix="/matchs", template_folder='templates')
 app.register_blueprint(tools_page, url_prefix="/tools", template_folder='templates')
+app.register_blueprint(chat_page, url_prefix="/chat", template_folder='templates')
 
 logging.basicConfig(format='%(asctime)s|%(levelname)s|%(name)s|%(message)s',\
     filename='{}/euroxxxvi.log'.format(os.environ['OPENSHIFT_LOG_DIR']), level=logging.INFO)
