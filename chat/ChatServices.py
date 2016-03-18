@@ -24,7 +24,21 @@ def getAllPosts():
     logger.info(">>{}".format(jsonify({'posts': posts}).data))
     return jsonify({'posts': posts})
 
+@chat_page.route('/apiv1.0/posts', methods=['POST'])
+def createPost():
+    logger.info(u"savepost::json param:{} ".format(request.json))
+    postToCreateJSON = request.json["postToCreate"]
 
+    postToCreate=Post()
+    postToCreate.message=postToCreateJSON['message'];
+    postToCreate.date=postToCreateJSON['date'];
+    postToCreate.post_user_id=postToCreateJSON['post_user_id'];
+
+    #call Service (DAO)
+    mgr = ChatManager()
+    postCreated = mgr.savePost(postToCreate)
+
+    return jsonify({'post': postCreated})
 
 u"""
 **************************************************
@@ -73,7 +87,7 @@ class ChatManager(DbManager):
         logger.info(u'getAllPosts::db={}'.format(localdb))
 
         postsColl = localdb.posts
-        postsList = postsColl.find().sort("date").limit(30)
+        postsList = postsColl.find().sort([("date",-1)]).limit(30)
         logger.info(u'getAllPosts::postsList={}'.format(postsList))
         #Faut-il changer de list ou retourner le bson directement ?
         result = list()
@@ -97,3 +111,18 @@ class ChatManager(DbManager):
             result.append(tmpdict)
         return result
 
+    def savePost(self, post):
+        """ save post """
+        localdb = self.getDb()
+
+        bsonPost =dict()
+        post_id=str(uuid4())
+        bsonPost["post_id"]=post_id
+        bsonPost["date"]=post.date
+        bsonPost["message"]=post.message
+        bsonPost["post_user_id"]=post.post_user_id
+
+        logger.info(u'\tkey None - to create : {}'.format(bsonPost))
+        id = localdb.posts.insert_one(bsonPost).inserted_id
+        logger.info(u'\tid : {}'.format(id))
+        return None

@@ -25,10 +25,19 @@ euro2016App.controller('ChatCtrl', ['$scope', '$routeParams', '$http', '$q', '$l
             }
 
             var newPost = {};
-            newPost.nickName = currentUser.nickName;
+            newPost.post_user_id = currentUser.user_id;
             newPost.message = $('#inputText').val();
             newPost.date = new Date();
+            newPost.nickName = currentUser.nickName;
             $scope.posts.posts.unshift(newPost);
+
+            $http.post('chat/apiv1.0/posts', {postToCreate: newPost, timeout: canceler.promise})
+            .success(function(data, status, headers, config) {
+                // nothing to do
+            })
+            .error(function(data, status, headers, config) {
+                showAlertError("Erreur lors de la création du post ; erreur HTTP : " + status);
+            })
 
             $('#inputText').val('');
             $('#inputText').focus();
