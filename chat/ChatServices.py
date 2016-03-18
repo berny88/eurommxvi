@@ -73,7 +73,7 @@ class ChatManager(DbManager):
         logger.info(u'getAllPosts::db={}'.format(localdb))
 
         postsColl = localdb.posts
-        postsList = postsColl.find().sort("date")
+        postsList = postsColl.find().sort("date").limit(30)
         logger.info(u'getAllPosts::postsList={}'.format(postsList))
         #Faut-il changer de list ou retourner le bson directement ?
         result = list()

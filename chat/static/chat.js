@@ -19,8 +19,13 @@ euro2016App.controller('ChatCtrl', ['$scope', '$routeParams', '$http', '$q', '$l
 
         $scope.doPost = function() {
 
+            var currentUser = {};
+            if (isConnected($window)) {
+                currentUser = getConnectedUser($window);
+            }
+
             var newPost = {};
-            newPost.nickName = "Stefou"
+            newPost.nickName = currentUser.nickName;
             newPost.message = $('#inputText').val();
             newPost.date = new Date();
             $scope.posts.posts.unshift(newPost);
@@ -31,6 +36,12 @@ euro2016App.controller('ChatCtrl', ['$scope', '$routeParams', '$http', '$q', '$l
         }
 
         $('#inputText').focus()
+
+        // only the connected people can post a message
+        $scope.isConnected = function() {
+            // security.js :
+            return isConnected($window);
+        }
 
         // Aborts the $http request if it isn't finished.
         $scope.$on('$destroy', function(){

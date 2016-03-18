@@ -6,15 +6,21 @@
 
         <div class="row">
 
-            <h4 class="text-center">Got something to say?</h4>
+            <div ng-show="isConnected()">
+                <h4 class="text-center">Got something to say?</h4>
 
-            <div class="col-sm-12">
-                <div class="input-group">
-                    <input class="form-control input-large" placeholder="Add to the conversation" id="inputText" type="text">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" type="submit">Post</button>
-                    </span>
+                <div class="col-sm-12">
+                    <div class="input-group">
+                        <input class="form-control input-large" placeholder="Add to the conversation" id="inputText" type="text">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit">Post</button>
+                        </span>
+                    </div>
                 </div>
+            </div>
+
+            <div ng-show="!isConnected()">
+                <h4 class="text-center">Vous devez être connectés pour poster des messages. Par <a href="#signin">ici</a></h4>
             </div>
 
             <div class="clearfix"></div>
