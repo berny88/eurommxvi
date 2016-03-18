@@ -40,6 +40,12 @@ def createPost():
 
     return jsonify({'post': postCreated})
 
+@chat_page.route('/apiv1.0/posts/<post_id>', methods=['DELETE'])
+def deletePost(post_id):
+    mgr = ChatManager()
+    posts=mgr.deletePost(post_id)
+    return jsonify({'posts': posts})
+
 u"""
 **************************************************
 Service layer
@@ -126,3 +132,10 @@ class ChatManager(DbManager):
         id = localdb.posts.insert_one(bsonPost).inserted_id
         logger.info(u'\tid : {}'.format(id))
         return None
+
+    def deletePost(self, post_id):
+        """ delete post """
+        localdb = self.getDb()
+        bsonPost = localdb.posts.delete_one({"post_id": post_id})
+        logger.info(u'ChatManager::delete={}'.format(post_id))
+        return ChatManager.getAllPosts(self)

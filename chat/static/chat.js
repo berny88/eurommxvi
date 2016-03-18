@@ -44,6 +44,29 @@ euro2016App.controller('ChatCtrl', ['$scope', '$routeParams', '$http', '$q', '$l
 
         }
 
+        $scope.deletePost = function(post) {
+            hideAlerts();
+            $http.delete('chat/apiv1.0/posts/' + post.post_id, {timeout: canceler.promise})
+            .success(function(data, status, headers, config) {
+                $scope.posts = data;
+            })
+            .error(function(data, status, headers, config) {
+                if (status==403){
+                    showAlertError("Même pas en rêve ! status=" + status+ " " + data);
+                } else {
+                    showAlertError("Erreur lors de la suppression du post ; erreur HTTP : " + status);
+                }
+            });
+        }
+
+        $scope.hasAuthorization = function(post) {
+            var currentUser = {};
+            if (isConnected($window)) {
+                currentUser = getConnectedUser($window);
+            }
+            return ((currentUser.user_id == post.post_user_id) || isAdmin($window)) ? true : false;
+        }
+
         $('#inputText').focus()
 
         // only the connected people can post a message
