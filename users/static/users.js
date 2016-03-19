@@ -128,7 +128,7 @@ euro2016App.controller('LogoutCtrl', ['$scope', '$http', '$q', '$location','$tim
 
         //alert("logout");
         //to remove the cookie from "session"
-        if ($window.sessionStorage["currentUser"] != "null") {
+        if (isConnected($window)) {
             $scope.logout = function(){
                 $http.post('/users/apiv1.0/logout', {})
                 .success(function(data) {

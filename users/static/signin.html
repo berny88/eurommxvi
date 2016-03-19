@@ -3,16 +3,16 @@
     <h1>Login</h1>
     <div class="row">
       <div class="col-xs-8" > <!-- I notice here for include ng-controller to your main div -->
-          <form name="thelogin" ng-submit="login()" >
+          <form name="thelogin" ng-submit="login()" required>
             <div class="form-group">
               <label for="email" class="control-label">Email</label>
               <input type="email" class="form-control" id="email" name="nom" ng-model="email"
-                placeholder="your email" value="">
+                placeholder="your email" value="" required="required">
             </div>
             <div class="form-group">
               <label for="thepwd" class="control-label">Password</label>
               <input type="password" class="form-control" id="thepwd" name="thepwd" ng-model="thepwd"
-                    placeholder="Password" value="">
+                    placeholder="Password" value="" required="required">
             </div>
             <button type="submit" id="submit" name="submit" value="Sign in"
               class="btn btn-primary btn-lg">Sign in</button>
