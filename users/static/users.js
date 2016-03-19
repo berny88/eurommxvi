@@ -94,7 +94,12 @@ euro2016App.controller('LoginCtrl', ['$scope', '$http', '$q', '$routeParams', '$
                 setConnectedUserInStorage($window, data.user)
                 // Display the user in the topbar :
                 $("#connectedUserInTopbar").html(data.user.nickName);
-                $location.path("/communities")
+                if ($routeParams.callback) {
+                    $location.path("/" + $routeParams.callback)
+                } else {
+                    $location.path("/communities")
+                }
+                $location.search('callback', null)
                 $timeout(function() {
                        showAlertSuccess("Bienvenue "+data.user.nickName +" !!");
                     }, 1000);                //alert($scope.user.email)
