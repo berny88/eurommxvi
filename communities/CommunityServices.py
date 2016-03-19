@@ -99,6 +99,25 @@ def updateCommunity():
         return "Ha ha ha ! Mais t'es pas la bonne personne pour faire ça, mon loulou", 403
 
 
+@communities_page.route('/apiv1.0/<com_id>/users/<user_id>/bets', methods=['GET'])
+def getBets(com_id, user_id):
+    bets = list()
+    bets.append(dict([('category', "GROUPE"), ('categoryName', "GROUPEA"),("description", u"GROUPEA_FRA_ROU"),
+                      ('key', u"GROUPEA_FRA_ROU"), ('libteamA', "FRANCE"), ("libteamB", "ROUMANIE"),
+                      ("resultA", 0),("resultB", 0),( "teamA", "FRA"),( "teamB", "ROU"),
+                      ("dateDeadLineBet" , "2016-03-18T12:00Z"),( "dateMatch" , "2016-06-18T18:45Z")]))
+    bets.append(dict([('category', "GROUPE"), ('categoryName', "GROUPEA"),("description", u"GROUPEA_ALB_SWI"),
+                      ('key', u"GROUPEA_ALB_SWI"), ('libteamA', "ALBANIE"), ("libteamB", "SUISSE"),
+                      ("resultA", 0),("resultB", 0),( "teamA", "FRA"),( "teamB", "ROU"),
+                      ("dateDeadLineBet" , "2016-03-18T12:00Z"),( "dateMatch" , "2016-03-18T15:00Z")]))
+
+
+    logger.info(u" ------------ ")
+    logger.info(u"type={}".format(type(bets)))
+    logger.info(u"bets={}".format(bets))
+    return jsonify({'bets': bets})
+
+
 u"""
 **************************************************
 Service layer

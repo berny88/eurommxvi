@@ -2,6 +2,8 @@
 from flask import Blueprint, jsonify
 import logging
 import types
+from tools.Tools import DbManager
+from users.UserServices import UserManager
 
 logger = logging.getLogger(__name__)
 
@@ -14,28 +16,27 @@ def bets():
     return bets_page.send_static_file('bets.html')
 
 
-@bets_page.route('/apiv1.0/bets', methods=['GET'])
-def getBets():
-    bets = list()
-    bets.append(dict([('id', 1), ('com', 1),('teamA', u"FRA"), ('teamB', u"ENG"), ('betA', 1), ('betB', 0)]))
-    bets.append(dict([('id', 2), ('com', 2),('teamA', u"ALL"), ('teamB', u"BEL"), ('betA', 10), ('betB', 0)]))
-
-    logger.info(u" ------------ ")
-    logger.info(u"type={}".format(type(bets)))
-    logger.info(u"bets={}".format(bets))
-    return jsonify({'bets': bets})
 
 
 
 
 class Bet:
     u""""
-    object_id
+    object_id (soit uuid soit objectid mongo)
     user_id (=uuid)
     com_id (uuid)
     key_match : "GROUPEE_SWE_BEL"
-    resultA : 0
-    resultB : 0
+    category (GROUPE, 1_4, 1_2, 1_1, 1)
+    categoryName (groupeA, Quart 01, Demi 02...)
+    dateDeadLineBet :  date limite de saisi du pari
+    dateMatch : date match pour info
+    libteamA: nom equipe A
+    libteamB: nom équipe B
+    teamA : code Equipe A
+    teamB : code Equipe A
+    resultA : pari resutat teamA
+    resultB : pari resutat teamB
+    db.bets.insert({"com_id": "qqq", "user_id":"zoo", "key_match" : "GROUPEE_SWE_BEL", "category":"GROUPE", "categoryName": "groupeA", "dateDeadLineBet" : "2016-03-18T20:21:37.330Z", "dateMatch" : "2016-03-18T20:21:37.330Z", "libteamA": "nom equipe A", "libteamB": "nom équipe B", "teamA" : "code Equipe A", "teamB" : "code Equipe A", "resultA" : "0", "resultB" : "0"});
     """""
     def __init__(self):
         self.object_id = u""
@@ -44,6 +45,12 @@ class Bet:
         self.key_match = u""
         self.resultA=-1
         self.resultB=-1
+        self.category = u""
+        self.categoryName= u""
+        self.libteamA = u""
+        self.libteamB = u""
+        self.teamA = u""
+        self.teamB = u""
 
 
     def convertFromBson(self, elt):
@@ -62,3 +69,31 @@ class Bet:
         for k in self.__dict__ :
             elt[k]=self.__dict__[k]
         return elt
+
+class BetsManager(DbManager):
+
+    def getBets(self, user_id, com_id):
+        """ get the complete list of posts"""
+        localdb = self.getDb()
+        logger.info(u'getBets::db={}'.format(localdb))
+
+        betsColl = localdb.bets
+        betsList = betsColl.find({ "user_id": user_id, "com_id": com_id } ).sort([("date",-1)]).limit(30)
+        logger.info(u'getBets::betsList={}'.format(betsList))
+        #Faut-il changer de list ou retourner le bson directement ?
+        result = list()
+
+        for betbson in betsList:
+
+            logger.info(u'\tgetBetsOfUser::betbson={}'.format(betbson))
+            bet = Bet()
+            bet.convertFromBson(betbson)
+
+            userMgr = UserManager()
+            user = userMgr.getUserByUserId(bet.user_id)
+
+            logger.info(u'\tgetAllPosts::post={}'.format(bet))
+            tmpdict = bet.__dict__
+            logger.info(u'\tgetAllPosts::tmpdict={}'.format(tmpdict))
+            result.append(tmpdict)
+        return result
