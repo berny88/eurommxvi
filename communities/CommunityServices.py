@@ -6,6 +6,7 @@ from datetime import datetime
 import os
 import re
 from uuid import uuid4
+from bets.BetsServices import BetsManager
 import sendgrid
 
 from tools.Tools import DbManager
@@ -101,16 +102,9 @@ def updateCommunity():
 
 @communities_page.route('/apiv1.0/<com_id>/users/<user_id>/bets', methods=['GET'])
 def getBets(com_id, user_id):
-    bets = list()
-    bets.append(dict([('category', "GROUPE"), ('categoryName', "GROUPEA"),("description", u"GROUPEA_FRA_ROU"),
-                      ('key', u"GROUPEA_FRA_ROU"), ('libteamA', "FRANCE"), ("libteamB", "ROUMANIE"),
-                      ("resultA", 0),("resultB", 0),( "teamA", "FRA"),( "teamB", "ROU"),
-                      ("dateDeadLineBet" , "2016-03-18T12:00Z"),( "dateMatch" , "2016-06-18T18:45Z")]))
-    bets.append(dict([('category', "GROUPE"), ('categoryName', "GROUPEA"),("description", u"GROUPEA_ALB_SWI"),
-                      ('key', u"GROUPEA_ALB_SWI"), ('libteamA', "ALBANIE"), ("libteamB", "SUISSE"),
-                      ("resultA", 0),("resultB", 0),( "teamA", "FRA"),( "teamB", "ROU"),
-                      ("dateDeadLineBet" , "2016-03-18T12:00Z"),( "dateMatch" , "2016-03-18T15:00Z")]))
 
+    betsMgr = BetsManager()
+    bets = betsMgr.getBets(user_id, com_id)
 
     logger.info(u" ------------ ")
     logger.info(u"type={}".format(type(bets)))

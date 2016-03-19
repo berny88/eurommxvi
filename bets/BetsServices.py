@@ -77,23 +77,37 @@ class BetsManager(DbManager):
         localdb = self.getDb()
         logger.info(u'getBets::db={}'.format(localdb))
 
-        betsColl = localdb.bets
-        betsList = betsColl.find({ "user_id": user_id, "com_id": com_id } ).sort([("date",-1)]).limit(30)
-        logger.info(u'getBets::betsList={}'.format(betsList))
-        #Faut-il changer de list ou retourner le bson directement ?
-        result = list()
+        bets = list()
+        bets.append(dict([('category', "GROUPE"), ('categoryName', "GROUPEA"),("description", u"GROUPEA_FRA_ROU"),
+                          ('key', u"GROUPEA_FRA_ROU"), ('libteamA', "FRANCE"), ("libteamB", "ROUMANIE"),
+                          ("resultA", 0),("resultB", 0),( "teamA", "FRA"),( "teamB", "ROU"),
+                          ("dateDeadLineBet" , "2016-03-18T12:00Z"),( "dateMatch" , "2016-06-18T18:45Z")]))
+        bets.append(dict([('category', "GROUPE"), ('categoryName', "GROUPEA"),("description", u"GROUPEA_ALB_SWI"),
+                          ('key', u"GROUPEA_ALB_SWI"), ('libteamA', "ALBANIE"), ("libteamB", "SUISSE"),
+                          ("resultA", 0),("resultB", 0),( "teamA", "FRA"),( "teamB", "ROU"),
+                          ("dateDeadLineBet" , "2016-03-18T12:00Z"),( "dateMatch" , "2016-03-18T15:00Z")]))
 
-        for betbson in betsList:
+        return bets
 
-            logger.info(u'\tgetBetsOfUser::betbson={}'.format(betbson))
-            bet = Bet()
-            bet.convertFromBson(betbson)
+        # betsColl = localdb.bets
+        # betsList = betsColl.find({ "user_id": user_id, "com_id": com_id } ).sort([("date",-1)]).limit(30)
+        # logger.info(u'getBets::betsList={}'.format(betsList))
+        # #Faut-il changer de list ou retourner le bson directement ?
+        # result = list()
+        #
+        # for betbson in betsList:
+        #
+        #     logger.info(u'\tgetBetsOfUser::betbson={}'.format(betbson))
+        #     bet = Bet()
+        #     bet.convertFromBson(betbson)
+        #
+        #     userMgr = UserManager()
+        #     user = userMgr.getUserByUserId(bet.user_id)
+        #
+        #     logger.info(u'\tgetAllPosts::post={}'.format(bet))
+        #     tmpdict = bet.__dict__
+        #     logger.info(u'\tgetAllPosts::tmpdict={}'.format(tmpdict))
+        #     result.append(tmpdict)
+        # return result
 
-            userMgr = UserManager()
-            user = userMgr.getUserByUserId(bet.user_id)
 
-            logger.info(u'\tgetAllPosts::post={}'.format(bet))
-            tmpdict = bet.__dict__
-            logger.info(u'\tgetAllPosts::tmpdict={}'.format(tmpdict))
-            result.append(tmpdict)
-        return result
