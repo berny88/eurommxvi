@@ -25,4 +25,10 @@ euro2016App.controller('topbarCtrl', function($scope, $window) {
     } else {
         $("#connectedUserInTopbar").html("Vous n'êtes pas connectés !");
     }
+
+    // to display the button "connexion" or "deconnexion" in the topbar
+    $scope.isConnected = function() {
+        // security.js :
+        return isConnected($window);
+    }
 });
