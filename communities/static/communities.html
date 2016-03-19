@@ -36,6 +36,7 @@
                         <th class="description">Description</th>
                         <th class="administrator">Administrateur</th>
                         <th></th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody ng-init="getCommunities();">
@@ -44,6 +45,9 @@
                         <td>{{community.title}}</td>
                         <td>{{community.description}}</td>
                         <td>{{community.admin_user_nickName}}</td>
+                        <td>
+                            <span><a class="btn btn-danger" href="#bet_in_community/{{community.com_id}}"><i class="glyphicon glyphicon-stats"></i> Pariez !</a></span>
+                        </td>
                         <td>
                             <span><a class="btn btn-info" href="#view_community/{{community.com_id}}"><i class="glyphicon glyphicon-eye-open"></i></a></span>
                             <span ng-show="hasAuthorization(community)"><a class="btn btn-danger" ng-click="deleteCommunity(community)"><i class="glyphicon glyphicon-remove-sign"></i></a></span>
