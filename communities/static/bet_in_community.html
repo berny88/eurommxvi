@@ -1,4 +1,4 @@
-﻿<div class="jumbotron">
+﻿<div class="jumbotron" ng-init="getCommunity()">
     <div class="container">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -11,7 +11,7 @@
                 </h4>
             </div>
             <div class="panel-body">
-                <form ng-init="getCommunity()" class="form-horizontal">
+                <form class="form-horizontal">
                     <div class="form-group">
                         <label class="control-label col-xs-3" for="id">Id:</label>
                         <div class="col-xs-9">
@@ -68,7 +68,7 @@
                         </div>
 
                         <div ng-show="!isConnected()">
-                            <h4 class="text-center">Vous devez être connectés pour poster des messages. Par <a href="#signin?callback=communities">ici</a>.</h4>
+                            <h4 class="text-center">Vous devez être connectés pour poster des messages. Par <a href="#signin?callback=bet_in_community/{{community.community.com_id}}">ici</a>.</h4>
                         </div>
                     </div>
                 </div>

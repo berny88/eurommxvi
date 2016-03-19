@@ -82,8 +82,8 @@ euro2016App.controller('UserDetailCtrl', ['$scope', '$http', '$q', '$routeParams
 
 }]);
 
-euro2016App.controller('LoginCtrl', ['$scope', '$http', '$q', '$routeParams', '$location','$timeout', '$window',
-    function ($scope, $http, $q, $routeParams, $location, $timeout, $window) {
+euro2016App.controller('LoginCtrl', ['$scope', '$http', '$q', '$routeParams', '$location','$timeout', '$window', '$sce',
+    function ($scope, $http, $q, $routeParams, $location, $timeout, $window, $sce) {
 
         $scope.login = function(){
             connect={email:$scope.email, thepwd:$scope.thepwd};
@@ -95,7 +95,7 @@ euro2016App.controller('LoginCtrl', ['$scope', '$http', '$q', '$routeParams', '$
                 // Display the user in the topbar :
                 $("#connectedUserInTopbar").html(data.user.nickName);
                 if ($routeParams.callback) {
-                    $location.path("/" + $routeParams.callback)
+                    $location.path("/" + $sce.trustAsResourceUrl($routeParams.callback))
                 } else {
                     $location.path("/communities")
                 }
