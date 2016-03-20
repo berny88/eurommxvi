@@ -54,7 +54,7 @@ def deleteCommunity(com_id):
 
 @communities_page.route('/apiv1.0/communities', methods=['POST'])
 def createCommunity():
-    logger.info(u"savecommunity::json param:{} ".format(request.json))
+    logger.info(u"createCommunity::json param:{} ".format(request.json))
     communityToCreateJSON = request.json["communityToCreate"]
 
     communityToCreate=Community()
@@ -65,7 +65,7 @@ def createCommunity():
 
     #call Service (DAO)
     mgr = CommunityManager()
-    communityCreated = mgr.saveCommunity(communityToCreate)
+    communityCreated = mgr.createCommunity(communityToCreate)
 
     return jsonify({'community': communityCreated})
 
@@ -110,6 +110,11 @@ def getBets(com_id, user_id):
     logger.info(u"type={}".format(type(bets)))
     logger.info(u"bets={}".format(bets))
     return jsonify({'bets': bets})
+
+@communities_page.route('/apiv1.0/<com_id>/users/<user_id>/bets', methods=['PUT'])
+def createOrUpdateBets(com_id, user_id):
+    betsMgr = BetsManager()
+
 
 
 u"""
