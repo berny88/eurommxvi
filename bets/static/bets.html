@@ -38,12 +38,12 @@
                         <td data-title="Groupe">{{bet.categoryName}}</td>
                         <td data-title="TeamA">{{bet.libteamA}}</td>
                         <td>
-                            <input ng-show="bet.notClosed" class="form-control" ng-model="bet.resultA" type="number" min="0" max="99">
-                            <input ng-show="!bet.notClosed" class="form-control" ng-model="bet.resultA" type="number" min="0" max="99" disabled>
+                            <input ng-show="bet.notClosed" class="form-control" ng-model="bet.resultA" value="{{bet.resultA}}" type="number" min="0" max="99">
+                            <input ng-show="!bet.notClosed" class="form-control" ng-model="bet.resultA" value="{{bet.resultA}}" type="number" min="0" max="99" disabled>
                         </td>
                         <td>
-                            <input ng-show="bet.notClosed" class="form-control" ng-model="bet.resultB" type="number" min="0" max="99">
-                            <input ng-show="!bet.notClosed" class="form-control" ng-model="bet.resultB" type="number" min="0" max="99" disabled>
+                            <input ng-show="bet.notClosed" class="form-control" ng-model="bet.resultB" value="{{bet.resultB}}" type="number" min="0" max="99">
+                            <input ng-show="!bet.notClosed" class="form-control" ng-model="bet.resultB" value="{{bet.resultB}}" type="number" min="0" max="99" disabled>
                         </td>
                         <td data-title="TeamB">{{bet.libteamB}}</td>
                     </tr>
