@@ -132,5 +132,5 @@ class ChatManager(DbManager):
         """ delete post """
         localdb = self.getDb()
         nb = localdb.posts.delete_one({"post_id": post_id})
-        logger.info(u'ChatManager::delete={} = nb deleted={}'.format(nb))
+        logger.info(u'ChatManager::delete={} = nb deleted={}'.format(post_id, nb))
         return ChatManager.getAllPosts(self)
