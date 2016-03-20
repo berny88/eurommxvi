@@ -5,6 +5,7 @@ from bson.objectid import ObjectId
 from flask import Blueprint
 
 from tools.Tools import DbManager
+from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
@@ -123,6 +124,20 @@ class BetsManager(DbManager):
         result.sort(key=lambda bet: bet["dateMatch"])
 
         return result
+
+    def createOrUpdateBets(self, user_id, com_id, bets):
+        nbHit = 0
+        for b in bets:
+            bet = Bet()
+            bet.convertFromBson(b)
+            currDate = datetime.utcnow()
+            if bet.user_id==user_id and bet.com_id==com_id and currDate<bet.dateDeadLineBet:
+                logger.warn(u'\ttry save : {}'.format(b))
+                self.createOrUpdate(b)
+                nbHit = nbHit + 1
+            else:
+                logger.warn(u'\thack en cours : {}'.format(b))
+        return nbHit
 
     def createOrUpdate(self, bet):
         bsonBet = self.getDb().bets.find_one({"user_id": bet.user_id, "com_id": bet.com_id,

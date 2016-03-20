@@ -116,6 +116,7 @@ def createOrUpdateBets(com_id, user_id):
     betsMgr = BetsManager()
     logger.info(u"createOrUpdateBets::json param:{} ".format(request.json))
     betsJSON = request.json["bets"]
+    createOrUpdateBets(user_id, com_id, betsJSON)
 
 
 

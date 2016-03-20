@@ -48,20 +48,30 @@ class TestBets(unittest.TestCase):
 
         nb = mgr.delete(bet)
         self.assertEqual(1, nb)
-    #
-    # def test_getsaveuser(self):
-    #     os.environ['OPENSHIFT_MONGODB_DB_URL']=u"mongodb://mmxvi:eurommxvi@127.0.0.1:27017/euroxxxvi"
-    #     mgr = UserManager()
-    #
-    #     usera = mgr.saveUser("email@test.fr", "", "", "uuidxxx", False)
-    #
-    #     user = mgr.getUserByEmail(u"email@test.fr")
-    #
-    #
-    #     self.assertIsNotNone(user)
-    #
-    #     self.assertIsNotNone(user.email)
-    #     self.assertIsNotNone(user.user_id)
+
+
+
+    def test_createOrUpdateBets(self):
+        os.environ['OPENSHIFT_MONGODB_DB_URL']=u"mongodb://mmxvi:eurommxvi@127.0.0.1:27017/euroxxxvi"
+        mgr = BetsManager()
+        self.assertIsNotNone(mgr.getDb())
+        d = dict()
+        d["resultA"]=1
+        # bet.resultB=10
+        # bet.user_id="moi_en_uuid"
+        # bet.com_id="ma_com_id_en_uuid"
+        # bet.category="categcode"
+        # bet.categoryName="categname"
+        # bet.key="keymatch"
+        # bet.libteamA="theliba"
+        # bet.libteamB="thelibb"
+        # bet.teamA="theteamA"
+        # bet.teamB="theteamb"
+        # bet.dateDeadLineBet=datetime(2016, 6, 2, 18, 15, 0, 0, tzinfo=timezone.utc)
+        # bet.dateMatch=datetime(2016, 6, 2, 18, 15, 0, 0, tzinfo=timezone.utc)
+        #
+        # mgr.createOrUpdate(bet)
+
 
 if __name__ == '__main__':
     unittest.main()
