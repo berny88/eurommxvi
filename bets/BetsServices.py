@@ -132,11 +132,11 @@ class BetsManager(DbManager):
             bet.convertFromBson(b)
             currDate = datetime.utcnow()
             if bet.user_id==user_id and bet.com_id==com_id:
-                logger.warn(u'\ttry save : {}'.format(b))
+                logger.warn(u'\ttry save : {}\n'.format(b))
                 self.createOrUpdate(bet)
                 nbHit = nbHit + 1
             else:
-                logger.warn(u'\thack en cours : {}'.format(b))
+                logger.warn(u'\thack en cours : {}\n'.format(b))
         return nbHit
 
     def createOrUpdate(self, bet):
@@ -144,11 +144,11 @@ class BetsManager(DbManager):
                                               "key": bet.key})
         if bsonBet is None:
             bsonBet = bet.convertIntoBson()
-            logger.info(u'\tto create : {}'.format(bsonBet))
+            logger.info(u'\t\tto create : {}'.format(bsonBet))
             newid = self.getDb().bets.insert_one(bsonBet).inserted_id
-            logger.info(u'\tid : {}'.format(newid))
+            logger.info(u'\t\tid : {}'.format(newid))
         else:
-            logger.info(u'\t try update to bsonBet["_id" : {}] with bet={}'.format(bsonBet["_id"], bet))
+            logger.info(u'\t\t try update to bsonBet["_id" : {}] with bet={}'.format(bsonBet["_id"], bet))
             self.getDb().users.update({"_id": bsonBet["_id"]},
                                       {"$set": {"com_id": bet.com_id, "user_id": bet.user_id,
                                                 "key": bet.key, "category": bet.category,

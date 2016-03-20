@@ -57,20 +57,24 @@ class TestBets(unittest.TestCase):
         self.assertIsNotNone(mgr.getDb())
         d = dict()
         d["resultA"]=1
-        # bet.resultB=10
-        # bet.user_id="moi_en_uuid"
-        # bet.com_id="ma_com_id_en_uuid"
-        # bet.category="categcode"
-        # bet.categoryName="categname"
-        # bet.key="keymatch"
-        # bet.libteamA="theliba"
-        # bet.libteamB="thelibb"
-        # bet.teamA="theteamA"
-        # bet.teamB="theteamb"
-        # bet.dateDeadLineBet=datetime(2016, 6, 2, 18, 15, 0, 0, tzinfo=timezone.utc)
-        # bet.dateMatch=datetime(2016, 6, 2, 18, 15, 0, 0, tzinfo=timezone.utc)
-        #
-        # mgr.createOrUpdate(bet)
+        d["resultB"]=10
+        d["user_id"]="moi_en_uuid"
+        d["com_id"]="ma_com_id_en_uuid"
+        d["category"]="categcode"
+        d["categoryName"]="categname"
+        d["key"]="keymatch"
+        d["libteamA"]="theliba"
+        d["libteamB"]="thelibb"
+        d["teamA"]="theteamA"
+        d["teamB"]="theteamb"
+        d["dateDeadLineBet"]=datetime(2016, 6, 2, 18, 15, 0, 0, tzinfo=timezone.utc)
+        d["dateMatch"]=datetime(2016, 6, 2, 18, 15, 0, 0, tzinfo=timezone.utc)
+
+        blist = list()
+        blist.append(d)
+
+        res = mgr.createOrUpdateBets("baduserid", "badcomid", blist)
+        self.assertEqual(0, res)
 
 
 if __name__ == '__main__':
