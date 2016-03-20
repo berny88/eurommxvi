@@ -119,6 +119,9 @@ class BetsManager(DbManager):
                 logger.info(u'\tgetBetsOfUserAndCom::bet={}'.format(bet))
                 tmpdict = bet.__dict__
                 result.append(tmpdict)
+
+        result.sort(key=lambda bet: bet["dateMatch"])
+
         return result
 
     def createOrUpdate(self, bet):
