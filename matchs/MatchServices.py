@@ -105,7 +105,7 @@ class MatchsManager(DbManager):
         logger.info(u'getAllMatchs::db={}'.format(localdb))
 
         matchsColl = localdb.matchs
-        matchsList = matchsColl.find().sort("title")
+        matchsList = matchsColl.find().sort("dateMatch")
         logger.info(u'getAllMatchs::matchsList={}'.format(matchsList))
         #Faut-il changer de list ou retourner le bson directement ?
         result = list()

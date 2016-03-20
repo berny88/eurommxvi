@@ -1,10 +1,6 @@
 # -*- coding: utf-8 -*-
 from flask import Blueprint, jsonify, redirect, request, session
 import logging
-from pymongo import MongoClient
-from datetime import datetime
-import os
-import re
 from uuid import uuid4
 import sendgrid
 

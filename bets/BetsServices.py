@@ -33,6 +33,9 @@ class Bet:
     teamB : code Equipe A
     resultA : pari resutat teamA
     resultB : pari resutat teamB
+    nbpoints : score calculated after the end of the match
+    "2016-06-22T19:00:00Z",
+    "2016-03-18T20:45:16.692Z"
     db.bets.insert({"com_id": "qqq", "user_id":"zoo", "key_match" : "GROUPEE_SWE_BEL", "category":"GROUPE",
     "categoryName": "groupeA", "dateDeadLineBet" : "2016-03-18T20:21:37.330Z", "dateMatch" : "2016-03-18T20:21:37.330Z",
      "libteamA": "nom equipe A", "libteamB": "nom équipe B", "teamA" : "code Equipe A", "teamB" : "code Equipe A",
@@ -52,6 +55,7 @@ class Bet:
         self.libteamB = u""
         self.teamA = u""
         self.teamB = u""
+        self.nbpoints = 0
 
     def convertFromBson(self, elt):
         """
@@ -81,7 +85,7 @@ class BetsManager(DbManager):
     def getBetsOfUserAndCom(self, user_id, com_id):
         localdb = self.getDb()
         # get all matchs
-        matchsList = localdb.matchs.find()
+        matchsList = localdb.matchs.find().sort("dateMatch")
 
         # search all bets for user and community
         betsList = localdb.bets.find({"user_id": user_id, "com_id": com_id})
