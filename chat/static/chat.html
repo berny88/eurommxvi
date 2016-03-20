@@ -35,13 +35,13 @@
         <br/>
 
         <div class="row" id="postList">
-            <div ng-repeat="p in posts.posts" class="col-sm-12">
+            <div ng-repeat="p in posts.posts">
 
-                <div class="row">
-                    <div class="col-xs-2" ng-class-odd="'col-xs-push-9'">
+                <div class="row-fluid">
+                    <div class="col-md-3" ng-class-odd="'col-md-push-8'">
                         <h3><span class="label label-success">{{p.nickName}}</span></h3>
                     </div>
-                    <div class="col-xs-9" ng-class-odd="'col-xs-pull-2'">
+                    <div class="col-md-8" ng-class-odd="'col-md-pull-3'">
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 {{p.message}}<br>
@@ -49,8 +49,8 @@
                             </div>
                         </div>
                     </div> <!--/col-->
-                    <div class="col-xs-1">
-                        <span ng-show="hasAuthorization(p)"><a class="btn btn-danger" ng-click="deletePost(p)"><i class="glyphicon glyphicon-remove-sign"></i></a></span>
+                    <div class="col-md-1">
+                        <h3><span ng-show="hasAuthorization(p)"><a class="btn btn-danger" ng-click="deletePost(p)"><i class="glyphicon glyphicon-remove-sign"></i></a></span></h3>
                     </div>
                 </div><!--/row-->
 
