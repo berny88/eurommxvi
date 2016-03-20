@@ -95,7 +95,7 @@ def updateCommunity():
             checkRight=True
     if (checkRight):
         communityUpdated = mgr.updateCommunity(communityToUpdate)
-        return jsonify({'community': communityUpdated}.__dict__)
+        return jsonify({'community': communityUpdated.__dict__})
     else:
         return "Ha ha ha ! Mais t'es pas la bonne personne pour faire ça, mon loulou", 403
 
