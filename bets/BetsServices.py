@@ -131,9 +131,9 @@ class BetsManager(DbManager):
             bet = Bet()
             bet.convertFromBson(b)
             currDate = datetime.utcnow()
-            if bet.user_id==user_id and bet.com_id==com_id and currDate<bet.dateDeadLineBet:
+            if bet.user_id==user_id and bet.com_id==com_id:
                 logger.warn(u'\ttry save : {}'.format(b))
-                self.createOrUpdate(b)
+                self.createOrUpdate(bet)
                 nbHit = nbHit + 1
             else:
                 logger.warn(u'\thack en cours : {}'.format(b))

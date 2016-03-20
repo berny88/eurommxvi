@@ -1,5 +1,5 @@
 <div ng-controller="BetsCtrl">
-    <form ng-submit="saveBets()">
+    <form ng-submit="saveBets(community.community.com_id)">
         <input type="submit" class="btn btn-success pull-right" value="Sauvegarder les paris">
         <h3>Phase de poule</h3>
         <div id="no-more-tables" class="table-responsive">
@@ -33,7 +33,7 @@
                 </tr>
                 </thead>
                 <tbody ng-init="getBetsByCommunityId(community.community.com_id);">
-                    <tr ng-class="{ 'danger' : (bet.resultA=='' || bet.resultA==null || bet.resultB=='' || bet.resultB==null)}" ng-repeat="bet in bets.bets | orderBy:sortType:sortReverse">
+                    <tr ng-class="{ 'danger' : (bet.resultA==null || bet.resultB==null)}" ng-repeat="bet in bets.bets | orderBy:sortType:sortReverse">
                         <td data-title="Date">{{bet.dateMatch | date:'dd-MM-yyyy HH:mm:ss'}}</td>
                         <td data-title="Groupe">{{bet.categoryName}}</td>
                         <td data-title="TeamA">{{bet.libteamA}}</td>
