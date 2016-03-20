@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from flask import Blueprint, jsonify, redirect, request, session
+from flask import Blueprint, jsonify, request, session
 import logging
 from pymongo import MongoClient
 from datetime import datetime
