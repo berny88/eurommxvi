@@ -5,7 +5,7 @@ euro2016App.controller('BetsCtrl', ['$scope', '$routeParams', '$http', '$q', '$l
 
         $scope.getBetsByCommunityId = function(com_id) {
 
-            $scope.bets = {
+            $scope.bets_old = {
                           "bets": [
                             {
                               "category": "GROUPE",
@@ -485,6 +485,15 @@ euro2016App.controller('BetsCtrl', ['$scope', '$routeParams', '$http', '$q', '$l
                             }
                           ]
                         }
+
+            $scope.bets = {};
+
+            hideAlerts();
+
+            $http.get('communities/apiv1.0/communities/'+ com_id + '/users/'+ getConnectedUser($window).user_id +'/bets ', {timeout: canceler.promise})
+            .success(function(data, status, headers, config) {
+                $scope.bets = data;
+
                 // to disable the input fields in the form
                 $scope.bets.bets.forEach(function(bet) {
                     if (Date.parse(bet.dateDeadLineBet) > new Date()) {
@@ -493,6 +502,11 @@ euro2016App.controller('BetsCtrl', ['$scope', '$routeParams', '$http', '$q', '$l
                         bet.notClosed = false;
                     }
                 });
+
+            })
+            .error(function(data, status, headers, config) {
+                showAlertError("Erreur lors de la récupération de la liste des paris ; erreur HTTP : " + status);
+            });
 
         }
 

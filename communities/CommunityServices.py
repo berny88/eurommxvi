@@ -100,7 +100,7 @@ def updateCommunity():
         return "Ha ha ha ! Mais t'es pas la bonne personne pour faire ça, mon loulou", 403
 
 
-@communities_page.route('/apiv1.0/<com_id>/users/<user_id>/bets', methods=['GET'])
+@communities_page.route('/apiv1.0/communities/<com_id>/users/<user_id>/bets', methods=['GET'])
 def getBets(com_id, user_id):
 
     betsMgr = BetsManager()
@@ -111,7 +111,7 @@ def getBets(com_id, user_id):
     logger.info(u"bets={}".format(bets))
     return jsonify({'bets': bets})
 
-@communities_page.route('/apiv1.0/<com_id>/users/<user_id>/bets', methods=['PUT'])
+@communities_page.route('/apiv1.0/communities/<com_id>/users/<user_id>/bets', methods=['PUT'])
 def createOrUpdateBets(com_id, user_id):
     betsMgr = BetsManager()
 
