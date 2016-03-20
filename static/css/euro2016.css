@@ -47,7 +47,7 @@
 }
 
 /* Pour les tableaux (responsive) */
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 500px) {
 
     /* Force table to not be like tables anymore */
 	#no-more-tables table,
