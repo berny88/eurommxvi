@@ -96,3 +96,8 @@
 	*/
 	#no-more-tables td:before { content: attr(data-title); }
 }
+
+/* the resize the input of type = number */
+input[type="number"] {
+   width:70px;
+}
