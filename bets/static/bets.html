@@ -11,7 +11,7 @@
                         <span ng-show="sortType=='dateMatch' && sortReverse" class="glyphicon glyphicon-chevron-up"></span></a>
                 </th>
                 <th class="categoryName">
-                    <a ng-click="sortType='categoryName';sortReverse=!sortReverse">Catégorie
+                    <a ng-click="sortType='categoryName';sortReverse=!sortReverse">Groupe
                         <span ng-show="sortType=='categoryName'&&!sortReverse" class="glyphicon glyphicon-chevron-down"></span>
                         <span ng-show="sortType=='categoryName' && sortReverse" class="glyphicon glyphicon-chevron-up"></span></a>
                 </th>
@@ -37,12 +37,12 @@
                     <td>{{bet.categoryName}}</td>
                     <td>{{bet.libteamA}}</td>
                     <td>
-                        <input ng-show="bet.notClosed" class="form-control" ng-model="bet.resultA" type="number" min="1" max="99">
-                        <input ng-show="!bet.notClosed" class="form-control" ng-model="bet.resultA" type="number" min="1" max="99" disabled>
+                        <input ng-show="bet.notClosed" class="form-control" ng-model="bet.resultA" type="number" min="0" max="99">
+                        <input ng-show="!bet.notClosed" class="form-control" ng-model="bet.resultA" type="number" min="0" max="99" disabled>
                     </td>
                     <td>
-                        <input ng-show="bet.notClosed" class="form-control" ng-model="bet.resultB" type="number" min="1" max="99">
-                        <input ng-show="!bet.notClosed" class="form-control" ng-model="bet.resultB" type="number" min="1" max="99" disabled>
+                        <input ng-show="bet.notClosed" class="form-control" ng-model="bet.resultB" type="number" min="0" max="99">
+                        <input ng-show="!bet.notClosed" class="form-control" ng-model="bet.resultB" type="number" min="0" max="99" disabled>
                     </td>
                     <td>{{bet.libteamB}}</td>
                 </tr>
