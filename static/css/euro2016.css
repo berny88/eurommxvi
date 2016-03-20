@@ -46,7 +46,7 @@
   top:40%;
 }
 
-/* Pour les tableaux (responsive) */
+/* Pour les tableaux (responsivness) */
 @media only screen and (max-width: 500px) {
 
     /* Force table to not be like tables anymore */
