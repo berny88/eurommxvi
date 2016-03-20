@@ -1,12 +1,7 @@
 # -*- coding: utf-8 -*-
-from flask import Blueprint, jsonify, redirect, request, session
+from flask import Blueprint, jsonify, request
 import logging
-from pymongo import MongoClient
-from datetime import datetime
-import os
-import re
 from uuid import uuid4
-import sendgrid
 
 from tools.Tools import DbManager
 
@@ -136,6 +131,6 @@ class ChatManager(DbManager):
     def deletePost(self, post_id):
         """ delete post """
         localdb = self.getDb()
-        bsonPost = localdb.posts.delete_one({"post_id": post_id})
-        logger.info(u'ChatManager::delete={}'.format(post_id))
+        nb = localdb.posts.delete_one({"post_id": post_id})
+        logger.info(u'ChatManager::delete={} = nb deleted={}'.format(nb))
         return ChatManager.getAllPosts(self)

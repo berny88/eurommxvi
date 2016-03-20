@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-from flask import Blueprint, jsonify
+from flask import Blueprint
 import logging
-import types
+from bson.objectid import ObjectId
 from tools.Tools import DbManager
-from users.UserServices import UserManager
 
 logger = logging.getLogger(__name__)
 
@@ -16,16 +15,12 @@ def bets():
     return bets_page.send_static_file('bets.html')
 
 
-
-
-
-
 class Bet:
     u""""
-    object_id (soit uuid soit objectid mongo)
+    _id (soit uuid soit objectid mongo)
     user_id (=uuid)
     com_id (uuid)
-    key_match : "GROUPEE_SWE_BEL"
+    key : "GROUPEE_SWE_BEL"
     category (GROUPE, 1_4, 1_2, 1_1, 1)
     categoryName (groupeA, Quart 01, Demi 02...)
     dateDeadLineBet :  date limite de saisi du pari
@@ -39,12 +34,12 @@ class Bet:
     db.bets.insert({"com_id": "qqq", "user_id":"zoo", "key_match" : "GROUPEE_SWE_BEL", "category":"GROUPE", "categoryName": "groupeA", "dateDeadLineBet" : "2016-03-18T20:21:37.330Z", "dateMatch" : "2016-03-18T20:21:37.330Z", "libteamA": "nom equipe A", "libteamB": "nom équipe B", "teamA" : "code Equipe A", "teamB" : "code Equipe A", "resultA" : "0", "resultB" : "0"});
     """""
     def __init__(self):
-        self.object_id = u""
+        self._id = None
         self.user_id= u""
         self.com_id = u""
-        self.key_match = u""
-        self.resultA=-1
-        self.resultB=-1
+        self.key = u""
+        self.resultA=None
+        self.resultB=None
         self.category = u""
         self.categoryName= u""
         self.libteamA = u""
@@ -58,7 +53,10 @@ class Bet:
         convert a community object from mongo
         """
         for k in elt.keys():
-            self.__dict__[k]=k
+            if k=="_id":
+                self._id=str(elt[k])
+            else:
+                self.__dict__[k]=elt[k]
 
 
     def convertIntoBson(self):
@@ -67,47 +65,80 @@ class Bet:
         """
         elt = dict()
         for k in self.__dict__ :
-            elt[k]=self.__dict__[k]
+            if k=="_id" and self._id is not None:
+                elt[k]=ObjectId(self._id)
+            else:
+                elt[k]=self.__dict__[k]
         return elt
 
 class BetsManager(DbManager):
 
-    def getBets(self, user_id, com_id):
-        """ get the complete list of posts"""
+
+    def getBetsOfUserAndCom(self, user_id, com_id):
         localdb = self.getDb()
-        logger.info(u'getBets::db={}'.format(localdb))
+        #get all matchs
+        matchsList = localdb.matchs.find()
 
-        bets = list()
-        bets.append(dict([('category', "GROUPE"), ('categoryName', "GROUPEA"),("description", u"GROUPEA_FRA_ROU"),
-                          ('key', u"GROUPEA_FRA_ROU"), ('libteamA', "FRANCE"), ("libteamB", "ROUMANIE"),
-                          ("resultA", 0),("resultB", 0),( "teamA", "FRA"),( "teamB", "ROU"),
-                          ("dateDeadLineBet" , "2016-03-18T12:00Z"),( "dateMatch" , "2016-06-18T18:45Z")]))
-        bets.append(dict([('category', "GROUPE"), ('categoryName', "GROUPEA"),("description", u"GROUPEA_ALB_SWI"),
-                          ('key', u"GROUPEA_ALB_SWI"), ('libteamA', "ALBANIE"), ("libteamB", "SUISSE"),
-                          ("resultA", 0),("resultB", 0),( "teamA", "FRA"),( "teamB", "ROU"),
-                          ("dateDeadLineBet" , "2016-03-18T12:00Z"),( "dateMatch" , "2016-03-18T15:00Z")]))
+        #search all bets for user and community
+        betsList = localdb.bets.find({ "user_id": user_id, "com_id": com_id } )
+        logger.info(u'getBets::betsList={}'.format(betsList))
+        #Faut-il changer de list ou retourner le bson directement ?
+        result = list()
 
-        return bets
+        matchsDict=dict()
+        for matchbson in matchsList:
+            matchsDict[matchbson[u"key"]]=matchbson
 
-        # betsColl = localdb.bets
-        # betsList = betsColl.find({ "user_id": user_id, "com_id": com_id } ).sort([("date",-1)]).limit(30)
-        # logger.info(u'getBets::betsList={}'.format(betsList))
-        # #Faut-il changer de list ou retourner le bson directement ?
-        # result = list()
-        #
-        # for betbson in betsList:
-        #
-        #     logger.info(u'\tgetBetsOfUser::betbson={}'.format(betbson))
-        #     bet = Bet()
-        #     bet.convertFromBson(betbson)
-        #
-        #     userMgr = UserManager()
-        #     user = userMgr.getUserByUserId(bet.user_id)
-        #
-        #     logger.info(u'\tgetAllPosts::post={}'.format(bet))
-        #     tmpdict = bet.__dict__
-        #     logger.info(u'\tgetAllPosts::tmpdict={}'.format(tmpdict))
-        #     result.append(tmpdict)
-        # return result
+        betsDict=dict()
+        for betbson in betsList:
+            betsDict[betbson[u"key"]]=betbson
 
+        for key in matchsDict:
+            logger.info(u'\tgetBetsOfUserAndCom::matchbson={}'.format(matchbson))
+            bet = Bet()
+            bet.user_id=user_id
+            bet.com_id=com_id
+            if (key in betsList):
+                bet.convertFromBson(betsDict[key])
+                logger.info(u'\tgetBetsOfUserAndCom::bet={}'.format(bet))
+                tmpdict = bet.__dict__
+                result.append(tmpdict)
+            else:
+                bet.convertFromBson(matchsDict[key])
+                #force result to none if user has never bet
+                bet.resultA=None
+                bet.resultB=None
+                logger.info(u'\tgetBetsOfUserAndCom::bet={}'.format(bet))
+                tmpdict = bet.__dict__
+                result.append(tmpdict)
+        return result
 
+    def createOrUpdate(self, bet):
+        bsonBet = self.getDb().bets.find_one({"user_id": bet.user_id, "com_id":bet.com_id,
+                                              "key":bet.key})
+        if (bsonBet is None):
+            bsonBet = bet.convertIntoBson()
+            logger.info(u'\tto create : {}'.format(bsonBet))
+            id = self.getDb().bets.insert_one(bsonBet).inserted_id
+            logger.info(u'\tid : {}'.format(id))
+        else:
+            logger.info(u'\t try update to bsonBet["_id" : {}] with bet={}'.format(bsonBet["_id"], bet))
+            self.getDb().users.update({"_id":bsonBet["_id"]},
+                    {"$set":{"com_id":bet.com_id, "user_id":bet.user_id,
+                             "key" : bet.key, "category" : bet.category,
+                             "categoryName":bet.categoryName, "dateDeadLineBet":bet.dateDeadLineBet,
+                             "dateMatch":bet.dateMatch, "libteamA":bet.libteamA, "libteamB":bet.libteamB,
+                             "teamA":bet.teamA, "teamB":bet.teamB,
+                              "resultA" : bet.resultA, "resultB" : bet.resultB}}, upsert=True)
+        return bet
+
+    def delete(self, bet):
+        u"""
+        search bet in db by com_id/user_id/key match
+        :param bet: bet to remove
+        :return: thenb of deletion
+        """
+        bsonBet = self.getDb().bets.find_one({"user_id": bet.user_id, "com_id":bet.com_id,
+                                              "key":bet.key})
+        result = self.getDb().bets.delete_one({"_id": bsonBet["_id"]})
+        return result.deleted_count

@@ -261,7 +261,9 @@ class UserManager(DbManager):
                     {"$set":{"email":email, "nickName":nickName,
                              "description" : description, "user_id" : user_id,
                              "validated":validated, "pwd":pwd}}, upsert=True)
-
+        result = User()
+        result.convertFromBson(bsonUser)
+        return result
 
     def getUserByEmail(self, email):
         """ get one property by key"""

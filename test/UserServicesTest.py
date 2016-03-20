@@ -23,7 +23,8 @@ class TestUser(unittest.TestCase):
         os.environ['OPENSHIFT_MONGODB_DB_URL']=u"mongodb://mmxvi:eurommxvi@127.0.0.1:27017/euroxxxvi"
         mgr = UserManager()
 
-        usera = mgr.saveUser("email@test.fr", "", "", "uuidxxx", False)
+        usera = mgr.saveUser("email@test.fr", "", "", "uuidxxx", False, u"zoo")
+        self.assertIsNotNone(usera)
 
         user = mgr.getUserByEmail(u"email@test.fr")
 

@@ -104,7 +104,7 @@ def updateCommunity():
 def getBets(com_id, user_id):
 
     betsMgr = BetsManager()
-    bets = betsMgr.getBets(user_id, com_id)
+    bets = betsMgr.getBetsOfUserAndCom(user_id, com_id)
 
     logger.info(u" ------------ ")
     logger.info(u"type={}".format(type(bets)))
@@ -160,6 +160,7 @@ class Community:
         elt['title'] = self.title
         elt['com_id'] = self.com_id
         elt['admin_user_id'] = self.admin_user_id
+        return elt
 
 
 class CommunityManager(DbManager):
@@ -220,7 +221,7 @@ class CommunityManager(DbManager):
             return None
 
 
-    def saveCommunity(self, com):
+    def createCommunity(self, com):
         """ save com """
         localdb = self.getDb()
 
@@ -234,7 +235,8 @@ class CommunityManager(DbManager):
         logger.info(u'\tkey None - to create : {}'.format(bsonCom))
         id = localdb.communities.insert_one(bsonCom).inserted_id
         logger.info(u'\tid : {}'.format(id))
-        return None
+        com.com_id = com_id
+        return com
 
 
     def updateCommunity(self, com):
@@ -247,7 +249,7 @@ class CommunityManager(DbManager):
         id = localdb.communities.update({"_id":bsonCom["_id"]},
                                        {"$set":{"title":com.title, "com_id":com.com_id,
                                                 "description" : com.description}}, upsert=True)
-        return None
+        return com
 
     def deleteCommunity(self, com):
         """ delete com """
