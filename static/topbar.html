@@ -13,29 +13,29 @@
           </div>
           <div class="collapse navbar-collapse" id="navigationbar">
               <ul class="nav navbar-nav">
-                  <li><a href="#rules">
+                  <li><a data-toggle="collapse" data-target=".navbar-collapse" href="#rules">
                     <span class="glyphicon glyphicon-cog" aria-hidden="true">&nbsp;Règles</span></a></li>
-                  <li><a href="#users">
+                  <li><a data-toggle="collapse" data-target=".navbar-collapse" href="#users">
                     <span class="glyphicon glyphicon-user" aria-hidden="true">&nbsp;Parieurs</span></a></li>
-                  <li><a href="#communities">
+                  <li><a data-toggle="collapse" data-target=".navbar-collapse" href="#communities">
                     <span class="glyphicon glyphicon-globe" aria-hidden="true"></span>&nbsp;Pariez, c'est par là !</a></li>
 
                   <li class="dropdown">
                       <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>&nbsp;Infos <span class="caret"></span></a>
                       <ul class="dropdown-menu">
-                          <li><a href="#matchs"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>&nbsp;Matchs</a></li>
-                          <li><a href="#tirage"><span class="glyphicon glyphicon-retweet" aria-hidden="true"></span>&nbsp;Tirage</a></li>
-                          <li><a href="#calendrier"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>&nbsp;Calendrier</a></li>
+                          <li><a data-toggle="collapse" data-target=".navbar-collapse" href="#matchs"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>&nbsp;Matchs</a></li>
+                          <li><a data-toggle="collapse" data-target=".navbar-collapse" href="#tirage"><span class="glyphicon glyphicon-retweet" aria-hidden="true"></span>&nbsp;Tirage</a></li>
+                          <li><a data-toggle="collapse" data-target=".navbar-collapse" href="#calendrier"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>&nbsp;Calendrier</a></li>
                       </ul>
                   </li>
 
-                  <li><a href="#about">A propos</a></li>
-                  <li><a href="#contact">Contact</a></li>
+                  <li><a data-toggle="collapse" data-target=".navbar-collapse" href="#about">A propos</a></li>
+                  <li><a data-toggle="collapse" data-target=".navbar-collapse" href="#contact">Contact</a></li>
               </ul>
               <ul class="nav navbar-nav navbar-right">
                   <li><a href=""><span id="connectedUserInTopbar" class="label label-success"></span></a></li>
-                  <li ng-show="!isConnected()"><a href="#signin"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp;Connexion</a></li>
-                  <li ng-show="isConnected()"><a href="#logout"><span class="glyphicon glyphicon-off" aria-hidden="true"></span>&nbsp;Déconnexion</a></li>
+                  <li ng-show="!isConnected()"><a data-toggle="collapse" data-target=".navbar-collapse" href="#signin"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp;Connexion</a></li>
+                  <li ng-show="isConnected()"><a data-toggle="collapse" data-target=".navbar-collapse" href="#logout"><span class="glyphicon glyphicon-off" aria-hidden="true"></span>&nbsp;Déconnexion</a></li>
               </ul>
           </div>
         </div>
