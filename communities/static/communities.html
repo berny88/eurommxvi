@@ -27,38 +27,38 @@
 
         <div class="row-fluid" >
             <div class="col-xs-12">
-
-                <table class="table table-condensed table-striped">
-                    <thead>
-                    <tr>
-                        <!--<th class="id">Id</th>-->
-                        <th class="title">
-                            <a ng-click="sortType='title';sortReverse=!sortReverse">Titre<span ng-show="sortType=='title'&&!sortReverse" class="glyphicon glyphicon-chevron-down"></span><span ng-show="sortType=='title' && sortReverse" class="glyphicon glyphicon-chevron-up"></span></a>
-                        </th>
-                        <th class="description">Description</th>
-                        <th class="administrator">Administrateur</th>
-                        <th></th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody ng-init="getCommunities();">
-                    <tr ng-repeat="community in communities.communities | filter : community_filter | orderBy:sortType:sortReverse">
-                        <!--<td>{{community.com_id}}</td>-->
-                        <td>{{community.title}}</td>
-                        <td>{{community.description}}</td>
-                        <td>{{community.admin_user_nickName}}</td>
-                        <td>
-                            <span><a class="btn btn-danger" href="#bet_in_community/{{community.com_id}}"><i class="glyphicon glyphicon-stats"></i> Pariez !</a></span>
-                        </td>
-                        <td>
-                            <span><a class="btn btn-info" href="#view_community/{{community.com_id}}"><i class="glyphicon glyphicon-eye-open"></i></a></span>
-                            <span ng-show="hasAuthorization(community)"><a class="btn btn-danger" ng-click="deleteCommunity(community)"><i class="glyphicon glyphicon-remove-sign"></i></a></span>
-                            <span ng-show="hasAuthorization(community)"><a class="btn btn-default" href="#update_community/{{community.com_id}}"><i class="glyphicon glyphicon-pencil"></i></a></span>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-
+                <div id="no-more-tables" class="table-responsive">
+                    <table class="table table-condensed table-striped">
+                        <thead>
+                        <tr>
+                            <!--<th class="id">Id</th>-->
+                            <th class="title">
+                                <a ng-click="sortType='title';sortReverse=!sortReverse">Titre<span ng-show="sortType=='title'&&!sortReverse" class="glyphicon glyphicon-chevron-down"></span><span ng-show="sortType=='title' && sortReverse" class="glyphicon glyphicon-chevron-up"></span></a>
+                            </th>
+                            <th class="description">Description</th>
+                            <th class="administrator">Administrateur</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody ng-init="getCommunities();">
+                        <tr ng-repeat="community in communities.communities | filter : community_filter | orderBy:sortType:sortReverse">
+                            <!--<td>{{community.com_id}}</td>-->
+                            <td data-title="Titre">{{community.title}}</td>
+                            <td data-title="Desc.">{{community.description}}</td>
+                            <td data-title="NickName">{{community.admin_user_nickName}}</td>
+                            <td>
+                                <span><a class="btn btn-danger" href="#bet_in_community/{{community.com_id}}"><i class="glyphicon glyphicon-stats"></i> Pariez !</a></span>
+                            </td>
+                            <td>
+                                <span><a class="btn btn-info" href="#view_community/{{community.com_id}}"><i class="glyphicon glyphicon-eye-open"></i></a></span>
+                                <span ng-show="hasAuthorization(community)"><a class="btn btn-danger" ng-click="deleteCommunity(community)"><i class="glyphicon glyphicon-remove-sign"></i></a></span>
+                                <span ng-show="hasAuthorization(community)"><a class="btn btn-default" href="#update_community/{{community.com_id}}"><i class="glyphicon glyphicon-pencil"></i></a></span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

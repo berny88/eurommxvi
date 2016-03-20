@@ -2,52 +2,54 @@
     <form ng-submit="saveBets()">
         <input type="submit" class="btn btn-success pull-right" value="Sauvegarder les paris">
         <h3>Phase de poule</h3>
-        <table class="table table-condensed table-striped">
-            <thead>
-            <tr>
-                <th class="dateMatch">
-                    <a ng-click="sortType='dateMatch';sortReverse=!sortReverse">Date
-                        <span ng-show="sortType=='dateMatch'&&!sortReverse" class="glyphicon glyphicon-chevron-down"></span>
-                        <span ng-show="sortType=='dateMatch' && sortReverse" class="glyphicon glyphicon-chevron-up"></span></a>
-                </th>
-                <th class="categoryName">
-                    <a ng-click="sortType='categoryName';sortReverse=!sortReverse">Groupe
-                        <span ng-show="sortType=='categoryName'&&!sortReverse" class="glyphicon glyphicon-chevron-down"></span>
-                        <span ng-show="sortType=='categoryName' && sortReverse" class="glyphicon glyphicon-chevron-up"></span></a>
-                </th>
-                <th class="teamA">
-                    <a ng-click="sortType='teamA';sortReverse=!sortReverse">Team A
-                        <span ng-show="sortType=='teamA'&&!sortReverse" class="glyphicon glyphicon-chevron-down"></span>
-                        <span ng-show="sortType=='teamA' && sortReverse" class="glyphicon glyphicon-chevron-up"></span></a>
-                </th>
-                <th>
-                </th>
-                <th>
-                </th>
-                <th class="teamB">
-                    <a ng-click="sortType='teamB';sortReverse=!sortReverse">Team B
-                        <span ng-show="sortType=='teamB'&&!sortReverse" class="glyphicon glyphicon-chevron-down"></span>
-                        <span ng-show="sortType=='teamB' && sortReverse" class="glyphicon glyphicon-chevron-up"></span></a>
-                </th>
-            </tr>
-            </thead>
-            <tbody ng-init="getBetsByCommunityId(community.community.com_id);">
-                <tr ng-class="{ 'danger' : (bet.resultA=='' || bet.resultA==null || bet.resultB=='' || bet.resultB==null)}" ng-repeat="bet in bets.bets | orderBy:sortType:sortReverse">
-                    <td>{{bet.dateMatch | date:'dd-MM-yyyy HH:mm:ss'}}</td>
-                    <td>{{bet.categoryName}}</td>
-                    <td>{{bet.libteamA}}</td>
-                    <td>
-                        <input ng-show="bet.notClosed" class="form-control" ng-model="bet.resultA" type="number" min="0" max="99">
-                        <input ng-show="!bet.notClosed" class="form-control" ng-model="bet.resultA" type="number" min="0" max="99" disabled>
-                    </td>
-                    <td>
-                        <input ng-show="bet.notClosed" class="form-control" ng-model="bet.resultB" type="number" min="0" max="99">
-                        <input ng-show="!bet.notClosed" class="form-control" ng-model="bet.resultB" type="number" min="0" max="99" disabled>
-                    </td>
-                    <td>{{bet.libteamB}}</td>
+        <div id="no-more-tables" class="table-responsive">
+            <table class="table table-condensed table-striped">
+                <thead>
+                <tr>
+                    <th class="dateMatch">
+                        <a ng-click="sortType='dateMatch';sortReverse=!sortReverse">Date
+                            <span ng-show="sortType=='dateMatch'&&!sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+                            <span ng-show="sortType=='dateMatch' && sortReverse" class="glyphicon glyphicon-chevron-up"></span></a>
+                    </th>
+                    <th class="categoryName">
+                        <a ng-click="sortType='categoryName';sortReverse=!sortReverse">Groupe
+                            <span ng-show="sortType=='categoryName'&&!sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+                            <span ng-show="sortType=='categoryName' && sortReverse" class="glyphicon glyphicon-chevron-up"></span></a>
+                    </th>
+                    <th class="teamA">
+                        <a ng-click="sortType='teamA';sortReverse=!sortReverse">Team A
+                            <span ng-show="sortType=='teamA'&&!sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+                            <span ng-show="sortType=='teamA' && sortReverse" class="glyphicon glyphicon-chevron-up"></span></a>
+                    </th>
+                    <th>
+                    </th>
+                    <th>
+                    </th>
+                    <th class="teamB">
+                        <a ng-click="sortType='teamB';sortReverse=!sortReverse">Team B
+                            <span ng-show="sortType=='teamB'&&!sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+                            <span ng-show="sortType=='teamB' && sortReverse" class="glyphicon glyphicon-chevron-up"></span></a>
+                    </th>
                 </tr>
-            </tbody>
-        </table>
+                </thead>
+                <tbody ng-init="getBetsByCommunityId(community.community.com_id);">
+                    <tr ng-class="{ 'danger' : (bet.resultA=='' || bet.resultA==null || bet.resultB=='' || bet.resultB==null)}" ng-repeat="bet in bets.bets | orderBy:sortType:sortReverse">
+                        <td data-title="Date">{{bet.dateMatch | date:'dd-MM-yyyy HH:mm:ss'}}</td>
+                        <td data-title="Groupe">{{bet.categoryName}}</td>
+                        <td data-title="TeamA">{{bet.libteamA}}</td>
+                        <td>
+                            <input ng-show="bet.notClosed" class="form-control" ng-model="bet.resultA" type="number" min="0" max="99">
+                            <input ng-show="!bet.notClosed" class="form-control" ng-model="bet.resultA" type="number" min="0" max="99" disabled>
+                        </td>
+                        <td>
+                            <input ng-show="bet.notClosed" class="form-control" ng-model="bet.resultB" type="number" min="0" max="99">
+                            <input ng-show="!bet.notClosed" class="form-control" ng-model="bet.resultB" type="number" min="0" max="99" disabled>
+                        </td>
+                        <td data-title="TeamB">{{bet.libteamB}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         <input type="submit" class="btn btn-success pull-right" value="Sauvegarder les paris">
     </form>
 </div>
