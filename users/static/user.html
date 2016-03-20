@@ -22,6 +22,11 @@
               <label for="nickName" class="control-label">Nickname</label>
               <input type="nickName" class="form-control" id="nickName" name="nickName" ng-model="user.nickName"
               placeholder="nickName" value="{{user.nickName}}" required="required">
+                <script>
+                    $(function () {
+                        $('#nickName').focus();
+                    });
+                </script>
 
               <label for="description" class="control-label">Description</label>
               <input type="description" class="form-control" id="description" name="description" ng-model="user.description"

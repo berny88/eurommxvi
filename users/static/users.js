@@ -116,6 +116,10 @@ euro2016App.controller('LoginCtrl', ['$scope', '$http', '$q', '$routeParams', '$
 
         }
 
+        $(function () {
+            $('#email').focus();
+        });
+
         var canceler = $q.defer();
 
         $scope.$on('$destroy', function(){
