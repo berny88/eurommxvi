@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
-from flask import Blueprint
 import logging
+
 from bson.objectid import ObjectId
+from flask import Blueprint
+
 from tools.Tools import DbManager
 
 logger = logging.getLogger(__name__)
@@ -31,7 +33,10 @@ class Bet:
     teamB : code Equipe A
     resultA : pari resutat teamA
     resultB : pari resutat teamB
-    db.bets.insert({"com_id": "qqq", "user_id":"zoo", "key_match" : "GROUPEE_SWE_BEL", "category":"GROUPE", "categoryName": "groupeA", "dateDeadLineBet" : "2016-03-18T20:21:37.330Z", "dateMatch" : "2016-03-18T20:21:37.330Z", "libteamA": "nom equipe A", "libteamB": "nom équipe B", "teamA" : "code Equipe A", "teamB" : "code Equipe A", "resultA" : "0", "resultB" : "0"});
+    db.bets.insert({"com_id": "qqq", "user_id":"zoo", "key_match" : "GROUPEE_SWE_BEL", "category":"GROUPE",
+    "categoryName": "groupeA", "dateDeadLineBet" : "2016-03-18T20:21:37.330Z", "dateMatch" : "2016-03-18T20:21:37.330Z",
+     "libteamA": "nom equipe A", "libteamB": "nom équipe B", "teamA" : "code Equipe A", "teamB" : "code Equipe A",
+     "resultA" : "0", "resultB" : "0"});
     """""
 
     def __init__(self):
@@ -51,6 +56,7 @@ class Bet:
     def convertFromBson(self, elt):
         """
         convert a community object from mongo
+        :param elt bson structure from mongodb
         """
         for k in elt.keys():
             if k == "_id":
@@ -96,7 +102,7 @@ class BetsManager(DbManager):
             bet = Bet()
             bet.user_id = user_id
             bet.com_id = com_id
-            if (key in betsList):
+            if key in betsList:
                 bet.convertFromBson(betsDict[key])
                 logger.info(u'\tgetBetsOfUserAndCom::bet={}'.format(bet))
                 tmpdict = bet.__dict__
@@ -114,11 +120,11 @@ class BetsManager(DbManager):
     def createOrUpdate(self, bet):
         bsonBet = self.getDb().bets.find_one({"user_id": bet.user_id, "com_id": bet.com_id,
                                               "key": bet.key})
-        if (bsonBet is None):
+        if bsonBet is None:
             bsonBet = bet.convertIntoBson()
             logger.info(u'\tto create : {}'.format(bsonBet))
-            id = self.getDb().bets.insert_one(bsonBet).inserted_id
-            logger.info(u'\tid : {}'.format(id))
+            newid = self.getDb().bets.insert_one(bsonBet).inserted_id
+            logger.info(u'\tid : {}'.format(newid))
         else:
             logger.info(u'\t try update to bsonBet["_id" : {}] with bet={}'.format(bsonBet["_id"], bet))
             self.getDb().users.update({"_id": bsonBet["_id"]},
