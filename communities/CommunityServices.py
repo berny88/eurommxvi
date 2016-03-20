@@ -67,7 +67,7 @@ def createCommunity():
     mgr = CommunityManager()
     communityCreated = mgr.createCommunity(communityToCreate)
 
-    return jsonify({'community': communityCreated})
+    return jsonify({'community': communityCreated.__dict__})
 
 @communities_page.route('/apiv1.0/communities', methods=['PUT'])
 def updateCommunity():
@@ -95,7 +95,7 @@ def updateCommunity():
             checkRight=True
     if (checkRight):
         communityUpdated = mgr.updateCommunity(communityToUpdate)
-        return jsonify({'community': communityUpdated})
+        return jsonify({'community': communityUpdated}.__dict__)
     else:
         return "Ha ha ha ! Mais t'es pas la bonne personne pour faire ça, mon loulou", 403
 
