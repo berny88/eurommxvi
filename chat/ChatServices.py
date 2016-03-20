@@ -75,7 +75,7 @@ class Post:
         elt = dict()
         #elt['_id'] = self._id
         elt['date'] = self.date
-        elt['title'] = self.title
+        elt['message'] = self.message
         elt['post_id'] = self.post_id
         elt['post_user_id'] = self.post_user_id
 
