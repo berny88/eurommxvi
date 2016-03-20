@@ -114,6 +114,8 @@ def getBets(com_id, user_id):
 @communities_page.route('/apiv1.0/communities/<com_id>/users/<user_id>/bets', methods=['PUT'])
 def createOrUpdateBets(com_id, user_id):
     betsMgr = BetsManager()
+    logger.info(u"createOrUpdateBets::json param:{} ".format(request.json))
+    betsJSON = request.json["bets"]
 
 
 
