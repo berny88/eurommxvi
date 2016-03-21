@@ -134,7 +134,7 @@ def createOrUpdateBets(com_id, user_id):
 @communities_page.route('/apiv1.0/communities/<com_id>/players', methods=['GET'])
 def countPlayers(com_id):
     u"""
-    :return
+    :return la représentation json de { "data": { "playerCount": x}}
     :param com_id: id of community (uuid)
     :param user_id: id of user (uuid)
     """
@@ -144,6 +144,18 @@ def countPlayers(com_id):
     d["playerCount"]=playerCount
     return jsonify({'data': d})
 
+@communities_page.route('/apiv1.0/communities/<com_id>/playerslist', methods=['GET'])
+def listOfPlayers(com_id):
+    u"""
+    :return la représentation json de { "data": { "playerCount": x}}
+    :param com_id: id of community (uuid)
+    :param user_id: id of user (uuid)
+    """
+    betsMgr = BetsManager()
+    d= dict()
+    players= betsMgr.players(com_id)
+    d["players"]=players
+    return jsonify({'data': d})
 
 u"""
 **************************************************

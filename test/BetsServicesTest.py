@@ -97,8 +97,11 @@ class TestBets(unittest.TestCase):
 
         mgr.createOrUpdate(bet)
 
-        result = mgr.countPlayer("ma_com_id_en_uuid")
+        result = mgr.countPlayers("ma_com_id_en_uuid")
         self.assertEqual(1, result)
+        players = mgr.players("ma_com_id_en_uuid")
+        self.assertEqual(1, len(players))
+
         mgr.delete(bet)
 
 

@@ -6,6 +6,7 @@ from flask import Blueprint
 
 from tools.Tools import DbManager
 from datetime import datetime
+from users.UserServices import UserManager, User
 
 logger = logging.getLogger(__name__)
 
@@ -190,4 +191,18 @@ class BetsManager(DbManager):
         :return: the number of user who had bet
         """
         result = len(self.getDb().bets.distinct("user_id", {"com_id":com_id}))
+        return result
+
+    def players(self, com_id):
+        u"""
+        list of users of distinct user in a community
+        :param com_id: the community id
+        :return: the number of user who had bet
+        """
+        userIdList = self.getDb().bets.distinct("user_id", {"com_id":com_id})
+        usermgr = UserManager()
+        result=list()
+        for uuid in userIdList:
+            user = usermgr.getUserByUserId(uuid)
+            result.append(user.__dict__)
         return result
