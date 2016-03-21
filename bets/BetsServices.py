@@ -126,6 +126,13 @@ class BetsManager(DbManager):
         return result
 
     def createOrUpdateBets(self, user_id, com_id, bets):
+        u"""
+        update a list af bet for user in a community
+        :param user_id: id of user (to check with the detail of bet)
+        :param com_id: id of community (to check with the detail of bet)
+        :param bets: list of bets
+        :return: nb of bets updated or created
+        """
         nbHit = 0
         for b in bets:
             bet = Bet()
@@ -140,6 +147,11 @@ class BetsManager(DbManager):
         return nbHit
 
     def createOrUpdate(self, bet):
+        u"""
+        store a bet (create is not exist or update)
+        :param bet: the bet to create or update
+        :return: the bet (i'm sure if it is good idea)
+        """
         bsonBet = self.getDb().bets.find_one({"user_id": bet.user_id, "com_id": bet.com_id,
                                               "key": bet.key})
         if bsonBet is None:
@@ -170,3 +182,12 @@ class BetsManager(DbManager):
                                               "key": bet.key})
         result = self.getDb().bets.delete_one({"_id": bsonBet["_id"]})
         return result.deleted_count
+
+    def countPlayers(self, com_id):
+        u"""
+        count of number of distinct user in a community
+        :param com_id: the community id
+        :return: the number of user who had bet
+        """
+        result = len(self.getDb().bets.distinct("user_id", {"com_id":com_id}))
+        return result

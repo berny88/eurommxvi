@@ -76,6 +76,31 @@ class TestBets(unittest.TestCase):
         res = mgr.createOrUpdateBets("baduserid", "badcomid", blist)
         self.assertEqual(0, res)
 
+    def test_countPlayer(self):
+        os.environ['OPENSHIFT_MONGODB_DB_URL']=u"mongodb://mmxvi:eurommxvi@127.0.0.1:27017/euroxxxvi"
+        mgr = BetsManager()
+        self.assertIsNotNone(mgr.getDb())
+        bet = Bet()
+        bet.resultA=1
+        bet.resultB=10
+        bet.user_id="moi_en_uuid"
+        bet.com_id="ma_com_id_en_uuid"
+        bet.category="categcode"
+        bet.categoryName="categname"
+        bet.key="keymatch"
+        bet.libteamA="theliba"
+        bet.libteamB="thelibb"
+        bet.teamA="theteamA"
+        bet.teamB="theteamb"
+        bet.dateDeadLineBet=datetime(2016, 6, 2, 18, 15, 0, 0, tzinfo=timezone.utc)
+        bet.dateMatch=datetime(2016, 6, 2, 18, 15, 0, 0, tzinfo=timezone.utc)
+
+        mgr.createOrUpdate(bet)
+
+        result = mgr.countPlayer("ma_com_id_en_uuid")
+        self.assertEqual(1, result)
+        mgr.delete(bet)
+
 
 if __name__ == '__main__':
     unittest.main()

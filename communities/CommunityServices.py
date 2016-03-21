@@ -102,23 +102,47 @@ def updateCommunity():
 
 @communities_page.route('/apiv1.0/communities/<com_id>/users/<user_id>/bets', methods=['GET'])
 def getBets(com_id, user_id):
-
+    u"""
+    return the list of all bets of a user in a community.
+    If user has never bet, we return the list of Matchs.
+    :param com_id: id of community (uuid)
+    :param user_id: id of user (uuid)
+    :return:  a json form for the list of bet
+    """
     betsMgr = BetsManager()
     bets = betsMgr.getBetsOfUserAndCom(user_id, com_id)
 
-    logger.info(u" ------------ ")
-    logger.info(u"type={}".format(type(bets)))
-    logger.info(u"bets={}".format(bets))
+    logger.debug(u" ------------ ")
+    logger.debug(u"bets={}".format(bets))
     return jsonify({'bets': bets})
 
 @communities_page.route('/apiv1.0/communities/<com_id>/users/<user_id>/bets', methods=['PUT'])
 def createOrUpdateBets(com_id, user_id):
+    u"""
+    save the list of bets of a user in a community.
+    the list of bets is defined inrequest.json.
+    :param com_id: id of community (uuid)
+    :param user_id: id of user (uuid)
+    :return the numbers of bets created or updated
+    """
     betsMgr = BetsManager()
     logger.info(u"createOrUpdateBets::json param:{} ".format(request.json))
     betsJSON = request.json["bets"]
     nbHit = betsMgr.createOrUpdateBets(user_id, com_id, betsJSON)
     return jsonify({'nbHit': nbHit})
 
+@communities_page.route('/apiv1.0/communities/<com_id>/players', methods=['GET'])
+def countPlayers(com_id):
+    u"""
+    :return
+    :param com_id: id of community (uuid)
+    :param user_id: id of user (uuid)
+    """
+    betsMgr = BetsManager()
+    d= dict()
+    playerCount = betsMgr.countPlayers(com_id)
+    d["playerCount"]=playerCount
+    return jsonify({'data': d})
 
 
 u"""

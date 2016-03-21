@@ -1,5 +1,5 @@
 import unittest, os
-from communities.CommunityServices import Community, CommunityManager
+from communities.CommunityServices import Community, CommunityManager, countPlayers
 from users.UserServices import User
 
 
@@ -84,6 +84,8 @@ class TestCommunities(unittest.TestCase):
         # coms = mgr.getAllCommunities()
         # for u in coms:
         #     print(u)
+
+
 
 
 if __name__ == '__main__':
