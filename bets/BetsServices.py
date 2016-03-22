@@ -76,8 +76,11 @@ class Bet:
         """
         elt = dict()
         for k in self.__dict__:
-            if k == "_id" and self._id is not None:
-                elt[k] = ObjectId(self._id)
+            if k == "_id":
+                logger.info(u'convertIntoBson={} - do nothing'.format(self._id))
+                #if not self._id is None:
+                #    logger.info(u'convertIntoBson={}'.format(self._id))
+                #    elt[k] = ObjectId(self._id)
             else:
                 elt[k] = self.__dict__[k]
         return elt
@@ -159,12 +162,13 @@ class BetsManager(DbManager):
                                               "key": bet.key})
         if bsonBet is None:
             bsonBet = bet.convertIntoBson()
+            bsonBet .pop("_id", None)
             logger.info(u'\t\tto create : {}'.format(bsonBet))
             newid = self.getDb().bets.insert_one(bsonBet).inserted_id
             logger.info(u'\t\tid : {}'.format(newid))
         else:
             logger.info(u'\t\t try update to bsonBet["_id" : {}] with bet={}'.format(bsonBet["_id"], bet))
-            self.getDb().users.update({"_id": bsonBet["_id"]},
+            self.getDb().bets.update({"_id": bsonBet["_id"]},
                                       {"$set": {"com_id": bet.com_id, "user_id": bet.user_id,
                                                 "key": bet.key, "category": bet.category,
                                                 "categoryName": bet.categoryName,
