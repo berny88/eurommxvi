@@ -76,8 +76,9 @@ class Bet:
         """
         elt = dict()
         for k in self.__dict__:
-            if (k == "_id") and (self._id is not None):
-                elt[k] = ObjectId(self._id)
+            if k == "_id":
+                if self._id is not None:
+                    elt[k] = ObjectId(self._id)
             else:
                 elt[k] = self.__dict__[k]
         return elt
