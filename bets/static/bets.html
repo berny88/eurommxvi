@@ -34,7 +34,7 @@
                 </thead>
                 <tbody ng-init="getBetsByCommunityId()">
                     <tr ng-class="{ 'danger' : (bet.resultA==null || bet.resultB==null)}" ng-repeat="bet in bets.bets | orderBy:sortType:sortReverse">
-                        <td data-title="Date">{{bet.dateMatch | date:'dd-MM-yyyy HH:mm:ss'}}</td>
+                        <td data-title="Date">{{bet.dateMatch | date:'dd/MM/yy HH:mm'}}</td>
                         <td data-title="Groupe">{{bet.categoryName}}</td>
                         <td data-title="TeamA">{{bet.libteamA}}</td>
                         <td>
