@@ -103,6 +103,19 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
             });
         }
 
+
+        $scope.getPlayersInCommunity = function() {
+            hideAlerts();
+            $http.get('communities/apiv1.0/communities/' + $routeParams.com_id + '/players', {timeout: canceler.promise})
+            .success(function(data, status, headers, config) {
+                $scope.players = data;
+            })
+            .error(function(data, status, headers, config) {
+                showAlertError("Erreur lors de la récupération des parieurs dans la communauté ; erreur HTTP : " + status);
+            });
+        }
+
+
         $scope.hasAuthorization = function(community) {
             var currentUser = {};
             if (isConnected($window)) {

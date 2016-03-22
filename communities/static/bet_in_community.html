@@ -47,7 +47,24 @@
                         </h4>
                     </div>
                     <div class="panel-body">
-                        A venir ...
+
+                        <div id="no-more-tables" class="table-responsive">
+                            <table class="table table-condensed table-striped">
+                                <thead>
+                                <tr>
+                                    <th class="player">
+                                        <a ng-click="sortType='player';sortReverse=!sortReverse">Parieurs<span ng-show="sortType=='player'&&!sortReverse" class="glyphicon glyphicon-chevron-down"></span><span ng-show="sortType=='player' && sortReverse" class="glyphicon glyphicon-chevron-up"></span></a>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody ng-init="getPlayersInCommunity();">
+                                <tr ng-repeat="player in players.data.players | orderBy:sortType:sortReverse">
+                                    <td data-title="Parieur">{{player.nickName}}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
                     </div>
                 </div>
                 <div class="panel panel-default">
