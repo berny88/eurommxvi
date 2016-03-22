@@ -78,6 +78,7 @@ class Bet:
         for k in self.__dict__:
             if k == "_id":
                 if self._id is not None:
+                    logger.info(u'convertIntoBson={}'.format(self._id))
                     elt[k] = ObjectId(self._id)
             else:
                 elt[k] = self.__dict__[k]
