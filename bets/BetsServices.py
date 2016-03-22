@@ -168,7 +168,7 @@ class BetsManager(DbManager):
             logger.info(u'\t\tid : {}'.format(newid))
         else:
             logger.info(u'\t\t try update to bsonBet["_id" : {}] with bet={}'.format(bsonBet["_id"], bet))
-            self.getDb().users.update({"_id": bsonBet["_id"]},
+            self.getDb().bets.update({"_id": bsonBet["_id"]},
                                       {"$set": {"com_id": bet.com_id, "user_id": bet.user_id,
                                                 "key": bet.key, "category": bet.category,
                                                 "categoryName": bet.categoryName,
