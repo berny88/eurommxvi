@@ -102,7 +102,24 @@ class TestBets(unittest.TestCase):
         players = mgr.players("ma_com_id_en_uuid")
         self.assertEqual(1, len(players))
 
+        bet2 = Bet()
+        bet2.resultA=1
+        bet2.resultB=10
+        bet2.user_id="moi_en_uuid"
+        bet2.com_id="ma_com_id_en_uuid"
+        bet2.category="categcode"
+        bet2.categoryName="categname"
+        bet2.key="keymatch"
+        bet2.libteamA="theliba"
+        bet2.libteamB="thelibb"
+        bet2.teamA="theteamA"
+        bet2.teamB="theteamb"
+        bet2.dateDeadLineBet=datetime(2016, 6, 2, 18, 15, 0, 0, tzinfo=timezone.utc)
+        bet2.dateMatch=datetime(2016, 6, 2, 18, 15, 0, 0, tzinfo=timezone.utc)
+        mgr.createOrUpdate(bet)
+
         mgr.delete(bet)
+        mgr.delete(bet2)
 
 
 if __name__ == '__main__':
