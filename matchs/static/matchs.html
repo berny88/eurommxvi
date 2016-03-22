@@ -40,7 +40,7 @@
                     </thead>
                     <tbody ng-init="getMatchs();">
                         <tr ng-class="{ 'danger' : (match.resultA==null || match.resultB==null)}" ng-repeat="match in matchs | orderBy:sortType:sortReverse">
-                            <td data-title="Date">{{match.dateMatch | date:'dd-MM-yy HH:mm'}}</td>
+                            <td data-title="Date">{{match.dateMatch | date:'dd/MM/yy HH:mm'}}</td>
                             <td data-title="Groupe">{{match.categoryName}}</td>
                             <td data-title="TeamA">{{match.libteamA}}</td>
                             <td data-title="resultA">{{match.resultA}}</td>
