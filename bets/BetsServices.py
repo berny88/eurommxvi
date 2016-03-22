@@ -159,6 +159,7 @@ class BetsManager(DbManager):
                                               "key": bet.key})
         if bsonBet is None:
             bsonBet = bet.convertIntoBson()
+            bsonBet .pop("_id", None)
             logger.info(u'\t\tto create : {}'.format(bsonBet))
             newid = self.getDb().bets.insert_one(bsonBet).inserted_id
             logger.info(u'\t\tid : {}'.format(newid))
