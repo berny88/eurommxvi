@@ -39,9 +39,10 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
             $http.put('communities/apiv1.0/communities', {communityToUpdate: $scope.communityToUpdate, timeout: canceler.promise})
             .success(function(data, status, headers, config) {
                 $location.path("/communities")
-                $timeout(function() {
-                       showAlertSuccess("Communauté modifiée avec succès !!");
-                    }, 1000);
+                //$timeout(function() {
+                //       showAlertSuccess("Communauté modifiée avec succès !!");
+                //    }, 1000);
+                $.notify("Communauté modifiée avec succès !!" , "success");
             })
             .error(function(data, status, headers, config) {
                 if (status==403){
@@ -58,9 +59,10 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
             $http.post('communities/apiv1.0/communities', {communityToCreate: $scope.communityToCreate, timeout: canceler.promise})
             .success(function(data, status, headers, config) {
                 $location.path("/communities")
-                $timeout(function() {
-                       showAlertSuccess("Communauté créée avec succès !!");
-                    }, 1000);
+                //$timeout(function() {
+                //       showAlertSuccess("Communauté créée avec succès !!");
+                //    }, 1000);
+                $.notify("Communauté créée avec succès !!" , "success");
 
             })
             .error(function(data, status, headers, config) {
@@ -80,7 +82,8 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
             .success(function(data, status, headers, config) {
                 $scope.communities = data;
                 closeModal();
-                showAlertSuccess("Communauté [" + $scope.communityToDelete.title + "] supprimée avec succès !");
+                //showAlertSuccess("Communauté [" + $scope.communityToDelete.title + "] supprimée avec succès !");
+                $.notify("Communauté [" + $scope.communityToDelete.title + "] supprimée avec succès !" , "success");
             })
             .error(function(data, status, headers, config) {
                 closeModal();
