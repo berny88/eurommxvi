@@ -116,6 +116,7 @@ class BetsManager(DbManager):
             else:
                 bet.convertFromBson(matchsDict[key])
                 # force result to none if user has never bet
+                bet._id = None
                 bet.resultA = None
                 bet.resultB = None
                 logger.info(u'\tgetBetsOfUserAndCom::bet={}'.format(bet))

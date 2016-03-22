@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from flask import Blueprint, jsonify
+from bson.objectid import ObjectId
 import logging
 from tools.Tools import DbManager
 
@@ -56,45 +57,32 @@ class Match:
 
 
     def convertFromBson(self, elt):
-        """
+        u"""
         convert a community object from mongo
+        :param elt: bson data from mongodb
+        :return: nothing
         """
-        if 'key' in elt.keys():
-            self.description = elt['key']
-        if 'teamA' in elt.keys():
-            self.teamA = elt['teamA']
-        if 'teamB' in elt.keys():
-            self.teamB = elt['teamB']
-        if 'libteamA' in elt.keys():
-            self.libteamA = elt['libteamA']
-        if 'libteamB' in elt.keys():
-            self.libteamB = elt['libteamB']
-        if 'resultA' in elt.keys():
-            self.resultA = elt['resultA']
-        if 'resultB' in elt.keys():
-            self.resultB = elt['resultB']
-        if 'category' in elt.keys():
-            self.category = elt['category']
-        if 'categoryName' in elt.keys():
-            self.categoryName = elt['categoryName']
+        for k in elt.keys():
+            if k == "_id":
+                self._id = str(elt[k])
+            else:
+                self.__dict__[k] = elt[k]
+
 
 
     def convertIntoBson(self):
-        """
+        u"""
         convert a community object into mongo Bson format
+        :return: a dict to store in mongo as json
         """
         elt = dict()
-        #elt['_id'] = self._id
-        elt['key'] = self.key
-        elt['teamA'] = self.teamA
-        elt['teamB'] = self.teamB
-        elt['libteamA'] = self.libteamA
-        elt['libteamB'] = self.libteamB
-        elt['resultA'] = self.resultA
-        elt['resultB'] = self.resultB
-        elt['category'] = self.category
-        elt['categoryName'] = self.categoryName
+        for k in self.__dict__:
+            if k == "_id" and self._id is not None:
+                elt[k] = ObjectId(self._id)
+            else:
+                elt[k] = self.__dict__[k]
         return elt
+
 
 
 class MatchsManager(DbManager):
