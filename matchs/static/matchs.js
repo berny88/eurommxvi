@@ -6,7 +6,7 @@ euro2016App.controller('matchsCtrl', ['$scope', '$http', '$q', function ($scope,
             $http.get('matchs/apiv1.0/matchs', {timeout: canceler.promise})
             .success(function(data) {
                 //ng-repeat :
-                $scope.matchs = data;
+                $scope.matchs = data.matchs;
             });
         }
 
