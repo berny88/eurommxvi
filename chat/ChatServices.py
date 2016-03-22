@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, session
 import logging
 from uuid import uuid4
 
@@ -22,24 +22,31 @@ def getAllPosts():
 @chat_page.route('/apiv1.0/posts', methods=['POST'])
 def createPost():
     logger.info(u"savepost::json param:{} ".format(request.json))
-    postToCreateJSON = request.json["postToCreate"]
+    if "cookieUserKey" in session:
+        postToCreateJSON = request.json["postToCreate"]
 
-    postToCreate=Post()
-    postToCreate.message=postToCreateJSON['message'];
-    postToCreate.date=postToCreateJSON['date'];
-    postToCreate.post_user_id=postToCreateJSON['post_user_id'];
+        postToCreate=Post()
+        postToCreate.message=postToCreateJSON['message'];
+        postToCreate.date=postToCreateJSON['date'];
+        postToCreate.post_user_id=postToCreateJSON['post_user_id'];
 
-    #call Service (DAO)
-    mgr = ChatManager()
-    postCreated = mgr.savePost(postToCreate)
+        #call Service (DAO)
+        mgr = ChatManager()
+        postCreated = mgr.savePost(postToCreate)
 
-    return jsonify({'post': postCreated})
+        return jsonify({'post': postCreated.__dict__})
+    else:
+        return u"{'post':'not authenticated'}", 401
+
 
 @chat_page.route('/apiv1.0/posts/<post_id>', methods=['DELETE'])
 def deletePost(post_id):
-    mgr = ChatManager()
-    posts=mgr.deletePost(post_id)
-    return jsonify({'posts': posts})
+    if "cookieUserKey" in session:
+        mgr = ChatManager()
+        posts=mgr.deletePost(post_id)
+        return jsonify({'posts': posts})
+    else:
+        return u"{'post':'not authenticated'}", 401
 
 u"""
 **************************************************
@@ -113,7 +120,11 @@ class ChatManager(DbManager):
         return result
 
     def savePost(self, post):
-        """ save post """
+        u"""
+        create a newpost
+        :param post: new post
+        :return: error if not authenticated
+        """
         localdb = self.getDb()
 
         bsonPost =dict()
@@ -126,10 +137,14 @@ class ChatManager(DbManager):
         logger.info(u'\tkey None - to create : {}'.format(bsonPost))
         id = localdb.posts.insert_one(bsonPost).inserted_id
         logger.info(u'\tid : {}'.format(id))
-        return None
+        return post
 
     def deletePost(self, post_id):
-        """ delete post """
+        u"""
+        delete a post by id
+        :param post_id: id of post
+        :return:
+        """
         localdb = self.getDb()
         nb = localdb.posts.delete_one({"post_id": post_id})
         logger.info(u'ChatManager::delete={} = nb deleted={}'.format(post_id, nb))
