@@ -114,6 +114,7 @@ class BetsManager(DbManager):
                 tmpdict = bet.__dict__
                 result.append(tmpdict)
             else:
+                matchsDict[key].pop("_id", None)
                 bet.convertFromBson(matchsDict[key])
                 # force result to none if user has never bet
                 bet._id = None
