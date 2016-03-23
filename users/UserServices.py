@@ -191,8 +191,8 @@ class User:
             self.user_id = elt['user_id']
         if 'validated' in elt.keys():
             self.validated = elt['validated']
-        if 'pwd' in elt.keys():
-            self.pwd= elt['pwd']
+        #if 'pwd' in elt.keys():
+        #    self.pwd= elt['pwd']
         if 'isAdmin' in elt.keys():
             self.isAdmin= elt['isAdmin']
 
