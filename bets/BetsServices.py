@@ -111,7 +111,7 @@ class BetsManager(DbManager):
             bet = Bet()
             bet.user_id = user_id
             bet.com_id = com_id
-            if key in betsList:
+            if key in betsDict:
                 bet.convertFromBson(betsDict[key])
                 logger.info(u'\tgetBetsOfUserAndCom::bet={}'.format(bet))
                 tmpdict = bet.__dict__
