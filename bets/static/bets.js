@@ -35,7 +35,8 @@ euro2016App.controller('BetsCtrl', ['$scope', '$routeParams', '$http', '$q', '$l
         $scope.saveBets = function() {
             $http.put('communities/apiv1.0/communities/'+ $routeParams.com_id + '/users/'+ getConnectedUser($window).user_id +'/bets ', {bets: $scope.bets.bets, timeout: canceler.promise})
             .success(function(data, status, headers, config) {
-                showAlertSuccess("Paris sauvegardés !");
+                //showAlertSuccess("Paris sauvegardés !");
+                $.notify("Paris sauvegardés !" , "success");
             })
             .error(function(data, status, headers, config) {
                 showAlertError("Erreur lors de la création des paris ; erreur HTTP : " + status);

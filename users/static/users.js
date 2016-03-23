@@ -61,10 +61,12 @@ euro2016App.controller('UserDetailCtrl', ['$scope', '$http', '$q', '$routeParams
             $timeout(function() {
                 if ($routeParams.firstConnection) {
                     showAlertSuccess("Bienvenue " + $scope.user.nickName + " ! Cliquez <a href='#/signin'>ici</a> pour vous identifier.");
+
                 } else {
-                    showAlertSuccess("User [" + $scope.user.email + "] sauvegardé avec succès !");
+                    //showAlertSuccess("User [" + $scope.user.email + "] sauvegardé avec succès !");
+                    $.notify("Parieur [" + $scope.user.nickName + "] sauvegardé avec succès !" , "success");
                 }
-            }, 1000);                //alert($scope.user.email)
+            }, 1000);
 
         })
         .error(function(data, status, headers, config) {
@@ -100,9 +102,10 @@ euro2016App.controller('LoginCtrl', ['$scope', '$http', '$q', '$routeParams', '$
                     $location.path("/communities")
                 }
                 $location.search('callback', null)
-                $timeout(function() {
-                       showAlertSuccess("Bienvenue "+data.user.nickName +" !!");
-                    }, 1000);                //alert($scope.user.email)
+                //$timeout(function() {
+                //       showAlertSuccess("Bienvenue "+data.user.nickName +" !!");
+                //   }, 1000);
+                $.notify("Bienvenue "+data.user.nickName +" !!" , "success");
             })
             .error(function(data, status, headers, config) {
                 if (status==404){
@@ -141,9 +144,10 @@ euro2016App.controller('LogoutCtrl', ['$scope', '$http', '$q', '$location','$tim
                     // Remove the user from the topbar :
                     $("#connectedUserInTopbar").html("Vous n'êtes pas connecté !");
                     $location.path("/")
-                    $timeout(function() {
-                           showAlertSuccess("Goog bye  !!");
-                        }, 1000);
+                    //$timeout(function() {
+                    //       showAlertSuccess("Goog bye  !!");
+                    //    }, 1000);
+                    $.notify("Goog bye  !!" , "success");
                 })
                 .error(function(data, status, headers, config) {
                     showAlertError("Erreur lors de connexion ; erreur HTTP : " + status + " " + data);

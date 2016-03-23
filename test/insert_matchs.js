@@ -336,8 +336,8 @@ db.getCollection("matchs").insert({
   "dateDeadLineBet": "2016-06-18T17:00:00Z",
   "dateMatch": "2016-06-18T19:00:00Z",
   "key": "GROUPEF_POR_AUT",
-  "libteamA": "ISLANDE",
-  "libteamB": "HONGRIE",
+  "libteamA": "PORTUGAL",
+  "libteamB": "AUTRICHE",
   "resultA": "",
   "resultB": "",
   "teamA": "POR",
@@ -363,20 +363,20 @@ db.getCollection("matchs").insert({
   "categoryName": "GROUPEA",
   "dateDeadLineBet": "2016-06-19T17:00:00Z",
   "dateMatch": "2016-06-19T19:00:00Z",
-  "key": "GROUPEA_FRA_SWI",
-  "libteamA": "FRANCE",
-  "libteamB": "SUISSE",
+  "key": "GROUPEA_SWI_FRA",
+  "libteamA": "SUISSE",
+  "libteamB": "FRANCE",
   "resultA": "",
   "resultB": "",
-  "teamA": "FRA",
-  "teamB": "SWI"
+  "teamA": "SUI",
+  "teamB": "FRA"
 });
 db.getCollection("matchs").insert({
   "_id": ObjectId("56e1cd368abf5aba1f2784ec"),
   "category": "GROUPE",
   "categoryName": "GROUPEB",
-  "dateDeadLineBet": "2016-06-21T14:00:00Z",
-  "dateMatch": "2016-06-21T16:00:00Z",
+  "dateDeadLineBet": "2016-06-20T17:00:00Z",
+  "dateMatch": "2016-06-20T19:00:00Z",
   "key": "GROUPEB_RUS_WAL",
   "libteamA": "RUSSIE",
   "libteamB": "PAYS DE GALLES",
@@ -389,18 +389,46 @@ db.getCollection("matchs").insert({
   "_id": ObjectId("56e1cd368abf5aba1f2784ed"),
   "category": "GROUPE",
   "categoryName": "GROUPEB",
-  "dateDeadLineBet": "2016-06-21T14:00:00Z",
-  "dateMatch": "2016-06-21T16:00:00Z",
+  "dateDeadLineBet": "2016-06-20T17:00:00Z",
+  "dateMatch": "2016-06-20T19:00:00Z",
   "key": "GROUPEB_SLO_ENG",
-  "libteamA": "ANGLETERRE",
-  "libteamB": "SLOVAQUIE",
+  "libteamA": "SLOVAQUIE",
+  "libteamB": "ANGLETERRE",
   "resultA": "",
   "resultB": "",
-  "teamA": "ENG",
-  "teamB": "SLO"
+  "teamA": "SLO",
+  "teamB": "ANG"
 });
 db.getCollection("matchs").insert({
   "_id": ObjectId("56e1cd368abf5aba1f2784ee"),
+  "category": "GROUPE",
+  "categoryName": "GROUPEC",
+  "dateDeadLineBet": "2016-06-21T14:00:00Z",
+  "dateMatch": "2016-06-21T16:00:00Z",
+  "key": "GROUPEC_UKR_POL",
+  "libteamA": "UKRAINE",
+  "libteamB": "POLOGNE",
+  "resultA": "",
+  "resultB": "",
+  "teamA": "UKR",
+  "teamB": "POL"
+});
+db.getCollection("matchs").insert({
+  "_id": ObjectId("56e1cd368abf5aba1f2784ef"),
+  "category": "GROUPE",
+  "categoryName": "GROUPEC",
+  "dateDeadLineBet": "2016-06-21T14:00:00Z",
+  "dateMatch": "2016-06-21T16:00:00Z",
+  "key": "GROUPEC_IRN_ALL",
+  "libteamA": "IRLANDE DU NORD",
+  "libteamB": "ALLEMAGNE",
+  "resultA": "",
+  "resultB": "",
+  "teamA": "IRN",
+  "teamB": "ALL"
+});
+db.getCollection("matchs").insert({
+  "_id": ObjectId("56e1cd368abf5aba1f2784f1"),
   "category": "GROUPE",
   "categoryName": "GROUPED",
   "dateDeadLineBet": "2016-06-21T17:00:00Z",
@@ -414,7 +442,7 @@ db.getCollection("matchs").insert({
   "teamB": "TUR"
 });
 db.getCollection("matchs").insert({
-  "_id": ObjectId("56e1cd368abf5aba1f2784ef"),
+  "_id": ObjectId("56e1cd368abf5aba1f2784f2"),
   "category": "GROUPE",
   "categoryName": "GROUPED",
   "dateDeadLineBet": "2016-06-21T17:00:00Z",
@@ -428,7 +456,7 @@ db.getCollection("matchs").insert({
   "teamB": "ESP"
 });
 db.getCollection("matchs").insert({
-  "_id": ObjectId("56e1cd368abf5aba1f2784f0"),
+  "_id": ObjectId("56e1cd368abf5aba1f2784f3"),
   "category": "GROUPE",
   "categoryName": "GROUPEF",
   "dateDeadLineBet": "2016-06-22T14:00:00Z",
@@ -442,7 +470,7 @@ db.getCollection("matchs").insert({
   "teamB": "AUT"
 });
 db.getCollection("matchs").insert({
-  "_id": ObjectId("56e1cd368abf5aba1f2784f1"),
+  "_id": ObjectId("56e1cd368abf5aba1f2784f4"),
   "category": "GROUPE",
   "categoryName": "GROUPEF",
   "dateDeadLineBet": "2016-06-22T14:00:00Z",
@@ -456,21 +484,21 @@ db.getCollection("matchs").insert({
   "teamB": "POR"
 });
 db.getCollection("matchs").insert({
-  "_id": ObjectId("56e1cd368abf5aba1f2784f2"),
+  "_id": ObjectId("56e1cd368abf5aba1f2784f5"),
   "category": "GROUPE",
   "categoryName": "GROUPEE",
   "dateDeadLineBet": "2016-06-22T17:00:00Z",
   "dateMatch": "2016-06-22T19:00:00Z",
-  "key": "GROUPEE_ITA_AUT",
+  "key": "GROUPEE_ITA_IRL",
   "libteamA": "ITALIE",
-  "libteamB": "AUTRICHE",
+  "libteamB": "IRLANDE",
   "resultA": "",
   "resultB": "",
   "teamA": "ITA",
-  "teamB": "AUT"
+  "teamB": "IRL"
 });
 db.getCollection("matchs").insert({
-  "_id": ObjectId("56e1cd368abf5aba1f2784f3"),
+  "_id": ObjectId("56e1cd368abf5aba1f2784f6"),
   "category": "GROUPE",
   "categoryName": "GROUPEE",
   "dateDeadLineBet": "2016-06-22T17:00:00Z",
