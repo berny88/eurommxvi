@@ -36,7 +36,7 @@
                     <tr ng-class="{ 'danger' : (bet.resultA==null || bet.resultB==null)}" ng-repeat="bet in bets.bets | orderBy:sortType:sortReverse">
                         <td data-title="Date">{{bet.dateMatch | date:'dd/MM/yy HH:mm'}}</td>
                         <td data-title="Groupe">{{bet.categoryName}}</td>
-                        <td data-title="TeamA">{{bet.libteamA}}</td>
+                        <td data-title="TeamA"><span class="newflags {{bet.teamA}}"></span> {{bet.libteamA}}</td>
                         <td>
                             <input ng-show="bet.notClosed" class="form-control" ng-model="bet.resultA" value="{{bet.resultA}}" type="number" min="0" max="99">
                             <input ng-show="!bet.notClosed" class="form-control" ng-model="bet.resultA" value="{{bet.resultA}}" type="number" min="0" max="99" disabled>
@@ -45,7 +45,7 @@
                             <input ng-show="bet.notClosed" class="form-control" ng-model="bet.resultB" value="{{bet.resultB}}" type="number" min="0" max="99">
                             <input ng-show="!bet.notClosed" class="form-control" ng-model="bet.resultB" value="{{bet.resultB}}" type="number" min="0" max="99" disabled>
                         </td>
-                        <td data-title="TeamB">{{bet.libteamB}}</td>
+                        <td data-title="TeamB"><span class="newflags {{bet.teamB}}"></span> {{bet.libteamB}}</td>
                     </tr>
                 </tbody>
             </table>

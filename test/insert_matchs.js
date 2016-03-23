@@ -368,7 +368,7 @@ db.getCollection("matchs").insert({
   "libteamB": "FRANCE",
   "resultA": "",
   "resultB": "",
-  "teamA": "SUI",
+  "teamA": "SWI",
   "teamB": "FRA"
 });
 db.getCollection("matchs").insert({
@@ -397,7 +397,7 @@ db.getCollection("matchs").insert({
   "resultA": "",
   "resultB": "",
   "teamA": "SLO",
-  "teamB": "ANG"
+  "teamB": "ENG"
 });
 db.getCollection("matchs").insert({
   "_id": ObjectId("56e1cd368abf5aba1f2784ee"),
