@@ -303,6 +303,7 @@ class UserManager(DbManager):
         if bsonUser is not None:
             user = User()
             user.convertFromBson(bsonUser)
+            user.pwd = bsonUser['pwd']
             logger.info(u'authenticate::user.pwd={}'.format(user.pwd))
             if (pwd == user.pwd):
                 logger.info(u'authenticated::user={}'.format(user))
