@@ -34,6 +34,7 @@ euro2016App.controller('ChatCtrl', ['$scope', '$routeParams', '$http', '$q', '$l
             .success(function(data, status, headers, config) {
                 newPost.post_id = data.post.post_id;
                 $scope.posts.posts.unshift(newPost);
+                $.notify("Post ajouté !!" , "success");
             })
             .error(function(data, status, headers, config) {
                 showAlertError("Erreur lors de la création du post ; erreur HTTP : " + status);
@@ -49,6 +50,7 @@ euro2016App.controller('ChatCtrl', ['$scope', '$routeParams', '$http', '$q', '$l
             $http.delete('chat/apiv1.0/posts/' + post.post_id, {timeout: canceler.promise})
             .success(function(data, status, headers, config) {
                 $scope.posts = data;
+                $.notify("Post supprimé !!" , "success");
             })
             .error(function(data, status, headers, config) {
                 if (status==403){
