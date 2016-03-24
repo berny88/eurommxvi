@@ -167,6 +167,11 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
       return $scope.tab === checkTab;
     };
 
+    $scope.incLikes= function(post){
+      console.log("inc likes" + post.likes)
+      post.likes = post.likes +1;
+    };
+
     $scope.post = {};
     $scope.addPost = function(){
       $scope.post.createdOn = Date.now();

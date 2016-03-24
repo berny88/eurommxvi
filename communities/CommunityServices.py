@@ -186,8 +186,7 @@ def blogs(com_id):
         comment["author"]= "trollguy87"
         comments.append(comment)
         blog["comments"]=comments
-        blog["likes"]="0"
-        blog["image"]="http://placekitten.com/g/2000/600"
+        blog["likes"]=2
         blog["createdOn"] = 1408547127216
         blogs.append(blog)
     d["blogs"]=blogs

@@ -90,7 +90,7 @@
                                          </p>
                                         </div>
                                         <div class="comments">
-                                            <button class="fa fa-heart" ng-click="post.likes = post.likes+1"> {{post.likes}}</button>
+                                            <button class="fa fa-heart" ng-click="incLikes(post)"> {{post.likes}}</button>
                                             <h3>Comments</h3>
                                             <ul>
                                                 <li ng-repeat="comment in post.comments">
