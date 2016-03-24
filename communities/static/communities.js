@@ -139,4 +139,40 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
             canceler.resolve();
         });
 
-}]);
+    var blog = this;
+    $scope.title = "Blog de la communauté";
+
+    $scope.posts = {};
+    $http.get('https://s3-us-west-2.amazonaws.com/s.cdpn.io/110131/posts_1.json').success(function(data){
+      $scope.posts = data;
+    });
+
+    $scope.tab = 'blog';
+
+    $scope.selectTab = function(setTab){
+      $scope.tab = setTab;
+      console.log($scope.tab)
+    };
+
+    $scope.isSelected = function(checkTab){
+      return $scope.tab === checkTab;
+    };
+
+    $scope.post = {};
+    $scope.addPost = function(){
+      $scope.post.createdOn = Date.now();
+      $scope.post.comments = [];
+      $scope.post.likes = 0;
+      $scope.posts.unshift(this.post);
+      $scope.tab = 0;
+      $scope.post ={};
+    };
+
+    $scope.comment = {};
+    $scope.addComment = function(post){
+      $scope.comment.createdOn = Date.now();
+      $scope.comments.push($scope.comment);
+      $scope.comment ={};
+    };
+  }]);
+
