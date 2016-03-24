@@ -8,6 +8,9 @@ from tools.Tools import DbManager
 from datetime import datetime
 from users.UserServices import UserManager, User
 
+from dateutil.parser import parse as parse_date
+import pytz
+
 logger = logging.getLogger(__name__)
 
 bets_page = Blueprint('bets_page', __name__,
@@ -143,8 +146,10 @@ class BetsManager(DbManager):
         for b in bets:
             bet = Bet()
             bet.convertFromBson(b)
-            currDate = datetime.utcnow()
-            if bet.user_id==user_id and bet.com_id==com_id:
+            currDate = datetime.now(pytz.utc)
+            logger.info(u'\t\t****** currDate : {}'.format(currDate))
+            logger.info(u'\t\t****** deadLine : {}'.format(parse_date(bet.dateDeadLineBet)))
+            if bet.user_id==user_id and bet.com_id==com_id and parse_date(bet.dateDeadLineBet) > currDate:
                 logger.warn(u'\ttry save : {}\n'.format(b))
                 self.createOrUpdate(bet)
                 nbHit = nbHit + 1
