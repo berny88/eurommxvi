@@ -137,6 +137,8 @@ class ChatManager(DbManager):
         logger.info(u'\tkey None - to create : {}'.format(bsonPost))
         id = localdb.posts.insert_one(bsonPost).inserted_id
         logger.info(u'\tid : {}'.format(id))
+
+        post.post_id = post_id
         return post
 
     def deletePost(self, post_id):
