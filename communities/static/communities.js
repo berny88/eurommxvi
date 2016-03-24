@@ -152,8 +152,8 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
     $scope.title = "Blog de la communauté";
 
     $scope.posts = {};
-    $http.get('https://s3-us-west-2.amazonaws.com/s.cdpn.io/110131/posts_1.json').success(function(data){
-      $scope.posts = data;
+    $http.get('communities/apiv1.0/communities/' + $routeParams.com_id + '/blogs').success(function(data){
+      $scope.posts = data.data.blogs;
     });
 
     $scope.tab = 'blog';

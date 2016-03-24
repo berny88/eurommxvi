@@ -31,7 +31,7 @@
 
 /* Pour le chat : */
 .fa {
-  color:#fff;
+  color:#0000;
 }
 
 #userList {
@@ -102,6 +102,8 @@ input[type="number"] {
    width:70px;
 }
 
+
+/* blog post*/
 * {
   box-sizing: border-box;
 }

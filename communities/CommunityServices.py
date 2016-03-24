@@ -157,6 +157,43 @@ def listOfPlayers(com_id):
     d["players"]=players
     return jsonify({'data': d})
 
+@communities_page.route('/apiv1.0/communities/<com_id>/blogs', methods=['GET'])
+def blogs(com_id):
+    u"""
+    return the list of the blogs of the community
+    :return json view of blogs
+    :param com_id: id of community (uuid)
+    """
+    d= dict()
+    blogs=list()
+    for i in range(1,40) :
+        blog= dict()
+        blog["title"]="Blog Post "+str(i)
+        body = list()
+        body.append("Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem deleniti quae, "
+                    "neque libero voluptate maiores ullam unde voluptatem assumenda velit dolores impedit "
+                    "quis qui! Neque, cupiditate labore nulla? Atque, tenetur.")
+        body.append("Numquam nobis nam voluptas blanditiis eveniet in quasi possimus voluptatem temporibus doloremque "
+                    "delectus dolorum, voluptatum laborum aut dolorem? In rerum necessitatibus soluta incidunt "
+                    "nihil numquam fugit quas pariatur dolores nesciunt?")
+        blog["body"]= body
+        blog["author"]="Nick Moreton"
+        comments=list()
+        comment=dict()
+        comment["body"]="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos possimus porro " \
+                        "earum dolor sint fuga laborum velit laudantium distinctio quos sunt veritatis unde inventore," \
+                        " autem ad tenetur voluptatibus mollitia vel!"
+        comment["author"]= "trollguy87"
+        comments.append(comment)
+        blog["comments"]=comments
+        blog["likes"]="0"
+        blog["image"]="http://placekitten.com/g/2000/600"
+        blog["createdOn"] = 1408547127216
+        blogs.append(blog)
+    d["blogs"]=blogs
+    return jsonify({'data': d})
+
+
 u"""
 **************************************************
 Service layer
