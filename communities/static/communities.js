@@ -118,6 +118,15 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
             });
         }
 
+        $scope.getCommunityForUpdate = function() {
+            $scope.getCommunity();
+            $('#title').focus();
+        }
+
+
+        $scope.setFocusWhenCreatingCommunity= function() {
+            $('#title').focus();
+        }
 
         $scope.hasAuthorization = function(community) {
             var currentUser = {};
