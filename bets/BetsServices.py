@@ -211,4 +211,8 @@ class BetsManager(DbManager):
         for uuid in userIdList:
             user = usermgr.getUserByUserId(uuid)
             result.append(user.__dict__)
+        logger.info(u'\t\tplayers : {}'.format(result))
+
+        result.sort(key=lambda user: user["nickName"])
+
         return result
