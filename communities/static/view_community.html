@@ -73,7 +73,7 @@
                                       ng-class="{ 'reset-s' : $index%3==0 }"
                                       ng-click="selectTab($index)" >
                                     <h3>{{post.title}}</h3>
-                                    <p>{{post.body[0] | limitTo:70}}...</p>
+                                    <p>{{post.body[0] | limitTo:5}}...</p>
                                     <p class="fa fa-comment push-left"> {{post.comments.length}}
                                     </p>
                                     <p class="fa fa-heart push-right"> {{post.likes}}
@@ -119,9 +119,8 @@
                             <a class="btn" href="#communities">Retour</a>
                         </div>
                     </div>
-                </form>
                 </div>
             </div>
-            </div>
+        </form>
     </div>
 </div>
