@@ -53,12 +53,12 @@
                             <div class="container">
                               <div class="row">
                                 <div class="col-s-4">
-                                  <h1 ng-click="selectTab('blog')" class="push-left">{{title}}</h1>
+                                  <h1 ng-click="selectTab('CommunitiesCtrl')" class="push-left">{{title}}</h1>
                                 </div>
                                 <div class="offset-s-4 col-s-4">
                                   <nav role='navigation' class="push-right">
                                     <ul>
-                                      <li><a href="#" ng-click="selectTab('blog')">See All Posts</a></li>
+                                      <li ng-click="selectTab('CommunitiesCtrl')">See All Posts</li>
                                     </ul>
                                   </nav>
                                 </div>
@@ -68,12 +68,12 @@
 
                         <div class="container" style="width:100%">
                             <div class="row">
-                                <ul class="post-grid" ng-show="isSelected('blog')">
+                                <ul class="post-grid" ng-show="isSelected('CommunitiesCtrl')">
                                   <li ng-repeat="post in posts" class="col-s-4"
                                       ng-class="{ 'reset-s' : $index%3==0 }"
                                       ng-click="selectTab($index)" >
                                     <h3>{{post.title}}</h3>
-                                    <p>{{post.body[0] | limitTo:5}}...</p>
+                                    <p>{{post.body[0] | limitTo:70}}...</p>
                                     <p class="fa fa-comment push-left"> {{post.comments.length}}
                                     </p>
                                     <p class="fa fa-heart push-right"> {{post.likes}}
@@ -89,8 +89,14 @@
                                            {{paragraph}}
                                          </p>
                                         </div>
+                                        <button class="fa fa-heart" ng-click="incLikes(post)"> {{post.likes}}</button>
+                                        <div class="topbar">
+                                            <nav role='navigation' class="push-right">
+                                                <ul><li ng-click="selectTab('CommunitiesCtrl')">Retour</li></ul>
+                                            </nav>
+                                        </div>
+
                                         <div class="comments">
-                                            <button class="fa fa-heart" ng-click="incLikes(post)"> {{post.likes}}</button>
                                             <h3>Comments</h3>
                                             <ul>
                                                 <li ng-repeat="comment in post.comments">

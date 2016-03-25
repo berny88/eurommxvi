@@ -156,7 +156,7 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
       $scope.posts = data.data.blogs;
     });
 
-    $scope.tab = 'blog';
+    $scope.tab = 'CommunitiesCtrl';
 
     $scope.selectTab = function(setTab){
       $scope.tab = setTab;
