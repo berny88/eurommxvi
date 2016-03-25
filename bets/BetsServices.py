@@ -166,7 +166,7 @@ class BetsManager(DbManager):
                                               "key": bet.key})
         if bsonBet is None:
             bsonMatch = self.getDb().matchs.find_one({"key": bet.key})
-            if bsonMatch["dateDeadLineBet"] <> bet.dateDeadLineBet:
+            if bsonMatch["dateDeadLineBet"] != bet.dateDeadLineBet:
                 logger.info(u'\t\thack en cours par le user : {}'.format(bet.user_id))
             else:
                 bsonBet = bet.convertIntoBson()
@@ -176,7 +176,7 @@ class BetsManager(DbManager):
                 logger.info(u'\t\tid : {}'.format(newid))
         else:
 
-            if bsonBet["dateDeadLineBet"] <> bet.dateDeadLineBet:
+            if bsonBet["dateDeadLineBet"] != bet.dateDeadLineBet:
                 logger.info(u'\t\thack en cours par le user : {}'.format(bet.user_id))
             else :
                 logger.info(u'\t\t try update to bsonBet["_id" : {}] with bet={}'.format(bsonBet["_id"], bet))
