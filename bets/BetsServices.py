@@ -4,7 +4,7 @@ import logging
 from bson.objectid import ObjectId
 from flask import Blueprint
 
-from tools.Tools import DbManager
+from tools.Tools import DbManager, BetProjectClass
 from datetime import datetime
 from users.UserServices import UserManager, User
 
@@ -19,7 +19,7 @@ def bets():
     return bets_page.send_static_file('bets.html')
 
 
-class Bet:
+class Bet(BetProjectClass):
     u""""
     _id (soit uuid soit objectid mongo)
     user_id (=uuid)

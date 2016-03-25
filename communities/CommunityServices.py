@@ -1,15 +1,11 @@
 # -*- coding: utf-8 -*-
 from flask import Blueprint, jsonify, request, session
 import logging
-from pymongo import MongoClient
-from datetime import datetime
-import os
-import re
 from uuid import uuid4
 from bets.BetsServices import BetsManager
-import sendgrid
+from communities.BlogsServices import BlogsManager
 
-from tools.Tools import DbManager
+from tools.Tools import DbManager, BetProjectClass
 
 from users.UserServices import UserManager
 
@@ -211,6 +207,9 @@ def createBlogPost(com_id):
     :param com_id: id of community (uuid)
     """
     logger.info(u"createBlogPost::json param:{} ".format(request.json))
+    mgr = BlogsManager()
+    #direct from json = dict
+    mgr.createBlog(request.json)
     return jsonify({'msg': "Blog post created"}), 200
 
 
@@ -219,7 +218,7 @@ u"""
 Service layer
 """
 
-class Community:
+class Community(BetProjectClass):
 
     u""""
     communities = 'com_id': 1,

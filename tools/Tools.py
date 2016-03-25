@@ -51,6 +51,11 @@ class DbManager:
 
         return self.db
 
+class BetProjectClass:
+    def __str__(self):
+        return str(self.__dict__)
+
+
 class ToolManager(DbManager):
 
     def getProperties(self):
