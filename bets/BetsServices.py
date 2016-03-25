@@ -143,11 +143,11 @@ class BetsManager(DbManager):
         for b in bets:
             bet = Bet()
             bet.convertFromBson(b)
-            currDate = datetime.utcnow()
-            logger.info(u'\t\t****** currDate : {}'.format(currDate))
             # STEP 1 : contrôle de l'intégrité de la requête (évite l'aller plus loin si pb). L'intégrité en DB est vérifiée
             # plus loin
-            logger.info(u'\t\t****** deadLine : {}'.format(datetime.strptime(bet.dateDeadLineBet, "%Y-%m-%dT%H:%M:%SZ")))
+            currDate = datetime.utcnow()
+            logger.info(u'\t\t****** CtrlDateFront - currDate : {}'.format(currDate))
+            logger.info(u'\t\t****** CtrlDateFront - deadLine : {}'.format(datetime.strptime(bet.dateDeadLineBet, "%Y-%m-%dT%H:%M:%SZ")))
             if bet.user_id==user_id and bet.com_id==com_id and datetime.strptime(bet.dateDeadLineBet, "%Y-%m-%dT%H:%M:%SZ") > currDate:
                 logger.warn(u'\ttry save : {}\n'.format(b))
                 self.createOrUpdate(bet)
@@ -164,9 +164,17 @@ class BetsManager(DbManager):
         """
         bsonBet = self.getDb().bets.find_one({"user_id": bet.user_id, "com_id": bet.com_id,
                                               "key": bet.key})
+
+        # STEP 2 : contrôle de la date limite de pari depuis la DB
+        currDate = datetime.utcnow()
+
         if bsonBet is None:
             bsonMatch = self.getDb().matchs.find_one({"key": bet.key})
-            if bsonMatch["dateDeadLineBet"] != bet.dateDeadLineBet:
+
+            logger.info(u'\t\t****** CtrlDateDB - currDate : {}'.format(currDate))
+            logger.info(u'\t\t****** CtrlDateDB - deadLine : {}'.format(datetime.strptime(bsonMatch["dateDeadLineBet"], "%Y-%m-%dT%H:%M:%SZ")))
+
+            if datetime.strptime(bsonMatch["dateDeadLineBet"], "%Y-%m-%dT%H:%M:%SZ") < currDate:
                 logger.info(u'\t\thack en cours par le user : {}'.format(bet.user_id))
             else:
                 bsonBet = bet.convertIntoBson()
@@ -175,10 +183,11 @@ class BetsManager(DbManager):
                 newid = self.getDb().bets.insert_one(bsonBet).inserted_id
                 logger.info(u'\t\tid : {}'.format(newid))
         else:
-
-            if bsonBet["dateDeadLineBet"] != bet.dateDeadLineBet:
+            logger.info(u'\t\t****** CtrlDateDB - currDate : {}'.format(currDate))
+            logger.info(u'\t\t****** CtrlDateDB - deadLine : {}'.format(datetime.strptime(bsonBet["dateDeadLineBet"], "%Y-%m-%dT%H:%M:%SZ")))
+            if datetime.strptime(bsonBet["dateDeadLineBet"], "%Y-%m-%dT%H:%M:%SZ") < currDate:
                 logger.info(u'\t\thack en cours par le user : {}'.format(bet.user_id))
-            else :
+            else:
                 logger.info(u'\t\t try update to bsonBet["_id" : {}] with bet={}'.format(bsonBet["_id"], bet))
                 self.getDb().bets.update({"_id": bsonBet["_id"]},
                                           {"$set": {"com_id": bet.com_id, "user_id": bet.user_id,
