@@ -145,13 +145,15 @@ class BetsManager(DbManager):
             bet.convertFromBson(b)
             currDate = datetime.utcnow()
             logger.info(u'\t\t****** currDate : {}'.format(currDate))
+            # STEP 1 : contrôle de l'intégrité de la requête (évite l'aller plus loin si pb). L'intégrité en DB est vérifiée
+            # plus loin
             logger.info(u'\t\t****** deadLine : {}'.format(datetime.strptime(bet.dateDeadLineBet, "%Y-%m-%dT%H:%M:%SZ")))
             if bet.user_id==user_id and bet.com_id==com_id and datetime.strptime(bet.dateDeadLineBet, "%Y-%m-%dT%H:%M:%SZ") > currDate:
                 logger.warn(u'\ttry save : {}\n'.format(b))
                 self.createOrUpdate(bet)
                 nbHit = nbHit + 1
             else:
-                logger.warn(u'\thack en cours : {}\n'.format(b))
+                logger.warn(u'\tdate limite dépassée, on n\'enregistre pas : {}\n'.format(b))
         return nbHit
 
     def createOrUpdate(self, bet):
@@ -163,22 +165,30 @@ class BetsManager(DbManager):
         bsonBet = self.getDb().bets.find_one({"user_id": bet.user_id, "com_id": bet.com_id,
                                               "key": bet.key})
         if bsonBet is None:
-            bsonBet = bet.convertIntoBson()
-            bsonBet .pop("_id", None)
-            logger.info(u'\t\tto create : {}'.format(bsonBet))
-            newid = self.getDb().bets.insert_one(bsonBet).inserted_id
-            logger.info(u'\t\tid : {}'.format(newid))
+            bsonMatch = self.getDb().matchs.find_one({"key": bet.key})
+            if bsonMatch["dateDeadLineBet"] <> bet.dateDeadLineBet:
+                logger.info(u'\t\thack en cours par le user : {}'.format(bet.user_id))
+            else:
+                bsonBet = bet.convertIntoBson()
+                bsonBet .pop("_id", None)
+                logger.info(u'\t\tto create : {}'.format(bsonBet))
+                newid = self.getDb().bets.insert_one(bsonBet).inserted_id
+                logger.info(u'\t\tid : {}'.format(newid))
         else:
-            logger.info(u'\t\t try update to bsonBet["_id" : {}] with bet={}'.format(bsonBet["_id"], bet))
-            self.getDb().bets.update({"_id": bsonBet["_id"]},
-                                      {"$set": {"com_id": bet.com_id, "user_id": bet.user_id,
-                                                "key": bet.key, "category": bet.category,
-                                                "categoryName": bet.categoryName,
-                                                "dateDeadLineBet": bet.dateDeadLineBet,
-                                                "dateMatch": bet.dateMatch, "libteamA": bet.libteamA,
-                                                "libteamB": bet.libteamB,
-                                                "teamA": bet.teamA, "teamB": bet.teamB,
-                                                "resultA": bet.resultA, "resultB": bet.resultB}}, upsert=True)
+
+            if bsonBet["dateDeadLineBet"] <> bet.dateDeadLineBet:
+                logger.info(u'\t\thack en cours par le user : {}'.format(bet.user_id))
+            else :
+                logger.info(u'\t\t try update to bsonBet["_id" : {}] with bet={}'.format(bsonBet["_id"], bet))
+                self.getDb().bets.update({"_id": bsonBet["_id"]},
+                                          {"$set": {"com_id": bet.com_id, "user_id": bet.user_id,
+                                                    "key": bet.key, "category": bet.category,
+                                                    "categoryName": bet.categoryName,
+                                                    "dateDeadLineBet": bet.dateDeadLineBet,
+                                                    "dateMatch": bet.dateMatch, "libteamA": bet.libteamA,
+                                                    "libteamB": bet.libteamB,
+                                                    "teamA": bet.teamA, "teamB": bet.teamB,
+                                                    "resultA": bet.resultA, "resultB": bet.resultB}}, upsert=True)
         return bet
 
     def delete(self, bet):
