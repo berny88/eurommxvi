@@ -1,6 +1,6 @@
 <div ng-controller="BetsCtrl">
     <form ng-submit="saveBets()">
-        <input type="submit" class="btn btn-success pull-right" value="Sauvegarder les paris">
+        <input type="submit" ng-show="displaySaveButton" class="btn btn-success pull-right" value="Sauvegarder les paris">
         <h3>Phase de poule</h3>
         <div id="no-more-tables" class="table-responsive">
             <table class="table table-condensed table-striped">
@@ -50,6 +50,6 @@
                 </tbody>
             </table>
         </div>
-        <input type="submit" class="btn btn-success pull-right" value="Sauvegarder les paris">
+        <input type="submit" ng-show="displaySaveButton" class="btn btn-success pull-right" value="Sauvegarder les paris">
     </form>
 </div>

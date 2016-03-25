@@ -16,9 +16,11 @@ euro2016App.controller('BetsCtrl', ['$scope', '$routeParams', '$http', '$q', '$l
                     $scope.bets = data;
 
                     // to disable the input fields in the form
+                    $scope.displaySaveButton = false;
                     $scope.bets.bets.forEach(function(bet) {
                         if (Date.parse(bet.dateDeadLineBet) > new Date()) {
                             bet.notClosed = true;
+                            $scope.displaySaveButton = true;
                         } else {
                             bet.notClosed = false;
                         }
