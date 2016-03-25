@@ -203,6 +203,16 @@ def blogs(com_id):
     d["blogs"]=blogs
     return jsonify({'data': d})
 
+@communities_page.route('/apiv1.0/communities/<com_id>/blogs', methods=['POST'])
+def createBlogPost(com_id):
+    u"""
+    return the list of the blogs of the community
+    :return json view of blogs
+    :param com_id: id of community (uuid)
+    """
+    logger.info(u"createBlogPost::json param:{} ".format(request.json))
+    return jsonify({'msg': "Blog post created"}), 200
+
 
 u"""
 **************************************************

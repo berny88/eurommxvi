@@ -34,9 +34,10 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
                 showAlertError("Erreur lors de la récupération de la communauté ; erreur HTTP : " + status);
             });
 
-            $scope.displayBlogPostSaveButton = true;
+            $scope.displayBlogPostSaveButton = false;
+            console.log("getCommunity::isConnected($window)="+isConnected($window));
             if (isConnected($window)) {
-                displayBlogPostSaveButton =true;
+                $scope.displayBlogPostSaveButton =true;
             }
 
         }
@@ -183,15 +184,23 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
 
     $scope.post = {};
     $scope.addPost = function(){
-      $scope.post.createdOn = Date.now();
-      $scope.post.author = getConnectedUser($window).nickName;
-      $scope.post.comments = [];
-      $scope.post.likes = 0;
-      $scope.posts.unshift(this.post);
-      $scope.tab = 0;
-      console.log("addPost :: post=" + $scope.post + " / user="+getConnectedUser($window).email);
-      //TODO call API REST PUT
-      //TODO faire les contrôles de sécu coté client
+        $scope.post.createdOn = Date.now();
+        $scope.post.author = getConnectedUser($window).nickName;
+        $scope.post.comments = [];
+        $scope.post.likes = 0;
+        $scope.posts.unshift(this.post);
+        $scope.tab = 0;
+        console.log("addPost :: post=" + $scope.post + " / user="+getConnectedUser($window).email);
+          //TODO call API REST PUT
+          //TODO faire les contrôles de sécu coté client
+        hideAlerts();
+        $http.post('communities/apiv1.0/communities/' + $routeParams.com_id + '/blogs', {blogpost: $scope.post, timeout: canceler.promise})
+        .success(function(data, status, headers, config) {
+            $.notify("Post créé avec succès !!" , "success");
+        })
+        .error(function(data, status, headers, config) {
+            showAlertError("Erreur lors de la création du post; erreur HTTP : " + status);
+        });
       $scope.post ={};
     };
 
