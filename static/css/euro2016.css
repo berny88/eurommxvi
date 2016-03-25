@@ -159,8 +159,8 @@ ul.post-grid li:hover h3 {
   position: relative;
   padding: 20px 40px 20px;
 }
-h2,
-h3 {
+.post.h2,
+.post.h3 {
   color: #3a8bab;
 }
 .post {
@@ -189,11 +189,11 @@ h3 {
 .post.ng-hide-remove {
   display: block!important;
 }
-form {
+.post.form {
   width: 100%;
 }
-input,
-textarea {
+.post.input,
+.post.textarea {
   display: block;
   width: 100%;
   padding: 10px;
@@ -205,6 +205,6 @@ textarea {
 .ng-valid.ng-dirty {
   border-color: green;
 }
-img {
+.post.img {
   max-width: 100%;
 }
