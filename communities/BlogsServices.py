@@ -34,6 +34,7 @@ class Blog(BetProjectClass):
     """""
 
     def __init__(self):
+        self.blog_id=u""
         self.author = u""
         self.createdOn = u""
         self.title=u""
@@ -61,16 +62,19 @@ class Blog(BetProjectClass):
     def __str__(self):
         return str(self.__dict__)
 
-    def convertIntoBson(self):
+    def convertIntoJson(self):
         """
-        convert a community object into mongo Bson format
+        convert a blog object into Json format
         """
         elt = dict()
-        #elt['_id'] = self._id
-        elt['description'] = self.description
-        elt['title'] = self.title
-        elt['com_id'] = self.com_id
-        elt['admin_user_id'] = self.admin_user_id
+        for k in self.__dict__:
+            if k != "_id":
+                elt[k] = self.__dict__[k]
+            if k == "comments":
+                l=list()
+                for c in self.comments:
+                    l.append(c.convertIntoJson())
+                elt["comments"] = l
         return elt
 
 
@@ -90,6 +94,15 @@ class Comment(BetProjectClass):
         for k in elt.keys():
             self.__dict__[k] = elt[k]
 
+    def convertIntoJson(self):
+        """
+        convert a blog object into Json format
+        """
+        elt = dict()
+        for k in self.__dict__:
+            elt[k] = self.__dict__[k]
+        return elt
+
 
 class BlogsManager(DbManager):
 
@@ -105,28 +118,29 @@ class BlogsManager(DbManager):
         result = list()
 
         for blogbson in blogsList:
-
             logger.info(u'\tgetBlogByCommunity::blogbson={}'.format(blogbson))
             #tmpdict = blog.__dict__
             #logger.info(u'\tgetAllCommunities::tmpdict={}'.format(tmpdict))
-            result.append(blogbson)
+            blog = Blog()
+            blog.convertFromJson(blogbson)
+            result.append(blog)
         return result
 
 
     def createBlog(self, blog):
         """ save com """
         localdb = self.getDb()
-
-        logger.info(u'\tkey None - to create : {}'.format(blog))
-        id = localdb.blogs.insert_one(blog).inserted_id
-        logger.info(u'\tid : {}'.format(id))
+        blog.blog_id=str(uuid4())
+        logger.info(u'\tTo create : {}'.format(blog.convertIntoJson()))
+        id = localdb.blogs.insert_one(blog.convertIntoJson()).inserted_id
+        logger.info(u'\tnew id : {}'.format(id))
         return blog
 
     def deleteBlog(self, blog):
-        """ save com """
+        """ delete a blog"""
         localdb = self.getDb()
 
-        logger.info(u'\tkey None - to create : {}'.format(blog))
-        nb = localdb.blogs.delete_one({"com_id":blog["com_id"]})
-        logger.info(u'\tnb deleted : {}'.format(nb))
-        return blog
+        logger.info(u'\tto delete : {}'.format(blog))
+        result = localdb.blogs.delete_one({"blog_id":blog.blog_id})
+        logger.info(u'\tnb deleted : {}'.format(result.deleted_count))
+        return result.deleted_count

@@ -3,7 +3,7 @@ from flask import Blueprint, jsonify, request, session
 import logging
 from uuid import uuid4
 from bets.BetsServices import BetsManager
-from communities.BlogsServices import BlogsManager
+from communities.BlogsServices import BlogsManager, Blog
 
 from tools.Tools import DbManager, BetProjectClass
 
@@ -172,31 +172,12 @@ def blogs(com_id):
     :param com_id: id of community (uuid)
     """
     d= dict()
-    blogs=list()
-    for i in range(1,40) :
-        blog= dict()
-        blog["title"]="Blog Post "+str(i)
-        body = list()
-        body.append("Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem deleniti quae, "
-                    "neque libero voluptate maiores ullam unde voluptatem assumenda velit dolores impedit "
-                    "quis qui! Neque, cupiditate labore nulla? Atque, tenetur.")
-        body.append("Numquam nobis nam voluptas blanditiis eveniet in quasi possimus voluptatem temporibus doloremque "
-                    "delectus dolorum, voluptatum laborum aut dolorem? In rerum necessitatibus soluta incidunt "
-                    "nihil numquam fugit quas pariatur dolores nesciunt?")
-        blog["body"]= body
-        blog["author"]="Nick Moreton"
-        comments=list()
-        comment=dict()
-        comment["body"]="Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos possimus porro " \
-                        "earum dolor sint fuga laborum velit laudantium distinctio quos sunt veritatis unde inventore," \
-                        " autem ad tenetur voluptatibus mollitia vel!"
-        comment["author"]= "trollguy87"
-        comments.append(comment)
-        blog["comments"]=comments
-        blog["likes"]=2
-        blog["createdOn"] = 1408547127216
-        blogs.append(blog)
-    d["blogs"]=blogs
+    mgr = BlogsManager()
+    blogs = mgr.getBlogByCommunity(com_id)
+    jsonList=list()
+    for b in blogs:
+        jsonList.append(b.convertIntoJson())
+    d["blogs"]= jsonList
     return jsonify({'data': d})
 
 @communities_page.route('/apiv1.0/communities/<com_id>/blogs', methods=['POST'])
@@ -208,8 +189,10 @@ def createBlogPost(com_id):
     """
     logger.info(u"createBlogPost::json param:{} ".format(request.json))
     mgr = BlogsManager()
-    #direct from json = dict
-    mgr.createBlog(request.json)
+    blog = Blog()
+    blog.com_id=com_id
+    blog.convertFromJson(request.json["blogpost"])
+    mgr.createBlog(blog)
     return jsonify({'msg': "Blog post created"}), 200
 
 
