@@ -126,6 +126,17 @@ class BlogsManager(DbManager):
             result.append(blog)
         return result
 
+    def getBlogByCommunityAndBlogId(self, com_id, blog_id):
+        """ get the complete list of properties"""
+        localdb = self.getDb()
+        logger.info(u'getBlogByCommunityAndBlogId::db={}'.format(localdb))
+
+        blogsColl = localdb.blogs
+        blogBson = blogsColl.find_one({"com_id": com_id, "blog_id":blog_id})
+        logger.info(u'getBlogByCommunityAndBlogId::blog={}'.format(blogBson))
+        blog = Blog()
+        blog.convertFromJson(blogBson)
+        return blog
 
     def createBlog(self, blog):
         """ save com """

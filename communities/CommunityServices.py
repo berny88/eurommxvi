@@ -183,8 +183,8 @@ def blogs(com_id):
 @communities_page.route('/apiv1.0/communities/<com_id>/blogs', methods=['POST'])
 def createBlogPost(com_id):
     u"""
-    return the list of the blogs of the community
-    :return json view of blogs
+    create a new blog in a community ; param sent in request.json
+    :return status message
     :param com_id: id of community (uuid)
     """
     logger.info(u"createBlogPost::json param:{} ".format(request.json))
@@ -193,7 +193,24 @@ def createBlogPost(com_id):
     blog.com_id=com_id
     blog.convertFromJson(request.json["blogpost"])
     mgr.createBlog(blog)
-    return jsonify({'msg': "Blog post created"}), 200
+    return jsonify({'blog': blog.convertIntoJson()}), 200
+
+@communities_page.route('/apiv1.0/communities/<com_id>/blogs/<blog_id>', methods=['DELETE'])
+def deleteBlogPost(com_id, blog_id):
+    u"""
+    delete a blog post of community
+    :return just a status message
+    :param com_id: id of community (uuid)
+    :param blog_id: id of the bog post (uuid)
+    """
+    logger.info(u"deleteBlogPost::json param:{} ".format(request.json))
+    mgr = BlogsManager()
+    blog = mgr.getBlogByCommunityAndBlogId(com_id, blog_id)
+    if blog is not None:
+        mgr.deleteBlog(blog)
+        return jsonify({'msg': "Blog post deleted"}), 200
+    else:
+        return "hacking en cours", 500
 
 
 u"""

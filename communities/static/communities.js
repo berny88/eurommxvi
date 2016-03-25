@@ -188,27 +188,40 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
         $scope.post.author = getConnectedUser($window).nickName;
         $scope.post.comments = [];
         $scope.post.likes = 0;
-        $scope.posts.unshift(this.post);
         $scope.tab = 0;
         console.log("addPost :: post=" + $scope.post + " / user="+getConnectedUser($window).email);
-          //TODO call API REST PUT
+        console.log("addPost :: post.body=" + $scope.post.body );
           //TODO faire les contrôles de sécu coté client
         hideAlerts();
         $http.post('communities/apiv1.0/communities/' + $routeParams.com_id + '/blogs', {blogpost: $scope.post, timeout: canceler.promise})
         .success(function(data, status, headers, config) {
+            console.log("new blog_id="+data.blog.blog_id)
+            $scope.post = data.blog
+            $scope.posts.unshift($scope.post);
             $.notify("Post créé avec succès !!" , "success");
+            $scope.selectTab('CommunitiesCtrl')
+            $scope.post ={};
         })
         .error(function(data, status, headers, config) {
             showAlertError("Erreur lors de la création du post; erreur HTTP : " + status);
         });
-      $scope.post ={};
     };
 
     $scope.deletePost = function(index){
         console.log("deletePost :: post index=" + index);
+        post = $scope.posts[index];
+        console.log("deletePost :: post.blog_id =" + post.blog_id);
         $scope.posts.splice(index, 1);
         console.log("after deletePost :: posts=" + $scope.posts);
-      //TODO call API REST PUT
+        $http.delete('communities/apiv1.0/communities/' + $routeParams.com_id + '/blogs/'+post.blog_id,
+         { timeout: canceler.promise})
+        .success(function(data, status, headers, config) {
+            $.notify("Post supprimé avec succès !!" , "success");
+            $scope.selectTab('CommunitiesCtrl')
+        })
+        .error(function(data, status, headers, config) {
+            showAlertError("Erreur lors de la suppression du post; erreur HTTP : " + status);
+        });
     };
 
     $scope.comment = {};

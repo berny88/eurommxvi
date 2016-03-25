@@ -56,6 +56,9 @@ class TestBlogs(unittest.TestCase):
             print(blog.blog_id)
             blogs = mgr.getBlogByCommunity("com_id_001")
             self.assertEqual(1, len(blogs))
+            b=mgr.getBlogByCommunityAndBlogId("com_id_001", blog.blog_id)
+            self.assertEqual(blog.blog_id, b.blog_id)
+
             res = mgr.deleteBlog(blog)
             self.assertEqual(1, res)
             blogs = mgr.getBlogByCommunity("com_id_001")

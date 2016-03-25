@@ -84,8 +84,8 @@
                                     <div class="topbar">
                                         <nav role='navigation' class="push-right">
                                             <ul>
-                                                <li ng-click="selectTab('CommunitiesCtrl')">Retour</li>
-                                                <li ng-click="deletePost($index)"><i class="glyphicon glyphicon-remove-sign"></i></li>
+                                                <li ng-click="selectTab('CommunitiesCtrl')">Revoir tous les posts</li>
+                                                <li class="btn btn-danger" ng-click="deletePost($index)">Supprimer &nbsp;<i class="glyphicon glyphicon-remove-sign"></i></li>
                                             </ul>
                                         </nav>
                                     </div>
@@ -93,10 +93,10 @@
                                     <div class="comments">
                                         <h3>Comments</h3>
                                         <ul>
-                                            <li ng-repeat="comment in post.comments">
+                                            <p ng-repeat="comment in post.comments">
                                                 "{{comment.body}}"
                                                 <cite>- <b>{{comment.author}}</b></cite>
-                                            </li>
+                                            </p>
                                         </ul>
                                     </div>
                                 </div>
@@ -114,7 +114,10 @@
                                     <div class="form-group required">
                                         <label for="post_body">Body</label>
                                         <div class="col-xs-12">
-                                            <textarea ng-model="post.body" id="post_body" ng-list="/\n/" rows="10" class="form-control" ></textarea>
+                                            <textarea ng-model="post.body" id="post_body"
+                                                      ng-list="&#10;"
+                                                      ng-trim="false"
+                                                      rows="10" class="form-control" required="required"></textarea>
                                         </div>
                                     </div>
                                     <input type="submit" ng-show="displayBlogPostSaveButton"
