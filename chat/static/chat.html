@@ -2,6 +2,7 @@
     <h2>Le Mur</h2>
     <h4>Laissez votre message !</h4>
     <hr>
+
     <form ng-submit="doPost()" ng-init="getPosts();">
 
         <div class="row">
@@ -33,6 +34,8 @@
         </div>
 
         <br/>
+
+        <center><span id="spin"><img src="static/img/spin.gif"></span></center>
 
         <div class="row" id="postList">
             <div ng-repeat="p in posts.posts">

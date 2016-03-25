@@ -10,9 +10,11 @@ euro2016App.controller('ChatCtrl', ['$scope', '$routeParams', '$http', '$q', '$l
             $http.get('chat/apiv1.0/posts', {timeout: canceler.promise})
             .success(function(data, status, headers, config) {
                 $scope.posts = data;
+                $('#spin').hide();
             })
             .error(function(data, status, headers, config) {
                 showAlertError("Erreur lors de la récupération de la liste des posts ; erreur HTTP : " + status);
+                $('#spin').hide();
             });
             $('#postList').show();
         }

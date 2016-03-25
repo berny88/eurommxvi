@@ -43,6 +43,9 @@
                             <th></th>
                         </tr>
                         </thead>
+
+                        <center><span id="spin"><img src="static/img/spin.gif"></span></center>
+
                         <tbody ng-init="getCommunities();">
                         <tr ng-repeat="community in communities.communities | filter : community_filter | orderBy:sortType:sortReverse">
                             <!--<td>{{community.com_id}}</td>-->
