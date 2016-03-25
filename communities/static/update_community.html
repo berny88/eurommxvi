@@ -83,7 +83,10 @@
                                     <p class="fa fa-heart"> {{post.likes}}</p>
                                     <div class="topbar">
                                         <nav role='navigation' class="push-right">
-                                            <ul><li ng-click="selectTab('CommunitiesCtrl')">Retour</li></ul>
+                                            <ul>
+                                                <li ng-click="selectTab('CommunitiesCtrl')">Retour</li>
+                                                <li ng-click="deletePost($index)"><i class="glyphicon glyphicon-remove-sign"></i></li>
+                                            </ul>
                                         </nav>
                                     </div>
 

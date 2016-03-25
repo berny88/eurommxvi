@@ -204,6 +204,13 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
       $scope.post ={};
     };
 
+    $scope.deletePost = function(index){
+        console.log("deletePost :: post index=" + index);
+        $scope.posts.splice(index, 1);
+        console.log("after deletePost :: posts=" + $scope.posts);
+      //TODO call API REST PUT
+    };
+
     $scope.comment = {};
     $scope.addComment = function(post){
       $scope.comment.createdOn = Date.now();
