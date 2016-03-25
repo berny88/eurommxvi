@@ -80,7 +80,7 @@
                                        {{paragraph}}
                                      </p>
                                     </div>
-                                    <button class="fa fa-heart" ng-click="incLikes(post)"> {{post.likes}}</button>
+                                    <p class="fa fa-heart"> {{post.likes}}</p>
                                     <div class="topbar">
                                         <nav role='navigation' class="push-right">
                                             <ul><li ng-click="selectTab('CommunitiesCtrl')">Retour</li></ul>
@@ -98,6 +98,29 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="post" ng-show="isSelected('new')">
+                                <h2>Nouveau Post</h2>
+
+                                <form name="postForm" ng-submit="addPost()" novalidate class="form-horizontal">
+                                    <div class="form-group required">
+                                        <div class="col-xs-9">
+                                            <label for="post_title">Title</label>
+                                            <input type="text" id="post_title" ng-model="post.title" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group required">
+                                        <div class="col-xs-9">
+                                            <label for="post_body">Body</label>
+                                            <textarea ng-model="post.body" id="post_body" ng-list="/\n/" rows="10"></textarea>
+                                        </div>
+                                    </div>
+                                    <input type="submit" ng-show="displayBlogPostSaveButton"
+                                           class="btn btn-success pull-right" value="Sauvegarder">
+
+                                </form>
+
+                            </div>
+
                           </div>
                         </div>
 

@@ -33,6 +33,12 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
             .error(function(data, status, headers, config) {
                 showAlertError("Erreur lors de la récupération de la communauté ; erreur HTTP : " + status);
             });
+
+            $scope.displayBlogPostSaveButton = true;
+            if (isConnected($window)) {
+                displayBlogPostSaveButton =true;
+            }
+
         }
 
         $scope.updateCommunity = function() {
@@ -162,10 +168,11 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
 
     $scope.selectTab = function(setTab){
       $scope.tab = setTab;
-      console.log($scope.tab)
+      console.log("select tab " + $scope.tab)
     };
 
     $scope.isSelected = function(checkTab){
+      //console.log("isSelected checkTab=" + checkTab + " / $scope.tab=" + $scope.tab)
       return $scope.tab === checkTab;
     };
 
@@ -177,10 +184,14 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
     $scope.post = {};
     $scope.addPost = function(){
       $scope.post.createdOn = Date.now();
+      $scope.post.author = getConnectedUser($window).nickName;
       $scope.post.comments = [];
       $scope.post.likes = 0;
       $scope.posts.unshift(this.post);
       $scope.tab = 0;
+      console.log("addPost :: post=" + $scope.post + " / user="+getConnectedUser($window).email);
+      //TODO call API REST PUT
+      //TODO faire les contrôles de sécu coté client
       $scope.post ={};
     };
 
@@ -189,6 +200,7 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
       $scope.comment.createdOn = Date.now();
       $scope.comments.push($scope.comment);
       $scope.comment ={};
+      //TODO call API REST PUT
     };
   }]);
 
