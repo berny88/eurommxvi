@@ -128,8 +128,19 @@ def createOrUpdateBets(com_id, user_id):
     betsMgr = BetsManager()
     logger.info(u"createOrUpdateBets::json param:{} ".format(request.json))
     betsJSON = request.json["bets"]
-    nbHit = betsMgr.createOrUpdateBets(user_id, com_id, betsJSON)
-    return jsonify({'nbHit': nbHit})
+
+    checkRight=False
+    if "cookieUserKey" in session:
+        cookieUserKey = session['cookieUserKey']
+        logger.info(u"getuser::cookieUserKey={}".format(cookieUserKey))
+        if (user_id==cookieUserKey):
+            checkRight=True
+    if (checkRight):
+        nbHit = betsMgr.createOrUpdateBets(user_id, com_id, betsJSON)
+        return jsonify({'nbHit': nbHit})
+    else:
+        return "Ha ha ha ! Mais t'es pas la bonne personne pour faire ça, mon loulou", 403
+
 
 @communities_page.route('/apiv1.0/communities/<com_id>/getplayersnumber', methods=['GET'])
 def countPlayers(com_id):

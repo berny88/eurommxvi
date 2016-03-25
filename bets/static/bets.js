@@ -41,7 +41,11 @@ euro2016App.controller('BetsCtrl', ['$scope', '$routeParams', '$http', '$q', '$l
                 $.notify("Paris sauvegardés !" , "success");
             })
             .error(function(data, status, headers, config) {
-                showAlertError("Erreur lors de la création des paris ; erreur HTTP : " + status);
+                if (status==403){
+                    showAlertError("Même pas en rêve ! status=" + status+ " " + data);
+                } else {
+                    showAlertError("Erreur lors de la création des paris ; erreur HTTP : " + status);
+                }
             })
         }
 
