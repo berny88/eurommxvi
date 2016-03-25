@@ -163,8 +163,8 @@ ul.post-grid li:hover h3 {
   position: relative;
   padding: 20px 40px 20px;
 }
-.post.h2,
-.post.h3 {
+.post h2,
+.post h3 {
   color: #3a8bab;
 }
 .post {
@@ -172,6 +172,7 @@ ul.post-grid li:hover h3 {
   transition: 0.5s linear all;
   opacity: 1;
   padding-bottom: 30px;
+  width: 100%;
 }
 .post cite {
   display: inline-block;
