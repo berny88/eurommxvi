@@ -192,6 +192,8 @@ def createBlogPost(com_id):
     blog = Blog()
     blog.com_id=com_id
     blog.convertFromJson(request.json["blogpost"])
+    if (blog.title is None) or (blog.title=="") or (len(blog.body)==0):
+        return jsonify({'msg': "ERROR : body is empty"}), 500
     mgr.createBlog(blog)
     return jsonify({'blog': blog.convertIntoJson()}), 200
 
@@ -224,6 +226,8 @@ def create_comment_on_blog_post(com_id, blog_id):
     mgr = BlogsManager()
     comment = Comment()
     comment.convertFromJson(request.json["comment"])
+    if (comment.body is None) or(comment.body ==""):
+        return jsonify({'msg': "ERROR : body is empty"}), 500
     mgr.add_comment_on_blog(com_id, blog_id, comment)
     return jsonify({'msg': "successfull"}), 200
 
