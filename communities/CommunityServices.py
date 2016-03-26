@@ -39,13 +39,8 @@ def deleteCommunity(com_id):
     checkRight=False
     if "cookieUserKey" in session:
         cookieUserKey = session['cookieUserKey']
-        logger.info(u"getuser::cookieUserKey={}".format(cookieUserKey))
-        if (com.admin_user_id==cookieUserKey):
-            checkRight=True
-        userMgr = UserManager()
-        userFromCookie = userMgr.getUserByUserId(cookieUserKey)
-        if (userFromCookie.isAdmin):
-            checkRight=True
+        logger.info(u"deleteCommunity::cookieUserKey={}".format(cookieUserKey))
+        checkRight = mgr.isAdmin(com_id, cookieUserKey)
     if (checkRight):
         coms=mgr.deleteCommunity(com)
         return jsonify({'communities': coms})
@@ -55,19 +50,23 @@ def deleteCommunity(com_id):
 @communities_page.route('/apiv1.0/communities', methods=['POST'])
 def createCommunity():
     logger.info(u"createCommunity::json param:{} ".format(request.json))
-    communityToCreateJSON = request.json["communityToCreate"]
+    if "cookieUserKey" in session:
+        communityToCreateJSON = request.json["communityToCreate"]
 
-    communityToCreate=Community()
-    communityToCreate.title=communityToCreateJSON['title'];
-    if 'description' in communityToCreateJSON:
-        communityToCreate.description=communityToCreateJSON['description'];
-    communityToCreate.admin_user_id=communityToCreateJSON['admin_user_id'];
+        communityToCreate=Community()
+        communityToCreate.title=communityToCreateJSON['title'];
+        if 'description' in communityToCreateJSON:
+            communityToCreate.description=communityToCreateJSON['description'];
+        communityToCreate.admin_user_id=communityToCreateJSON['admin_user_id'];
 
-    #call Service (DAO)
-    mgr = CommunityManager()
-    communityCreated = mgr.createCommunity(communityToCreate)
+        #call Service (DAO)
+        mgr = CommunityManager()
+        communityCreated = mgr.createCommunity(communityToCreate)
 
-    return jsonify({'community': communityCreated.__dict__})
+        return jsonify({'community': communityCreated.__dict__})
+    else:
+        return "heuuu ! je ne sais pas qui t'es, mon loulou", 401
+
 
 @communities_page.route('/apiv1.0/communities', methods=['PUT'])
 def updateCommunity():
@@ -87,12 +86,7 @@ def updateCommunity():
     if "cookieUserKey" in session:
         cookieUserKey = session['cookieUserKey']
         logger.info(u"getuser::cookieUserKey={}".format(cookieUserKey))
-        if (com.admin_user_id==cookieUserKey):
-            checkRight=True
-        userMgr = UserManager()
-        userFromCookie = userMgr.getUserByUserId(cookieUserKey)
-        if (userFromCookie.isAdmin):
-            checkRight=True
+        checkRight = mgr.isAdmin(communityToUpdateJSON['com_id'], cookieUserKey)
     if (checkRight):
         communityUpdated = mgr.updateCommunity(communityToUpdate)
         return jsonify({'community': communityUpdated.__dict__})
@@ -132,7 +126,7 @@ def createOrUpdateBets(com_id, user_id):
     checkRight=False
     if "cookieUserKey" in session:
         cookieUserKey = session['cookieUserKey']
-        logger.info(u"getuser::cookieUserKey={}".format(cookieUserKey))
+        logger.info(u"createOrUpdateBets::cookieUserKey={}".format(cookieUserKey))
         if (user_id==cookieUserKey):
             checkRight=True
     if (checkRight):
@@ -213,14 +207,24 @@ def createBlogPost(com_id):
     :param com_id: id of community (uuid)
     """
     logger.info(u"createBlogPost::json param:{} ".format(request.json))
-    mgr = BlogsManager()
-    blog = Blog()
-    blog.com_id=com_id
-    blog.convertFromJson(request.json["blogpost"])
-    if (blog.title is None) or (blog.title=="") or (len(blog.body)==0):
-        return jsonify({'msg': "ERROR : body is empty"}), 500
-    mgr.createBlog(blog)
-    return jsonify({'blog': blog.convertIntoJson()}), 200
+    if "cookieUserKey" in session:
+        cookieUserKey = session['cookieUserKey']
+        logger.info(u"createBlogPost::cookieUserKey={}".format(cookieUserKey))
+        mgr = BlogsManager()
+        blog = Blog()
+        blog.com_id=com_id
+        blog.convertFromJson(request.json["blogpost"])
+        comMgr = CommunityManager()
+        if comMgr.isAdmin(com_id, cookieUserKey):
+            if (blog.title is None) or (blog.title=="") or (len(blog.body)==0):
+                return jsonify({'msg': "ERROR : body is empty"}), 500
+            mgr.createBlog(blog)
+            return jsonify({'blog': blog.convertIntoJson()}), 200
+        else:
+            return "hey poussin ! mais t'as pas le droit, mon loulou", 403
+    else:
+        return "hey poussin ! tu dois être authentifié, mon loulou", 403
+
 
 @communities_page.route('/apiv1.0/communities/<com_id>/blogs/<blog_id>', methods=['DELETE'])
 def deleteBlogPost(com_id, blog_id):
@@ -231,13 +235,23 @@ def deleteBlogPost(com_id, blog_id):
     :param blog_id: id of the bog post (uuid)
     """
     logger.info(u"deleteBlogPost::json param:{} ".format(request.json))
-    mgr = BlogsManager()
-    blog = mgr.getBlogByCommunityAndBlogId(com_id, blog_id)
-    if blog is not None:
-        mgr.deleteBlog(blog)
-        return jsonify({'msg': "Blog post deleted"}), 200
+    if "cookieUserKey" in session:
+        cookieUserKey = session['cookieUserKey']
+        logger.info(u"deleteBlogPost::cookieUserKey={}".format(cookieUserKey))
+        comMgr = CommunityManager()
+        if comMgr.isAdmin(com_id, cookieUserKey):
+            mgr = BlogsManager()
+            blog = mgr.getBlogByCommunityAndBlogId(com_id, blog_id)
+            if blog is not None:
+                mgr.deleteBlog(blog)
+                return jsonify({'msg': "Blog post deleted"}), 200
+            else:
+                return "hacking en cours", 500
+        else:
+            return "hey poussin ! t'es pas admin, mon loulou", 403
     else:
-        return "hacking en cours", 500
+        return "hey poussin ! tu dois être authentifié, mon loulou", 401
+
 
 @communities_page.route('/apiv1.0/communities/<com_id>/blogs/<blog_id>/comments', methods=['POST'])
 def create_comment_on_blog_post(com_id, blog_id):
@@ -248,13 +262,21 @@ def create_comment_on_blog_post(com_id, blog_id):
     :param blog_id: id of blog_id(uuid)
     """
     logger.info(u"create_comment_on_blog_post::json param:{} ".format(request.json))
-    mgr = BlogsManager()
-    comment = Comment()
-    comment.convertFromJson(request.json["comment"])
-    if (comment.body is None) or(comment.body ==""):
-        return jsonify({'msg': "ERROR : body is empty"}), 500
-    mgr.add_comment_on_blog(com_id, blog_id, comment)
-    return jsonify({'msg': "successfull"}), 200
+    if "cookieUserKey" in session:
+        cookieUserKey = session['cookieUserKey']
+        logger.info(u"createBlogPost::cookieUserKey={}".format(cookieUserKey))
+        mgr = BlogsManager()
+        usrManager = UserManager()
+        user = usrManager.getUserByUserId(cookieUserKey)
+        comment = Comment()
+        comment.convertFromJson(request.json["comment"])
+        comment.author=user.nickName
+        if (comment.body is None) or(comment.body ==""):
+            return jsonify({'msg': "ERROR : body is empty"}), 500
+        mgr.add_comment_on_blog(com_id, blog_id, comment)
+        return jsonify({'msg': "successfull"}), 200
+    else:
+        return "hey poussin ! tu dois être authentifié, mon loulou", 403
 
 u"""
 **************************************************
@@ -339,6 +361,23 @@ class CommunityManager(DbManager):
             result.append(tmpdict)
         return result
 
+
+    def isAdmin(self, com_id, user_id):
+        u"""
+        check if the user is admin of the community
+        :param com_id id of community
+        :param user_id id of user to check
+        """
+        com = self.getCommunityByCommunityId(com_id)
+        if com.admin_user_id==user_id:
+            return True
+        else:
+            userMgr = UserManager()
+            userFromCookie = userMgr.getUserByUserId(user_id)
+            if (userFromCookie.isAdmin):
+                return True
+            else:
+                return False
 
     def getCommunityByCommunityId(self, com_id):
         """ get one property by key"""

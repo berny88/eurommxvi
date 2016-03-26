@@ -238,11 +238,12 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
             showAlertError("unauthenticated user ! You must be connected");
             return;
         }
-        $scope.comment.author= getConnectedUser($window).user_id;
+        $scope.comment.author= getConnectedUser($window).nickName;
         console.log("addComment:: $scope.comments=" + $scope.comments);
         post.comments.push($scope.comment);
         console.log("addComment:: try to add comment:: post=" + post.blog_id);
-        console.log("addComment:: try to add comment:: comment=" + $scope.comment);
+        console.log("addComment:: try to add comment:: comment.author=" + $scope.comment.author);
+        console.log("addComment:: try to add comment:: comment.body=" + $scope.comment.body);
         hideAlerts();
         $http.post('communities/apiv1.0/communities/' + $routeParams.com_id + '/blogs/'+post.blog_id+'/comments',
                     {comment: $scope.comment, timeout: canceler.promise})

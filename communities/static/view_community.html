@@ -103,7 +103,13 @@
                                                     <cite>- <b>{{comment.author}}</b></cite>
                                                 </li>
                                             </ul>
-                                            <form name="commentForm" ng-submit="addComment(post)" class="form-horizontal">
+                                            <div ng-show="!isConnected()">
+                                                <h4 class="text-center">Vous devez être connectés pour poster des messages. Par
+                                                    <a href="#signin?/view_community/{{community.community.com_id}}">ici</a>.</h4>
+                                            </div>
+
+                                            <form name="commentForm" ng-submit="addComment(post)" class="form-horizontal"
+                                                  ng-show="isConnected()">
                                                 <div class="form-group required">
                                                     <div class="col-xs-12">
                                                         <label for="add_comment">Ajouter un commentaire</label>
