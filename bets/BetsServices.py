@@ -6,7 +6,7 @@ from flask import Blueprint
 
 from tools.Tools import DbManager, BetProjectClass
 from datetime import datetime
-from users.UserServices import UserManager, User
+from users.UserServices import UserManager
 
 logger = logging.getLogger(__name__)
 
@@ -237,3 +237,15 @@ class BetsManager(DbManager):
         result.sort(key=lambda user: user["nickName"])
 
         return result
+
+    def getCommunitiesIdByUser(self, user_id):
+        u"""
+        list of distinct communities uuid for a player
+        :param user_id: the user id
+        :return: the list of communities uuid where the user has bet
+        """
+        comIdList = self.getDb().bets.distinct("com_id", {"user_id":user_id})
+
+        logger.info(u'\t\tuser_id : {} and comIdList'.format(user_id,comIdList))
+
+        return comIdList

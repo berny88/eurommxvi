@@ -81,6 +81,18 @@ euro2016App.controller('UserDetailCtrl', ['$scope', '$http', '$q', '$routeParams
 
     }
 
+    $scope.getCommunitiesByPlayer = function() {
+        $http.get('/communities/apiv1.0/communities?userId='+$routeParams.user_id, {timeout: canceler.promise})
+        .success(function(data) {
+            $scope.communities = data.communities.communities;
+            $('#spin').hide();
+        })
+        .error(function(data, status, headers, config) {
+            showAlertError("Erreur lors de la récupération des communautés ; erreur HTTP : " + status);
+            $('#spin').hide();
+        });
+    }
+
 
 }]);
 

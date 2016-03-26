@@ -1,55 +1,90 @@
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h4 class="panel-title">
-            <div class="pull-left">
-                <h4>Détail d'un parieur</h4>
+<div class="jumbotron">
+    <div class="container">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <div class="pull-left">
+                            <h4>Identité du parieur</h4>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                    </h4>
+                </div>
+                <div class="panel-body">
+                    <form name="thelogin" ng-submit="saveUser()">
+                      <div class="form-group" required>
+                          <!--<label for="uuid" class="control-label">uuid</label>
+                          <input type="uuid" class="form-control" id="uuid" name="uuid" ng-model="user.user_id"
+                          placeholder="Id" value="{{user.user_id}}" readonly> -->
+
+                          <label for="email" class="control-label">Email</label>
+                          <input type="email" class="form-control" id="email" name="email" ng-model="user.email"
+                          placeholder="Your email" value="{{user.email}}" readonly>
+
+                          <label for="nickName" class="control-label">Nickname</label>
+                          <input type="nickName" class="form-control" id="nickName" name="nickName" ng-model="user.nickName"
+                          placeholder="NickName" value="{{user.nickName}}" required="required">
+                            <script>
+                                $(function () {
+                                    $('#nickName').focus();
+                                });
+                            </script>
+
+                          <label for="description" class="control-label">Description</label>
+                          <input type="description" class="form-control" id="description" name="description" ng-model="user.description"
+                          placeholder="Description" value="{{user.description}}" >
+
+                          <div ng-show="hasAuthorization()">
+                            <label for="thepwd" class="control-label">Password</label>
+                            <input type="password" class="form-control" id="thepwd" name="thepwd" ng-model="user.pwd"
+                              placeholder="Password" value="" required="required">
+                          </div>
+
+                          <label for="validated" class="control-label">Validated</label>
+                          <input type="validated" class="form-control" id="validated" name="validated" ng-model="user.validated"
+                          placeholder="Validated" value="{{user.validated}}" readonly>
+                      </div>
+                      <div class="form-group">
+                          <button ng-show="hasAuthorization()" type="submit" id="submit" name="submit" value="Sauvegarder"
+                            class="btn btn-primary btn-lg">Sauvegarder</button>
+                          <a class="btn" href="#users">Retour</a>
+                      </div>
+                    </form>
+                </div>
             </div>
-            <div class="pull-right"></div>
-            <div class="clearfix"></div>
-        </h4>
-    </div>
-    <div class="panel-body">
-        <form name="thelogin" ng-submit="saveUser()">
-          <div class="form-group" required>
-              <!--<label for="uuid" class="control-label">uuid</label>
-              <input type="uuid" class="form-control" id="uuid" name="uuid" ng-model="user.user_id"
-              placeholder="Id" value="{{user.user_id}}" readonly> -->
+        </div>
 
-              <label for="email" class="control-label">Email</label>
-              <input type="email" class="form-control" id="email" name="email" ng-model="user.email"
-              placeholder="Your email" value="{{user.email}}" readonly>
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <div class="pull-left">
+                            <h4>Liste des communautés avec paris</h4>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                    </h4>
+                </div>
+                <div class="panel-body">
+                    <div id="no-more-tables" class="table-responsive">
+                        <table class="table table-condensed table-striped">
 
-              <label for="nickName" class="control-label">Nickname</label>
-              <input type="nickName" class="form-control" id="nickName" name="nickName" ng-model="user.nickName"
-              placeholder="NickName" value="{{user.nickName}}" required="required">
-                <script>
-                    $(function () {
-                        $('#nickName').focus();
-                    });
-                </script>
+                            <tbody ng-init="getCommunitiesByPlayer();">
+                            <tr ng-repeat="community in communities">
+                                <td data-title="Communauté">{{community.title}}</td>
+                                <td data-title="Description">{{community.description}}</td>
+                                <td><span><a class="btn btn-default" href="#bet_in_community/{{community.com_id}}"><i class="glyphicon glyphicon-log-in"></i> Y aller !</a></span></td>
+                            </tr>
 
-              <label for="description" class="control-label">Description</label>
-              <input type="description" class="form-control" id="description" name="description" ng-model="user.description"
-              placeholder="Description" value="{{user.description}}" >
-
-              <div ng-show="hasAuthorization()">
-                <label for="thepwd" class="control-label">Password</label>
-                <input type="password" class="form-control" id="thepwd" name="thepwd" ng-model="user.pwd"
-                  placeholder="Password" value="" required="required">
-              </div>
-
-              <label for="validated" class="control-label">Validated</label>
-              <input type="validated" class="form-control" id="validated" name="validated" ng-model="user.validated"
-              placeholder="Validated" value="{{user.validated}}" readonly>
-          </div>
-          <div class="form-group">
-              <button ng-show="hasAuthorization()" type="submit" id="submit" name="submit" value="Sauvegarder"
-                class="btn btn-primary btn-lg">Sauvegarder</button>
-              <a class="btn" href="#users">Retour</a>
-          </div>
-        </form>
+                            </tbody>
+                        </table>
+                    </div>
+                    <center><span id="spin"><img src="static/img/spin.gif"></span></center>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-
 
 

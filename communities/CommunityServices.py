@@ -16,10 +16,14 @@ communities_page = Blueprint('communities_page', __name__,
 
 @communities_page.route('/apiv1.0/communities', methods=['GET'])
 def getAllComunnities():
-    mgr = CommunityManager()
-    coms=mgr.getAllCommunities()
-    logger.info(">>{}".format(jsonify({'communities': coms}).data))
-    return jsonify({'communities': coms})
+    user_id=request.args.get('userId')
+    if user_id is not None:
+        return listOfCommunitiesByUserId(user_id);
+    else:
+        mgr = CommunityManager()
+        coms=mgr.getAllCommunities()
+        logger.info(">>{}".format(jsonify({'communities': coms}).data))
+        return jsonify({'communities': coms})
 
 @communities_page.route('/apiv1.0/communities/<com_id>', methods=['GET'])
 def getCommunity(com_id):
@@ -163,6 +167,27 @@ def listOfPlayers(com_id):
     players= betsMgr.players(com_id)
     d["players"]=players
     return jsonify({'data': d})
+
+def listOfCommunitiesByUserId(user_id):
+    u"""
+    :return la représentation json de la liste des communautés dans lesquelles a parié le user user_id
+    :param user_id: id of user (uuid)
+    """
+    betsMgr = BetsManager()
+    d= dict()
+    comIdList= betsMgr.getCommunitiesIdByUser(user_id)
+
+    mgr = CommunityManager()
+    result=list()
+    for uuid in comIdList:
+        com = mgr.getCommunityByCommunityId(uuid)
+        result.append(com.__dict__)
+    logger.info(u'\t\tcommunities : {}'.format(result))
+
+    result.sort(key=lambda community: community["title"])
+
+    d["communities"]=result
+    return jsonify({'communities': d})
 
 @communities_page.route('/apiv1.0/communities/<com_id>/blogs', methods=['GET'])
 def blogs(com_id):
