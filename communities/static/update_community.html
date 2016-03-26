@@ -49,7 +49,7 @@
                               <nav role='navigation' class="push-right">
                                 <ul>
                                   <li ng-click="selectTab('CommunitiesCtrl')">Voir tous les posts</li>
-                                  <li ng-click="selectTab('new')">Nouveau Post</li>
+                                  <li ng-click="selectTab('new')" ng-show="hasAuthorization(community.community)">Nouveau Post</li>
                                 </ul>
                               </nav>
                             </div>
