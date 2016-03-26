@@ -148,6 +148,7 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
         // only the connected people can create/delete/modify a community
         $scope.isConnected = function() {
             // security.js :
+            console.log("isConnected = "+getConnectedUser($window));
             return isConnected($window);
         }
 
@@ -232,7 +233,12 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
 
     $scope.addComment = function(post){
         $scope.comment.createdOn = Date.now();
-        $scope.comment.author= "TODO_get_currentUserToTrack";
+        if (getConnectedUser($window) == null){
+            console.log("addComment::Connected user= "+getConnectedUser($window));
+            showAlertError("unauthenticated user ! You must be connected");
+            return;
+        }
+        $scope.comment.author= getConnectedUser($window).user_id;
         console.log("addComment:: $scope.comments=" + $scope.comments);
         post.comments.push($scope.comment);
         console.log("addComment:: try to add comment:: post=" + post.blog_id);
