@@ -157,6 +157,9 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
             canceler.resolve();
         });
 
+/* *********** */
+/* Blog block  */
+/* *********** */
     var blog = this;
     $scope.title = "Blog de la communauté";
 
@@ -224,15 +227,28 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
         });
     };
 
+    $scope.comments = {};
     $scope.comment = {};
+
     $scope.addComment = function(post){
-      $scope.comment.createdOn = Date.now();
-      $scope.comment.author= "currentUserToTrack";
-      $scope.comments.push($scope.comment);
-      $scope.comment ={};
-      console.log("try to add comment:: post=" + posts.blog_id);
-      console.log("\t try to add comment:: coment=" + $scope.comment);
-      //TODO call API REST PUT
+        $scope.comment.createdOn = Date.now();
+        $scope.comment.author= "TODO_get_currentUserToTrack";
+        console.log("addComment:: $scope.comments=" + $scope.comments);
+        post.comments.push($scope.comment);
+        console.log("addComment:: try to add comment:: post=" + post.blog_id);
+        console.log("addComment:: try to add comment:: comment=" + $scope.comment);
+        hideAlerts();
+        $http.post('communities/apiv1.0/communities/' + $routeParams.com_id + '/blogs/'+post.blog_id+'/comments',
+                    {comment: $scope.comment, timeout: canceler.promise})
+        .success(function(data, status, headers, config) {
+            console.log("new comment result="+data.msg)
+            $.notify("Commentaire créé avec succès !!" , "success");
+            $scope.comment ={};
+        })
+        .error(function(data, status, headers, config) {
+            showAlertError("Erreur lors de la création du post; erreur HTTP : " + status);
+        });
     };
-  }]);
+
+}]);
 

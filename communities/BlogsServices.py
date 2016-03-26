@@ -155,3 +155,18 @@ class BlogsManager(DbManager):
         result = localdb.blogs.delete_one({"blog_id":blog.blog_id})
         logger.info(u'\tnb deleted : {}'.format(result.deleted_count))
         return result.deleted_count
+
+    def add_comment_on_blog(self, com_id, blog_id, comment):
+        u"""
+        """
+        localdb = self.getDb()
+
+        logger.info(u'add_comment_on_blog : com_id={}/blog_id={}/comment={}'.format(com_id, blog_id, comment))
+        blog = self.getBlogByCommunityAndBlogId(com_id, blog_id)
+        if (blog is not None):
+            blog.comments.append(comment)
+            blogBson = blog.convertIntoJson()
+            id = localdb.blogs.update({"blog_id": blog.blog_id, "com_id":blog.com_id},
+                                        {"$set": {"comments": blogBson["comments"]}}, upsert=True)
+
+        return 1

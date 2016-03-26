@@ -3,7 +3,7 @@ from flask import Blueprint, jsonify, request, session
 import logging
 from uuid import uuid4
 from bets.BetsServices import BetsManager
-from communities.BlogsServices import BlogsManager, Blog
+from communities.BlogsServices import BlogsManager, Blog, Comment
 
 from tools.Tools import DbManager, BetProjectClass
 
@@ -212,6 +212,20 @@ def deleteBlogPost(com_id, blog_id):
     else:
         return "hacking en cours", 500
 
+@communities_page.route('/apiv1.0/communities/<com_id>/blogs/<blog_id>/comments', methods=['POST'])
+def create_comment_on_blog_post(com_id, blog_id):
+    u"""
+    add a new comment on a blog post. Comment is sent in request.json
+    :return status message
+    :param com_id: id of community (uuid)
+    :param blog_id: id of blog_id(uuid)
+    """
+    logger.info(u"create_comment_on_blog_post::json param:{} ".format(request.json))
+    mgr = BlogsManager()
+    comment = Comment()
+    comment.convertFromJson(request.json["comment"])
+    mgr.add_comment_on_blog(com_id, blog_id, comment)
+    return jsonify({'msg': "successfull"}), 200
 
 u"""
 **************************************************

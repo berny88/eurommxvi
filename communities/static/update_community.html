@@ -67,8 +67,6 @@
                                 <p>{{post.body[0] | limitTo:70}}...</p>
                                 <p class="fa fa-comment push-left"> {{post.comments.length}}
                                 </p>
-                                <p class="fa fa-heart push-right"> {{post.likes}}
-                                </p>
                               </li>
                             </ul>
                             <div class="post" ng-repeat="post in posts" ng-show="isSelected($index)">

@@ -28,6 +28,7 @@
                     <input ng-model="community.community.description" type="text" class="form-control" id="description" placeholder="Description" readonly="readonly">
                 </div>
             </div>     
+        </form>
             <br>
             <div class="container-fluid">
                 <div class="row">
@@ -76,8 +77,6 @@
                                     <p>{{post.body[0] | limitTo:70}}...</p>
                                     <p class="fa fa-comment push-left"> {{post.comments.length}}
                                     </p>
-                                    <p class="fa fa-heart push-right"> {{post.likes}}
-                                    </p>
                                   </li>
                                 </ul>
                                 <div class="post" ng-repeat="post in posts" ng-show="isSelected($index)">
@@ -112,7 +111,7 @@
                                                                   class="form-control" required="required" id="add_comment"></textarea>
                                                     </div>
                                                 </div>
-                                                <input type="submit" value="Submit" class="btn btn-success pull-right"/>
+                                                <input type="submit" value="Sauvegarder" class="btn btn-success pull-right"/>
                                             </form>
 
 
@@ -132,6 +131,5 @@
                     </div>
                 </div>
             </div>
-        </form>
     </div>
 </div>
