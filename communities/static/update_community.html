@@ -83,8 +83,17 @@
                                     <h3>
                                         <span class="">
                                             <a class="label label-info pull-left"
-                                              ng-click="selectTab('CommunitiesCtrl')">Revoir tous les posts</a>
+                                              ng-click="selectTab('CommunitiesCtrl')">Revoir tous les posts&nbsp;
+                                                <i class="glyphicon glyphicon-resize-small"></i></a>
                                         </span>
+                                        <span class="">
+                                            <a class="label label-warning pull-left"
+                                              ng-click="alert('')">Renvoyer mail à tous&nbsp;<i class="glyphicon glyphicon-envelope"></i></a>
+                                        </span>&nbsp;&nbsp;
+                                        <span class="">
+                                            <a class="label label-warning pull-left"
+                                              ng-click="alert('')">Renvoyer mail à moi seulement&nbsp;<i class="glyphicon glyphicon-envelope"></i></a>
+                                        </span>&nbsp;&nbsp;
                                         <span class="">
                                             <a class="label label-danger pull-right"
                                               ng-click="deletePost($index)">Supprimer &nbsp;<i class="glyphicon glyphicon-remove-sign"></i></a>
@@ -106,7 +115,7 @@
                             <div class="post" ng-show="isSelected('new')">
                                 <h2>Nouveau Post</h2>
 
-                                <form name="postForm" ng-submit="addPost()" class="form-horizontal">
+                                <in name="postForm" ng-submit="addPost()" class="form-horizontal">
                                     <div class="form-group required">
                                         <label for="post_title">Title</label>
                                         <div class="col-xs-12">
@@ -121,6 +130,16 @@
                                                       ng-trim="false"
                                                       rows="10" class="form-control" required="required"></textarea>
                                         </div>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label>
+                                          <input type="checkbox"> Envoi email à moi seulement
+                                        </label>
+                                    </div>
+                                    <div class="checkbox">
+                                        <label>
+                                          <input type="checkbox"> Envoi email à tous
+                                        </label>
                                     </div>
                                     <input type="submit" ng-show="displayBlogPostSaveButton"
                                            class="btn btn-success pull-right" value="Sauvegarder">
