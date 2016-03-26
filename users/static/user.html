@@ -69,9 +69,17 @@
                 <div class="panel-body">
                     <div id="no-more-tables" class="table-responsive">
                         <table class="table table-condensed table-striped">
+                            <thead>
+                            <tr>
+                                <th class="title">
+                                    <a ng-click="sortType='title';sortReverse=!sortReverse">Titre<span ng-show="sortType=='title'&&!sortReverse" class="glyphicon glyphicon-chevron-down"></span><span ng-show="sortType=='title' && sortReverse" class="glyphicon glyphicon-chevron-up"></span></a>
+                                </th>
+                                <th class="description">Description</th>
+                            </tr>
+                            </thead>
 
                             <tbody ng-init="getCommunitiesByPlayer();">
-                            <tr ng-repeat="community in communities">
+                            <tr ng-repeat="community in communities | orderBy:sortType:sortReverse">
                                 <td data-title="Communauté">{{community.title}}</td>
                                 <td data-title="Description">{{community.description}}</td>
                                 <td><span><a class="btn btn-default" href="#bet_in_community/{{community.com_id}}"><i class="glyphicon glyphicon-log-in"></i> Y aller !</a></span></td>
