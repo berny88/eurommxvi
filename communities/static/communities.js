@@ -227,8 +227,11 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
     $scope.comment = {};
     $scope.addComment = function(post){
       $scope.comment.createdOn = Date.now();
+      $scope.comment.author= "currentUserToTrack";
       $scope.comments.push($scope.comment);
       $scope.comment ={};
+      console.log("try to add comment:: post=" + posts.blog_id);
+      console.log("\t try to add comment:: coment=" + $scope.comment);
       //TODO call API REST PUT
     };
   }]);
