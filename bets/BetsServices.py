@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 import logging
 
-from bson.objectid import ObjectId
+from datetime import datetime
 from flask import Blueprint
 
 from tools.Tools import DbManager, BetProjectClass
-from datetime import datetime
 from users.UserServices import UserManager
 
 logger = logging.getLogger(__name__)

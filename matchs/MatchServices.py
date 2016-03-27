@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request, session
 from bson.objectid import ObjectId
 import logging
-from tools.Tools import DbManager
 
+from tools.Tools import DbManager
+from users.UserServices import UserManager
+from bets.BetsServices import BetsManager
 
 logger = logging.getLogger(__name__)
 
@@ -25,10 +27,36 @@ def getMatchs():
 
     return jsonify({'matchs': matchs})
 
+@matchs_page.route('/apiv1.0/matchs', methods=['PUT'])
+def updateMatchsResults():
+    u"""
+    save the result of matchs.
+    only allowed to admin
+    :return the numbers of matchs updated
+    """
+    logger.info("updateMatchsResults::{}".format(request.json["matchs"]))
+    if "cookieUserKey" in session:
+        mgr = MatchsManager()
+        matchsjson = request.json["matchs"]
+        cookieUserKey = session['cookieUserKey']
+        user_mgr = UserManager()
+        user = user_mgr.getUserByUserId(cookieUserKey)
+        if user.isAdmin:
+            logger.info(u"updateMatchsResults::update by ={}".format(user.email))
+            mgr.update_all_matchs(matchsjson)
+        else:
+            return "Ha ha ha ! Mais t'es pas la bonne personne pour faire ça, mon loulou", 403
+        nbHit=0
+        return jsonify({'nbHit': nbHit})
+    else:
+        return "Ha ha ha ! Mais t'es qui pour faire ça, mon loulou ?", 403
+
+
 u"""
 **************************************************
 Service layer
 """
+
 
 class Match:
     u""""
@@ -69,7 +97,6 @@ class Match:
                 self.__dict__[k] = elt[k]
 
 
-
     def convertIntoBson(self):
         u"""
         convert a community object into mongo Bson format
@@ -84,11 +111,12 @@ class Match:
         return elt
 
 
-
 class MatchsManager(DbManager):
 
     def getAllMatchs(self):
-        """ get the complete list of properties"""
+        """
+        get the complete list of matchs
+        """
         localdb = self.getDb()
         logger.info(u'getAllMatchs::db={}'.format(localdb))
 
@@ -108,6 +136,16 @@ class MatchsManager(DbManager):
             result.append(tmpdict)
         return result
 
+
+    def update_all_matchs(self, matchs_to_update):
+        #load all match from db (because we just want to update result
+        matchs = self.getAllMatchs()
+        for m in matchs:
+            self.getDb()
+
+        bet_mgr = BetsManager()
+
+        return None
 
 
 
