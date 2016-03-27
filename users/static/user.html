@@ -20,20 +20,28 @@
 
                           <label for="email" class="control-label">Email</label>
                           <input type="email" class="form-control" id="email" name="email" ng-model="user.email"
-                          placeholder="Your email" value="{{user.email}}" readonly>
+                          placeholder="Your email" value="{{user.email}}" disabled>
 
                           <label for="nickName" class="control-label">Nickname</label>
-                          <input type="nickName" class="form-control" id="nickName" name="nickName" ng-model="user.nickName"
-                          placeholder="NickName" value="{{user.nickName}}" required="required">
-                            <script>
+                          <div ng-show="hasAuthorization()">
+                              <input type="nickName" class="form-control" id="nickName" name="nickName" ng-model="user.nickName" placeholder="NickName" value="{{user.nickName}}" required="required">
+                                <script>
                                 $(function () {
                                     $('#nickName').focus();
                                 });
-                            </script>
+                                </script>
+                          </div>
+                          <div ng-show="!hasAuthorization()">
+                              <input type="nickName" class="form-control" id="nickName" name="nickName" ng-model="user.nickName" placeholder="NickName" value="{{user.nickName}}" disabled>
+                          </div>
 
                           <label for="description" class="control-label">Description</label>
-                          <input type="description" class="form-control" id="description" name="description" ng-model="user.description"
-                          placeholder="Description" value="{{user.description}}" >
+                          <div ng-show="hasAuthorization()">
+                              <input type="description" class="form-control" id="description" name="description" ng-model="user.description" placeholder="Description" value="{{user.description}}" >
+                          </div>
+                          <div ng-show="!hasAuthorization()">
+                              <input type="description" class="form-control" id="description" name="description" ng-model="user.description" placeholder="Description" value="{{user.description}}" disabled>
+                          </div>
 
                           <div ng-show="hasAuthorization()">
                             <label for="thepwd" class="control-label">Password</label>
@@ -43,7 +51,7 @@
 
                           <label for="validated" class="control-label">Validated</label>
                           <input type="validated" class="form-control" id="validated" name="validated" ng-model="user.validated"
-                          placeholder="Validated" value="{{user.validated}}" readonly>
+                          placeholder="Validated" value="{{user.validated}}" disabled>
                       </div>
                       <div class="form-group">
                           <button ng-show="hasAuthorization()" type="submit" id="submit" name="submit" value="Sauvegarder"
