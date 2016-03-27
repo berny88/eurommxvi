@@ -195,6 +195,7 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
         $scope.tab = 0;
         console.log("addPost :: post=" + $scope.post + " / user="+getConnectedUser($window).email);
         console.log("addPost :: post.body=" + $scope.post.body );
+        console.log("addPost :: post.post.emailOpt=" + $scope.post.emailOpt );
           //TODO faire les contrôles de sécu coté client
         hideAlerts();
         $http.post('communities/apiv1.0/communities/' + $routeParams.com_id + '/blogs', {blogpost: $scope.post, timeout: canceler.promise})

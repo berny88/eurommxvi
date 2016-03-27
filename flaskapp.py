@@ -3,7 +3,6 @@
 import logging
 import os, sys
 from flask import Flask
-from flask import render_template
 
 from chat.ChatServices import chat_page
 from communities.CommunityServices import communities_page
@@ -85,8 +84,8 @@ def testmongo():
 
 @app.route('/testmail/')
 def testmail():
-    sg = sendgrid.SendGridClient("bbougeon138",
-                "s8drhcp01")
+    tool = ToolManager()
+    sg = tool.get_sendgrid()
 
     message = sendgrid.Mail()
 

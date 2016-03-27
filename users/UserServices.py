@@ -3,6 +3,7 @@ from flask import Blueprint, jsonify, redirect, request, session
 import logging
 from uuid import uuid4
 import sendgrid
+from tools.Tools import ToolManager
 
 from tools.Tools import DbManager
 
@@ -82,9 +83,8 @@ def subscriptionPost():
     mgr = UserManager()
     user = mgr.getUserByEmail(email)
     if user is None:
-        sg = sendgrid.SendGridClient("bbougeon138",
-                    "s8drhcp01")
-
+        tool = ToolManager()
+        sg = tool.get_sendgrid()
         message = sendgrid.Mail()
 
         message.add_to(email)
@@ -115,8 +115,8 @@ def confirmationSubscription(user_id):
     """
     logger.info("confirmationSubscription")
     logger.info(u"confirmationSubscription::user_id:{} ".format(user_id))
-    sg = sendgrid.SendGridClient("bbougeon138",
-                "s8drhcp01")
+    tool = ToolManager()
+    sg = tool.get_sendgrid()
 
     message = sendgrid.Mail()
     mgr = UserManager()

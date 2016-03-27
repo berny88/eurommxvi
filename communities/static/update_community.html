@@ -115,7 +115,7 @@
                             <div class="post" ng-show="isSelected('new')">
                                 <h2>Nouveau Post</h2>
 
-                                <in name="postForm" ng-submit="addPost()" class="form-horizontal">
+                                <form name="postForm" ng-submit="addPost()" class="form-horizontal">
                                     <div class="form-group required">
                                         <label for="post_title">Title</label>
                                         <div class="col-xs-12">
@@ -131,14 +131,14 @@
                                                       rows="10" class="form-control" required="required"></textarea>
                                         </div>
                                     </div>
-                                    <div class="checkbox">
+                                    <div class="radio">
                                         <label>
-                                          <input type="checkbox"> Envoi email à moi seulement
+                                            <input type="radio" name="emailOpt" id="emailOptMe" value="me" ng-model="post.emailOpt">
+                                            Envoi email à moi seulement
                                         </label>
-                                    </div>
-                                    <div class="checkbox">
                                         <label>
-                                          <input type="checkbox"> Envoi email à tous
+                                            <input type="radio" name="emailOpt" id="emailOptAll" value="all" ng-model="post.emailOpt">
+                                            Envoi email à tous (donc moi)
                                         </label>
                                     </div>
                                     <input type="submit" ng-show="displayBlogPostSaveButton"
