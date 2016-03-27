@@ -105,7 +105,7 @@
                                             </ul>
                                             <div ng-show="!isConnected()">
                                                 <h4 class="text-center">Vous devez être connectés pour poster des messages. Par
-                                                    <a href="#signin?/view_community/{{community.community.com_id}}">ici</a>.</h4>
+                                                    <a href="#signin?callback=view_community/{{community.community.com_id}}">ici</a>.</h4>
                                             </div>
 
                                             <form name="commentForm" ng-submit="addComment(post)" class="form-horizontal"
