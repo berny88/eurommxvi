@@ -3,7 +3,7 @@ euro2016App.controller('UsersListCtrl', ['$scope', '$http', '$q', function ($sco
         var canceler = $q.defer();
 
         $scope.getUsers = function() {
-            $http.get('/users/apiv1.0/users', {timeout: canceler.promise})
+            $http.get('/users/apiv1.0/users?validated=true', {timeout: canceler.promise})
             .success(function(data) {
                 //ng-repeat :
                 $scope.users = data;
@@ -13,8 +13,6 @@ euro2016App.controller('UsersListCtrl', ['$scope', '$http', '$q', function ($sco
         $scope.$on('$destroy', function(){
             canceler.resolve();  // Aborts the $http request if it isn't finished.
         });
-
-        //$scope.getUsers();
 
 }]);
 

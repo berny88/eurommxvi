@@ -21,11 +21,12 @@ users_page = Blueprint('users_page', __name__,
 @users_page.route('/apiv1.0/users', methods=['GET'])
 def getusers():
     u"""
-    return the complete list of user without filter neither sort
+    return the complete list of users sorted by nickName and eventually filtered by 'validated'
     :return: collection of users in jso format
     """
+    filterValidated=request.args.get('validated')
     mgr = UserManager()
-    users = mgr.getAllUsers()
+    users = mgr.getAllUsers(filterValidated)
     logger.info("getusers::users={}".format(users))
     return jsonify({'users': users})
 
@@ -213,13 +214,17 @@ class User:
 
 class UserManager(DbManager):
 
-    def getAllUsers(self):
-        """ get the complete list of properties"""
+    def getAllUsers(self,filterValidated):
+        """ get the list of users"""
         localdb = self.getDb()
         logger.info(u'getAllUsers::db={}'.format(localdb))
 
         usersColl = localdb.users
-        usersList = usersColl.find()
+        if filterValidated == "true":
+            logger.info("***** filterValidated TRUE = {}".format(filterValidated))
+            usersList = usersColl.find({"validated": True}).sort("nickName")
+        else:
+            usersList = usersColl.find().sort("nickName")
         logger.info(u'getAllUsers::usersList={}'.format(usersList))
         #Faut-il changer de list ou retourner le bson directement ?
         result = list()
