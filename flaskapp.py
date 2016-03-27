@@ -94,9 +94,9 @@ def testmail():
     message.set_subject("test from openshift")
     message.set_html("<html><head></head><body><h1>Il faut bien tapper : rhc env set SENDGRID_HOSTNAME=smtp.sendgrid.net -a euroxxxvi</h1></hr></body></html>")
 
-    sg.send(message)
+    res = sg.send(message)
 
-    return u"look at your email box", 200
+    return u"look at your email box : result="+str(res[0])+" - "+str(res[1]), 200
 
 
 @app.errorhandler(404)

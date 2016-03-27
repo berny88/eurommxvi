@@ -111,8 +111,9 @@ class ToolManager(DbManager):
         search in  properties account to send email with sendgrid and return a sendclient
         :return the sendGrid objet to send email
         """
-        user = self.getProperty("send_grid_user")
-        pwd = self.getProperty("send_grid_pwd")
+        user = self.getProperty("send_grid_user")["value"]
+        pwd = self.getProperty("send_grid_pwd")["value"]
+        logger.info("sendgrid={}/{}".format(user, pwd))
         sg = sendgrid.SendGridClient(user,
                                      pwd)
         return sg
