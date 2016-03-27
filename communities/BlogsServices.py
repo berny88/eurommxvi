@@ -1,13 +1,8 @@
 # -*- coding: utf-8 -*-
-from flask import Blueprint, jsonify, request, session
 import logging
-from pymongo import MongoClient
-from datetime import datetime
-import os
-import re
 from uuid import uuid4
-from bets.BetsServices import BetsManager
 import sendgrid
+from tools.Tools import ToolManager
 
 from tools.Tools import DbManager, BetProjectClass
 
@@ -77,6 +72,10 @@ class Blog(BetProjectClass):
                 elt["comments"] = l
         return elt
 
+    def body_to_mail(self):
+        result=u""
+        for b in self.body:
+            result = result + b + u"<br/>"
 
 class Comment(BetProjectClass):
 
@@ -170,3 +169,22 @@ class BlogsManager(DbManager):
                                         {"$set": {"comments": blogBson["comments"]}}, upsert=True)
 
         return 1
+
+    def send_email(self, blog, recipients):
+        tool = ToolManager()
+        sg = tool.get_sendgrid()
+        message = sendgrid.Mail()
+
+        for r in recipients:
+            message.add_to(r)
+        message.set_from("eurommxvi.foot@gmail.com")
+        message.set_subject("eurommxvi : ".format(blog.title))
+        logger.info("email body-to_mail={}".format(blog.body_to_mail()))
+        body = u"<html><head></head><body>{}</body></html>".format(blog.body_to_mail())
+        message.set_html(body)
+
+        res = sg.send(message)
+
+        logger.info("email result={}/{}".format(str(res[0]), str(res[1])))
+
+        return res

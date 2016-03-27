@@ -219,6 +219,18 @@ def createBlogPost(com_id):
             if (blog.title is None) or (blog.title=="") or (len(blog.body)==0):
                 return jsonify({'msg': "ERROR : body is empty"}), 500
             mgr.createBlog(blog)
+            if (request.json["blogpost"]["emailOpt"] == "me"):
+                userMgr = UserManager()
+                user = userMgr.getUserByUserId(cookieUserKey)
+                recipients = list()
+                recipients.append(user.email)
+                mgr.send_email(blog, recipients)
+            else:
+                userMgr = UserManager()
+                user = userMgr.getUserByUserId(cookieUserKey)
+                recipients = list()
+                recipients.append(user.email)
+                mgr.send_email(blog, recipients)
             return jsonify({'blog': blog.convertIntoJson()}), 200
         else:
             return "hey poussin ! mais t'as pas le droit, mon loulou", 403
@@ -274,6 +286,7 @@ def create_comment_on_blog_post(com_id, blog_id):
         if (comment.body is None) or(comment.body ==""):
             return jsonify({'msg': "ERROR : body is empty"}), 500
         mgr.add_comment_on_blog(com_id, blog_id, comment)
+
         return jsonify({'msg': "successfull"}), 200
     else:
         return "hey poussin ! tu dois être authentifié, mon loulou", 403
