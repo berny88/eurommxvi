@@ -213,6 +213,7 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
     };
 
     $scope.deletePost = function(index){
+        hideAlerts();
         console.log("deletePost :: post index=" + index);
         post = $scope.posts[index];
         console.log("deletePost :: post.blog_id =" + post.blog_id);
@@ -228,6 +229,35 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
             showAlertError("Erreur lors de la suppression du post; erreur HTTP : " + status);
         });
     };
+
+    $scope.sendEmailToMe = function(post){
+        console.log("sendEmailToMe::Connected user= "+getConnectedUser($window));
+        console.log("\tsendEmailToMe::blog_id= "+post.blog_id);
+        hideAlerts();
+        $http.put('communities/apiv1.0/communities/' + $routeParams.com_id + '/blogs/'+post.blog_id+'?type=me',
+                    {comment: $scope.comment, timeout: canceler.promise})
+        .success(function(data, status, headers, config) {
+            console.log("send email to me="+data.msg)
+            $.notify("Email envoyé !!" , "success");
+        })
+        .error(function(data, status, headers, config) {
+            showAlertError("Erreur lors l'envoi de l'email; erreur HTTP : " + status);
+        });
+    }
+
+    $scope.sendEmailToAll = function(post){
+        console.log("sendEmailToAll::blog_id= "+post.blog_id);
+        hideAlerts();
+        $http.put('communities/apiv1.0/communities/' + $routeParams.com_id + '/blogs/'+post.blog_id+'?type=all',
+                    {comment: $scope.comment, timeout: canceler.promise})
+        .success(function(data, status, headers, config) {
+            console.log("send email to all="+data.msg)
+            $.notify("Email envoyé !!" , "success");
+        })
+        .error(function(data, status, headers, config) {
+            showAlertError("Erreur lors l'envoi de l'email; erreur HTTP : " + status);
+        });
+    }
 
     $scope.comments = {};
     $scope.comment = {};

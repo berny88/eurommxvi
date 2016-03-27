@@ -80,26 +80,28 @@
                                     </div>
                                     <p class="fa fa-comment push-left"> {{post.comments.length}}
                                     </p>
-                                    <h3>
-                                        <span class="">
-                                            <a class="label label-info pull-left"
-                                              ng-click="selectTab('CommunitiesCtrl')">Revoir tous les posts&nbsp;
-                                                <i class="glyphicon glyphicon-resize-small"></i></a>
-                                        </span>
-                                        <span class="">
-                                            <a class="label label-warning pull-left"
-                                              ng-click="alert('')">Renvoyer mail à tous&nbsp;<i class="glyphicon glyphicon-envelope"></i></a>
-                                        </span>&nbsp;&nbsp;
-                                        <span class="">
-                                            <a class="label label-warning pull-left"
-                                              ng-click="alert('')">Renvoyer mail à moi seulement&nbsp;<i class="glyphicon glyphicon-envelope"></i></a>
-                                        </span>&nbsp;&nbsp;
-                                        <span class="">
-                                            <a class="label label-danger pull-right"
-                                              ng-click="deletePost($index)">Supprimer &nbsp;<i class="glyphicon glyphicon-remove-sign"></i></a>
-                                        </span>
-
-                                    </h3>
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="btn-group" role="group" aria-label="...">
+                                                <button type="button" class="btn btn-info glyphicon glyphicon-resize-small"
+                                                        ng-click="selectTab('CommunitiesCtrl')">
+                                                    Revoir tous les posts&nbsp;
+                                                </button>
+                                                <button type="button" class="btn btn-warning glyphicon glyphicon-envelope"
+                                                        ng-click="sendEmailToAll(post)">
+                                                    Renvoyer mail à tous&nbsp;
+                                                </button>
+                                                <button type="button" class="btn btn-success glyphicon glyphicon-envelope"
+                                                        ng-click="sendEmailToMe(post)">
+                                                    Renvoyer mail à moi seulement&nbsp;
+                                                </button>
+                                                <button type="button" class="btn btn-danger glyphicon glyphicon-remove-sign"
+                                                        ng-click="deletePost($index)">
+                                                    Supprimer&nbsp;
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <br />
                                     <div class="comments">
                                         <h3>Comments</h3>
@@ -132,6 +134,10 @@
                                         </div>
                                     </div>
                                     <div class="radio">
+                                        <label>
+                                            <input type="radio" name="emailOpt" id="emailOptNone" value="none" ng-model="post.emailOpt">
+                                            Pas d'envoi de mail
+                                        </label>
                                         <label>
                                             <input type="radio" name="emailOpt" id="emailOptMe" value="me" ng-model="post.emailOpt">
                                             Envoi email à moi seulement

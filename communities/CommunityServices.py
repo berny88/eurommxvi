@@ -219,18 +219,11 @@ def createBlogPost(com_id):
             if (blog.title is None) or (blog.title=="") or (len(blog.body)==0):
                 return jsonify({'msg': "ERROR : body is empty"}), 500
             mgr.createBlog(blog)
-            if (request.json["blogpost"]["emailOpt"] == "me"):
-                userMgr = UserManager()
-                user = userMgr.getUserByUserId(cookieUserKey)
-                recipients = list()
-                recipients.append(user.email)
-                mgr.send_email(blog, recipients)
-            else:
-                userMgr = UserManager()
-                user = userMgr.getUserByUserId(cookieUserKey)
-                recipients = list()
-                recipients.append(user.email)
-                mgr.send_email(blog, recipients)
+            #3 possibility : emailonly for admin, for all or for none
+            if request.json["blogpost"]["emailOpt"] == "me":
+                mgr.send_email_to_user_id(blog, cookieUserKey)
+            elif request.json["blogpost"]["emailOpt"] == "all":
+                mgr.send_email_to_all(blog)
             return jsonify({'blog': blog.convertIntoJson()}), 200
         else:
             return "hey poussin ! mais t'as pas le droit, mon loulou", 403
@@ -261,6 +254,25 @@ def deleteBlogPost(com_id, blog_id):
                 return "hacking en cours", 500
         else:
             return "hey poussin ! t'es pas admin, mon loulou", 403
+    else:
+        return "hey poussin ! tu dois être authentifié, mon loulou", 401
+
+@communities_page.route('/apiv1.0/communities/<com_id>/blogs/<blog_id>', methods=['PUT'])
+def send_email_on_blog(com_id, blog_id):
+    u"""
+    """
+    logger.info(u"send_email_on_blog:: param:{} ".format(request.values))
+    if "cookieUserKey" in session:
+        action = request.values.get(u"type")
+        blog_mgr = BlogsManager()
+        blog = blog_mgr.getBlogByCommunityAndBlogId(com_id, blog_id)
+        if action == "all":
+            logger.info(u"send_email_on_blog::for all - {}".format(blog))
+            blog_mgr.send_email_to_all(blog)
+        elif action == "me":
+            logger.info(u"send_email_on_blog::for me - {} / {}".format(session["cookieUserKey"], blog))
+            blog_mgr.send_email_to_user_id(blog, session["cookieUserKey"])
+        return jsonify({'msg': "successfull"}), 200
     else:
         return "hey poussin ! tu dois être authentifié, mon loulou", 401
 

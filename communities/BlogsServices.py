@@ -7,6 +7,7 @@ from tools.Tools import ToolManager
 from tools.Tools import DbManager, BetProjectClass
 
 from users.UserServices import UserManager
+from bets.BetsServices import BetsManager
 
 logger = logging.getLogger(__name__)
 
@@ -73,9 +74,13 @@ class Blog(BetProjectClass):
         return elt
 
     def body_to_mail(self):
+        u"""
+        :return return the body of blog with <br/> to mark line break
+        """
         result=u""
         for b in self.body:
             result = result + b + u"<br/>"
+        return result
 
 class Comment(BetProjectClass):
 
@@ -170,6 +175,30 @@ class BlogsManager(DbManager):
 
         return 1
 
+
+    def send_email_to_user_id(self, blog, user_id):
+        u""""
+        send email to user_id
+        :param blog the blog send
+        :param user_id uuid of user to notify - usually the admin od community
+        """
+        userMgr = UserManager()
+        user = userMgr.getUserByUserId(user_id)
+        recipients = list()
+        recipients.append(user.email)
+        return self.send_email(blog, recipients)
+
+    def send_email_to_all(self, blog):
+        u""""
+        send email to all user of community
+        :param blog the blog send
+        """
+        bet_mgr = BetsManager()
+        recipients = list()
+        for user in bet_mgr.players(blog.com_id):
+            recipients.append(user["email"])
+        return self.send_email(blog, recipients)
+
     def send_email(self, blog, recipients):
         tool = ToolManager()
         sg = tool.get_sendgrid()
@@ -177,8 +206,10 @@ class BlogsManager(DbManager):
 
         for r in recipients:
             message.add_to(r)
+        message.add_to("eurommxvi.foot@gmail.com")
         message.set_from("eurommxvi.foot@gmail.com")
-        message.set_subject("eurommxvi : ".format(blog.title))
+        message.set_subject("eurommxvi : {}".format(blog.title))
+        logger.info("email title={}".format(blog.title))
         logger.info("email body-to_mail={}".format(blog.body_to_mail()))
         body = u"<html><head></head><body>{}</body></html>".format(blog.body_to_mail())
         message.set_html(body)
