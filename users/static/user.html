@@ -61,6 +61,36 @@
                     </form>
                 </div>
             </div>
+
+            <div ng-show="hasAuthorization()" class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <div class="pull-left">
+                            <h4>Avatar </h4>
+                            <img id="img_avatar" height="32px" width="32px" class="img-circle" ng-src ="static/img/avatar/{{ user.user_id }}.jpg?{{ currentDateForAvoidTheCache }}" onerror="this.src='static/img/avatar/default_avatar.png'" >
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                    </h4>
+                </div>
+                <div class="panel-body">
+                    <form name="avatar" ng-submit="saveAvatar()" enctype="multipart/form-data">
+                        <div class="form-group" required>
+
+                            <label for="avatar" class="control-label">Changer votre avatar</label>
+                            <input type="file" id="avatar" file-model="myAvatar" accept="image/jpeg" required="required">
+                            <p class="help-block">Fichier de forme carrée au format jpg</p>
+
+                        </div>
+                        <div class="form-group">
+                            <button  type="submit" name="submit" value="Enregistrer"
+                                    class="btn btn-primary btn-lg">Enregistrer</button>
+                            <a class="btn" href="#users">Retour</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
         </div>
 
         <div class="col-md-6">

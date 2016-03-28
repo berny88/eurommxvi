@@ -7,6 +7,8 @@ from tools.Tools import ToolManager
 
 from tools.Tools import DbManager
 
+import os
+
 logger = logging.getLogger(__name__)
 
 u"""
@@ -149,6 +151,44 @@ def login():
     else:
         session['cookieUserKey'] = user.user_id
         return jsonify({'user': user.__dict__}), 200
+
+
+
+# This is the path to the upload directory
+#app.config['UPLOAD_FOLDER'] = 'uploads/'
+
+# For a given file, return whether it's an allowed type or not
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in set(['jpg'])
+
+@users_page.route('/apiv1.0/users/<user_id>/avatar', methods=['POST'])
+def saveAvatar(user_id):
+    u"""
+    Save the avatar
+    :param user_id: uuid
+    :return: the http status
+    """
+    checkRight=False
+    if "cookieUserKey" in session:
+        cookieUserKey = session['cookieUserKey']
+        if (user_id==cookieUserKey):
+            checkRight=True
+    if (checkRight):
+        # Get the name of the uploaded file
+        file = request.files['file']
+        # Check if the file is one of the allowed types/extensions
+        if file and allowed_file(file.filename):
+            # Replade the file name :
+            filename = user_id+'.jpg'
+            # Move the file form the temporal folder to
+            # the upload folder we setup
+            file.save(os.path.join('static/img/avatar/', filename))
+            return "Yes !", 200
+        else:
+            return "Type de fichier non supporté (jpg obligatoire)", 415
+    else:
+        return "Ha ha ha ! Mais t'es pas la bonne personne pour faire ça, mon loulou", 403
 
 
 """

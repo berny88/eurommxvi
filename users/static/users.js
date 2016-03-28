@@ -2,6 +2,10 @@ euro2016App.controller('UsersListCtrl', ['$scope', '$http', '$q', function ($sco
 
         var canceler = $q.defer();
 
+        // to avoid the cache of the images (avatars)
+        d = new Date();
+        $scope.currentDateForAvoidTheCache = d.getTime();
+
         $scope.getUsers = function() {
             $http.get('/users/apiv1.0/users?validated=true', {timeout: canceler.promise})
             .success(function(data) {
@@ -14,6 +18,23 @@ euro2016App.controller('UsersListCtrl', ['$scope', '$http', '$q', function ($sco
             canceler.resolve();  // Aborts the $http request if it isn't finished.
         });
 
+}]);
+
+// Fileupload : the directive to gain access to the file object in our controller
+euro2016App.directive('fileModel', ['$parse', function ($parse) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            var model = $parse(attrs.fileModel);
+            var modelSetter = model.assign;
+
+            element.bind('change', function(){
+                scope.$apply(function(){
+                    modelSetter(scope, element[0].files[0]);
+                });
+            });
+        }
+    };
 }]);
 
 euro2016App.controller('UserDetailCtrl', ['$scope', '$http', '$q', '$routeParams', '$location', '$timeout', '$window',
@@ -91,6 +112,36 @@ euro2016App.controller('UserDetailCtrl', ['$scope', '$http', '$q', '$routeParams
         });
     }
 
+    // to avoid the cache of the images (avatars)
+    d = new Date();
+    $scope.currentDateForAvoidTheCache = d.getTime();
+
+    $scope.saveAvatar = function() {
+
+        var file = $scope.myAvatar;
+
+        var fd = new FormData();
+        fd.append('file', file);
+        $http.post('/users/apiv1.0/users/'+$routeParams.user_id + '/avatar', fd, {
+            transformRequest: angular.identity,
+            headers: {'Content-Type': undefined}
+        })
+        .success(function(data) {
+            d = new Date();
+            $('#img_avatar').attr('src', 'static/img/avatar/'+ $routeParams.user_id +'.jpg?'+d.getTime());
+            $.notify("Avatar enregistré !!" , "success");
+        })
+        .error(function(data, status, headers, config) {
+            if (status==403){
+                showAlertError("Même pas en rêve ! status=" + status+ " " + data);
+            }else if (status==415){
+                showAlertError("Problème avec votre fichier : status=" + status + " " + data);
+            }else{
+                showAlertError("Erreur lors de l'enregistrement de l'avatar ; erreur HTTP : " + status);
+            }
+        });
+
+    }
 
 }]);
 
