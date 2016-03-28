@@ -41,12 +41,12 @@ def updateMatchsResults():
         cookieUserKey = session['cookieUserKey']
         user_mgr = UserManager()
         user = user_mgr.getUserByUserId(cookieUserKey)
+        nbHit=0
         if user.isAdmin:
             logger.info(u"updateMatchsResults::update by ={}".format(user.email))
-            mgr.update_all_matchs(matchsjson)
+            nbHit = mgr.update_all_matchs(matchsjson)
         else:
             return "Ha ha ha ! Mais t'es pas la bonne personne pour faire ça, mon loulou", 403
-        nbHit=0
         return jsonify({'nbHit': nbHit})
     else:
         return "Ha ha ha ! Mais t'es qui pour faire ça, mon loulou ?", 403
@@ -140,11 +140,24 @@ class MatchsManager(DbManager):
     def update_all_matchs(self, matchs_to_update):
         #load all match from db (because we just want to update result
         matchs = self.getAllMatchs()
+        nb_hits=0
         for m in matchs:
             self.getDb()
             match_key=m["key"]
-            #mettre à jour juste les resultats
-            bet_mgr = BetsManager()
+            #quick filter !! i love python
+            unique_match_list = [x for x in matchs_to_update if x["key"] == match_key]
+            match_dict=unique_match_list[0]
+            if match_dict is not None:
+                #mettre à jour juste les resultats
+                logger.info(u'\tupdate_all_matchs::try update match["key" : {}] with match={}'.format(match_key, match_dict))
+                result = self.getDb().matchs.update_one({"key": match_key},
+                                     {"$set": {"resultA": match_dict["resultA"],
+                                               "resultB": match_dict["resultB"]}}, upsert=True)
+                nb_hits = nb_hits + result.matched_count
+            else:
+                logger.warn(u'\tmatch notfound in matchs_to_update["key" : {}]'.format(match_key))
+
+                #bet_mgr = BetsManager()
             # pour chaque match demander à betmanager de calculer le nb de points de chq bet
             # le principe sera de calculer le nbde pts d'un user = somme de ses paris
 
