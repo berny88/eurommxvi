@@ -142,8 +142,12 @@ class MatchsManager(DbManager):
         matchs = self.getAllMatchs()
         for m in matchs:
             self.getDb()
+            match_key=m["key"]
+            #mettre à jour juste les resultats
+            bet_mgr = BetsManager()
+            # pour chaque match demander à betmanager de calculer le nb de points de chq bet
+            # le principe sera de calculer le nbde pts d'un user = somme de ses paris
 
-        bet_mgr = BetsManager()
 
         return None
 

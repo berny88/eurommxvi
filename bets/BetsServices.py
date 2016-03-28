@@ -282,12 +282,13 @@ class BetsManager(DbManager):
             betsTab = []
             for bet in betsList:
                 nbPoints = nbPoints + bet["nbpoints"]
+                del bet["_id"]
                 betsTab.append(bet)
 
             ranking = dict()
             ranking["nbPoints"] = nbPoints
             ranking["user"] = user
-            #ranking["bets"] = betsTab
+            ranking["bets"] = betsTab
             result.append(ranking)
 
         #STEP 4 : return a sorted list
