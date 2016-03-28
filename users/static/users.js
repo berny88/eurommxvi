@@ -112,7 +112,7 @@ euro2016App.controller('UserDetailCtrl', ['$scope', '$http', '$q', '$routeParams
         });
     }
 
-    // to avoid the cache of the images (avatars) :
+    // to avoid the cache of the images (avatars)
     d = new Date();
     $scope.currentDateForAvoidTheCache = d.getTime();
 
