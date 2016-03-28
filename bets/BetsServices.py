@@ -248,3 +248,48 @@ class BetsManager(DbManager):
         logger.info(u'\t\tuser_id : {} and comIdList'.format(user_id,comIdList))
 
         return comIdList
+
+    def getRanking(self, com_id):
+        u"""
+        ranking of the community (if com_id is provided) of ranking of all the bet site
+        :param com_id: the com_id (optionnal)
+        :return: the ranking
+        """
+        #STEP 1 : list of users
+        if com_id is not None:
+            userIdList = self.getDb().bets.distinct("user_id", {"com_id":com_id})
+        else:
+            userIdList = self.getDb().bets.distinct("user_id")
+        usermgr = UserManager()
+        userList=list()
+        for uuid in userIdList:
+            user = usermgr.getUserByUserId(uuid)
+            userList.append(user.__dict__)
+        userList.sort(key=lambda user: user["nickName"])
+        logger.info(u'\t\tplayers : {}'.format(userList))
+
+        result = list()
+
+        #STEP 2 : for each user, get the list of bets
+        for user in userList:
+            if com_id is not None:
+                betsList = self.getDb().bets.find({"user_id": user["user_id"], "com_id": com_id})
+            else:
+                betsList = self.getDb().bets.find({"user_id": user["user_id"]})
+
+            #STEP 3 : compute the number of points
+            nbPoints = 0
+            betsTab = []
+            for bet in betsList:
+                nbPoints = nbPoints + bet["nbpoints"]
+                betsTab.append(bet)
+
+            ranking = dict()
+            ranking["nbPoints"] = nbPoints
+            ranking["user"] = user
+            #ranking["bets"] = betsTab
+            result.append(ranking)
+
+        #STEP 4 : return a sorted list
+        result.sort(key=lambda ranking: ranking["nbPoints"], reverse=True)
+        return result

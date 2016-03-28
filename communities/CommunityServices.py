@@ -303,6 +303,29 @@ def create_comment_on_blog_post(com_id, blog_id):
     else:
         return "hey poussin ! tu dois être authentifié, mon loulou", 403
 
+@communities_page.route('/apiv1.0/communities/<com_id>/ranking', methods=['GET'])
+def communityRanking(com_id):
+    u"""
+    :return la représentation json du classement de la communauté
+    :param com_id: id of community (uuid)
+    """
+    betsMgr = BetsManager()
+    d = dict()
+    rankings = betsMgr.getRanking(com_id)
+    d["rankings"]=rankings
+    return jsonify({'data': d})
+
+@communities_page.route('/apiv1.0/communities/ranking', methods=['GET'])
+def communitiesRanking():
+    u"""
+    :return la représentation json du classement de toutes les communautés confondues
+    """
+    betsMgr = BetsManager()
+    d = dict()
+    rankings = betsMgr.getRanking()
+    d["rankings"]=rankings
+    return jsonify({'data': d})
+
 u"""
 **************************************************
 Service layer

@@ -74,7 +74,22 @@
                         </h4>
                     </div>
                     <div class="panel-body">
-                        C'est encore trop tôt !
+
+                        <div id="no-more-tables" class="table-responsive">
+                            <table class="table table-condensed table-striped">
+
+                                <tbody ng-init="getRankingInCommunity();">
+                                <tr ng-repeat="ranking in rankings.data.rankings">
+                                    <td data-title="Classement">{{$index + 1}}</td>
+                                    <td data-title="NickName">{{ranking.user.nickName}}</td>
+                                    <td data-title="Points">{{ranking.nbPoints}}</td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <center><span id="spin"><img src="static/img/spin.gif"></span></center>
+
                     </div>
                 </div>
             </div>
