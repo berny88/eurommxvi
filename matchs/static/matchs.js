@@ -12,6 +12,11 @@ euro2016App.controller('matchsCtrl', ['$scope', '$http', '$q', '$timeout', '$win
                     $scope.displaySaveButton = true;
                 }
             });
+            $scope.displayBlogPostSaveButton = false;
+            console.log("getMatchs::isConnected($window)="+isConnected($window));
+            if (isAdmin($window)) {
+                $scope.displayBlogPostSaveButton =true;
+            }
         }
 
         $scope.saveMatchs = function() {

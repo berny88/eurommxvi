@@ -9,6 +9,12 @@
         <form ng-submit="saveMatchs()">
             <div id="no-more-tables" class="table-responsive">
                 <div class="col-xs-12">
+
+                <div ng-show="!displaySaveButton">
+                    <h4 class="text-center">Vous devez être connectés pour sauvegarder le résultat des matchs (mais attention, t'as
+                        interêt à être habilité loulou !). Par
+                        <a href="#signin?callback=admin_matchs">ici</a>.</h4>
+                </div>
                 <input type="submit" ng-show="displaySaveButton" class="btn btn-success pull-right" value="Sauvegarder les Matchs">
 
                 <table class="table table-condensed table-striped">
