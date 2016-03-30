@@ -240,3 +240,7 @@ ul.post-grid li:hover h3 {
     background-color: #8EA3D2;
 }
 
+/* Spéciale pour Berny */
+#connectedUserInTopbarAHref {
+    cursor: default;
+}
