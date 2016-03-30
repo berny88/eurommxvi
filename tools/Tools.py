@@ -104,6 +104,11 @@ class ToolManager(DbManager):
 
         propertiesColl = localdb.properties
         bsonProperty = propertiesColl.find_one({"key": key})
+        if bsonProperty is None:
+            res=dict()
+            res["key"]=key
+            res["value"]=""
+            return res
         return bsonProperty
 
     def get_sendgrid(self):

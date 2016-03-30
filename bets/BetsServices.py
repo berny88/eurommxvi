@@ -249,6 +249,16 @@ class BetsManager(DbManager):
 
         return comIdList
 
+    def get_all_bets(self):
+        betBsonList = self.getDb().bets.find()
+        betList=list()
+        for b in betBsonList:
+            bet = Bet()
+            bet.convertFromBson(b)
+            betList.append(bet)
+        return betList
+
+
     def getRanking(self, com_id):
         u"""
         ranking of the community (if com_id is provided) of ranking of all the bet site

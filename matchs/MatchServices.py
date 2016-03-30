@@ -2,8 +2,9 @@
 from flask import Blueprint, jsonify, request, session
 from bson.objectid import ObjectId
 import logging
-
-from tools.Tools import DbManager
+import math
+import sendgrid
+from tools.Tools import DbManager, ToolManager
 from users.UserServices import UserManager
 from bets.BetsServices import BetsManager
 
@@ -111,6 +112,52 @@ class Match:
         return elt
 
 
+    def computeResult(self, bet):
+        u"""
+            Si le parieur a trouvé le vainqueur (ou deviné un match nul) : 5 points
+            3 points si le parieur a deviné le nombre de point d'une équipe
+            2 points si le parieur a deviné la bonne différence de points entre les 2 équipes (peu importe le vainqueur)
+            Donc, pour chaque match, un parieur peut récolter 5 + 6 + 2 points = 13 points s'il devine le résultat exact du match
+        """
+        nb_point=0
+
+        tool = ToolManager()
+        str_nb=tool.getProperty(key="NB_POINT_TEAM")["value"]
+        if str_nb=="":
+            NB_POINT_TEAM=3
+        else:
+            NB_POINT_TEAM=int(str_nb)
+        str_nb=tool.getProperty(key="NB_POINT_WINNER")["value"]
+        if str_nb=="":
+            NB_POINT_WINNER=5
+        else:
+            NB_POINT_WINNER=int(str_nb)
+
+        str_nb=tool.getProperty(key="NB_POINT_DIFF")["value"]
+        if str_nb=="":
+            NB_POINT_DIFF=2
+        else:
+            NB_POINT_DIFF=int(str_nb)
+
+        #change nbpoints only if rightmatch
+        if (self.key==bet.key):
+            if (bet.resultA!="") and (bet.resultB!="") and (self.resultA!="") and (self.resultB!="") and  (bet.resultA is not None) and (bet.resultB is not None) and (self.resultA is not None) and (self.resultB is not None):
+                #3 points si le parieur a deviné le nombre de point d'une équipe
+                if bet.resultA==self.resultA:
+                    nb_point=nb_point+NB_POINT_TEAM
+                if bet.resultB == self.resultB:
+                    nb_point = nb_point + NB_POINT_TEAM
+                # 2 points si le parieur a deviné la bonne différence de points entre les 2 équipes (peu importe le vainqueur)
+                if math.fabs(self.resultA-self.resultB) == math.fabs(bet.resultA-bet.resultB):
+                    nb_point = nb_point + NB_POINT_DIFF
+                #5 pts if 1N2
+                if  (((self.resultA-self.resultB) >0 and (bet.resultA-bet.resultB)>0) or
+                    ((self.resultA - self.resultB) < 0 and (bet.resultA - bet.resultB) < 0) or
+                    ((self.resultA - self.resultB) == 0 and (bet.resultA - bet.resultB) == 0)):
+                    nb_point = nb_point+NB_POINT_WINNER
+        #finally we update nb of points
+        bet.nbpoints = nb_point
+
 class MatchsManager(DbManager):
 
     def getAllMatchs(self):
@@ -141,9 +188,11 @@ class MatchsManager(DbManager):
         #load all match from db (because we just want to update result
         matchs = self.getAllMatchs()
         nb_hits=0
+        bets_for_mail = list()
         for m in matchs:
-            self.getDb()
-            match_key=m["key"]
+            match = Match()
+            match.convertFromBson(m)
+            match_key=match.key
             #quick filter !! i love python
             unique_match_list = [x for x in matchs_to_update if x["key"] == match_key]
             match_dict=unique_match_list[0]
@@ -157,10 +206,24 @@ class MatchsManager(DbManager):
             else:
                 logger.warn(u'\tmatch notfound in matchs_to_update["key" : {}]'.format(match_key))
 
-                #bet_mgr = BetsManager()
             # pour chaque match demander à betmanager de calculer le nb de points de chq bet
             # le principe sera de calculer le nbde pts d'un user = somme de ses paris
+            bet_mgr = BetsManager()
+            betList = bet_mgr.get_all_bets()
+            shortList = [b for b in betList if b.key == m["key"]]
+            for bet in shortList:
+                match.computeResult(bet)
+                bets_for_mail.append(bet.key+" - "+bet.user_id+" - "+str(bet.nbpoints))
 
+        message = sendgrid.Mail()
+        message.add_to("eurommxvi.foot@gmail.com")
+        message.set_from("eurommxvi.foot@gmail.com")
+        message.set_subject("euroxxxvi - bets")
+        message.set_html(
+            "<html><head></head><body>"+"<br/>".join(bets_for_mail)+"</hr></body></html>")
+        tool = ToolManager()
+        sg = tool.get_sendgrid()
+        sg.send(message)
 
         return None
 
