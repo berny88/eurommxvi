@@ -175,7 +175,8 @@ def listOfCommunitiesByUserId(user_id):
     result=list()
     for uuid in comIdList:
         com = mgr.getCommunityByCommunityId(uuid)
-        result.append(com.__dict__)
+        if com is not None:
+            result.append(com.__dict__)
     logger.info(u'\t\tcommunities : {}'.format(result))
 
     result.sort(key=lambda community: community["title"])
