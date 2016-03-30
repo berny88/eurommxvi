@@ -29,6 +29,20 @@
   color:red;
 }
 
+/* Effets sur l'image d'inscription */
+.img-focus {
+    width: 200px;
+    position: relative;
+    opacity: 0.8;
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+
+.img-focus:hover {
+    transform: scale(1.5, 1.5);
+    opacity: 1;
+}
+
 /* Pour le chat : */
 .fa {
   color:#0000;
