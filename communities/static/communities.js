@@ -115,6 +115,9 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
             });
         }
 
+        // to avoid the cache of the images (avatars)
+        d = new Date();
+        $scope.currentDateForAvoidTheCache = d.getTime();
 
         $scope.getPlayersInCommunity = function() {
             hideAlerts();

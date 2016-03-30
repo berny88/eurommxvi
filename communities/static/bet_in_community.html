@@ -55,7 +55,7 @@
 
                                 <tbody ng-init="getPlayersInCommunity();">
                                 <tr ng-repeat="player in players.data.players | orderBy:sortType:sortReverse">
-                                    <td data-title="Parieur">{{player.nickName}}</td>
+                                    <td data-title="Parieur"><img height="32px" width="32px" class="img-circle" ng-src ="users/apiv1.0/users/{{ player.user_id }}/avatar?{{ currentDateForAvoidTheCache }}" > {{player.nickName}}</td>
                                 </tr>
                                 </tbody>
                             </table>

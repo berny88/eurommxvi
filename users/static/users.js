@@ -128,14 +128,15 @@ euro2016App.controller('UserDetailCtrl', ['$scope', '$http', '$q', '$routeParams
         })
         .success(function(data) {
             d = new Date();
-            $('#img_avatar').attr('src', 'static/img/avatar/'+ $routeParams.user_id +'.jpg?'+d.getTime());
+            $('#img_avatar').attr('src', 'users/apiv1.0/users/'+ $routeParams.user_id +'/avatar?'+d.getTime());
             $.notify("Avatar enregistré !!" , "success");
         })
         .error(function(data, status, headers, config) {
             if (status==403){
                 showAlertError("Même pas en rêve ! status=" + status+ " " + data);
             }else if (status==415){
-                showAlertError("Problème avec votre fichier : status=" + status + " " + data);
+                showAlertError("Problème avec votre fichier : " + data);
+                $.notify("Erreur sur l'enregistrement de l'avatar !!" , "error");
             }else{
                 showAlertError("Erreur lors de l'enregistrement de l'avatar ; erreur HTTP : " + status);
             }

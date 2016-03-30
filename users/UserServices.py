@@ -4,6 +4,10 @@ import logging
 from uuid import uuid4
 import sendgrid
 from tools.Tools import ToolManager
+from bson.binary import Binary
+from flask import send_file
+
+import io
 
 from tools.Tools import DbManager
 
@@ -158,7 +162,7 @@ def login():
 #app.config['UPLOAD_FOLDER'] = 'uploads/'
 
 # For a given file, return whether it's an allowed type or not
-def allowed_file(filename):
+def allowed_file_type(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in set(['jpg'])
 
@@ -178,18 +182,38 @@ def saveAvatar(user_id):
         # Get the name of the uploaded file
         file = request.files['file']
         # Check if the file is one of the allowed types/extensions
-        if file and allowed_file(file.filename):
-            # Replade the file name :
-            filename = user_id+'.jpg'
-            # Move the file form the temporal folder to
-            # the upload folder we setup
-            file.save(os.path.join('static/img/avatar/', filename))
-            return "Yes !", 200
+        if file and allowed_file_type(file.filename):
+
+            data = file.read()
+            file.close()
+
+            # check the length (500Ko max)
+            if len(data) < 500000:
+                mgr = UserManager()
+                avatarId = mgr.saveAvatar(user_id, data)
+                return "Yes !", 200
+            else:
+                return "Taille du fichier ("+str(len(data))+" ko) supérieure à 500 Ko", 415
         else:
-            return "Type de fichier non supporté (jpg obligatoire)", 415
+            return "Type de fichier non supporté (jpg obligatoire)", 413
     else:
         return "Ha ha ha ! Mais t'es pas la bonne personne pour faire ça, mon loulou", 403
 
+
+@users_page.route('/apiv1.0/users/<user_id>/avatar', methods=['GET'])
+def getAvatar(user_id):
+    u"""
+    Get the avatar
+    :param user_id: uuid
+    :return: the avatar
+    """
+    mgr = UserManager()
+    avatar = mgr.getAvatar(user_id)
+
+    if avatar is None:
+        return send_file('static/img/avatar/default_avatar.png',mimetype='image/png');
+    else:
+        return send_file(io.BytesIO(avatar),mimetype='image/jpg', cache_timeout=0, add_etags=True)
 
 """
 users_page= remove cookieUserKey
@@ -358,3 +382,35 @@ class UserManager(DbManager):
         else:
             return None
 
+    def saveAvatar(self,user_id, file):
+        """ save an avatar in DB"""
+
+        localdb = self.getDb()
+
+        avatarFromDB = localdb.avatars.find_one({"avatar_user_id": user_id})
+
+        if avatarFromDB is None:
+            bsonAvatar =dict()
+            bsonAvatar["avatar_user_id"]=user_id
+            bsonAvatar["file"] = Binary(file,0)
+            #logger.info(u'\t**** CREATION : {}'.format(bsonAvatar))
+            logger.info(u'\t**** CREATION ****')
+            localdb.avatars.insert_one(bsonAvatar)
+        else:
+            #logger.info(u'\t**** UPDATE : {}'.format(avatarFromDB))
+            logger.info(u'\t**** UPDATE ****')
+            localdb.avatars.update({"_id":avatarFromDB["_id"]},
+                                            {"$set":{"file":Binary(file,0)}}, upsert=True)
+        return user_id
+
+    def getAvatar(self,user_id):
+        """ get an avatar in DB"""
+
+        localdb = self.getDb()
+
+        avatarFromDB = localdb.avatars.find_one({"avatar_user_id": user_id})
+
+        if avatarFromDB is None:
+            return None
+        else:
+            return avatarFromDB["file"]

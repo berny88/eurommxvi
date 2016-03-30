@@ -66,8 +66,9 @@
                 <div class="panel-heading">
                     <h4 class="panel-title">
                         <div class="pull-left">
-                            <h4>Avatar </h4>
-                            <img id="img_avatar" height="32px" width="32px" class="img-circle" ng-src ="static/img/avatar/{{ user.user_id }}.jpg?{{ currentDateForAvoidTheCache }}" onerror="this.src='static/img/avatar/default_avatar.png'" >
+                            <h4>Avatar
+                            <img id="img_avatar" height="32px" width="32px" class="img-circle" ng-src ="users/apiv1.0/users/{{ user.user_id }}/avatar?{{ currentDateForAvoidTheCache }}" >
+                            </h4>
                         </div>
                         <div class="pull-right"></div>
                         <div class="clearfix"></div>
@@ -79,7 +80,8 @@
 
                             <label for="avatar" class="control-label">Changer votre avatar</label>
                             <input type="file" id="avatar" file-model="myAvatar" accept="image/jpeg" required="required">
-                            <p class="help-block">Fichier de forme carrée au format jpg</p>
+                            <br/>
+                            <div class="alert alert-info" role="alert"><span class="glyphicon glyphicon-info-sign"></span> Achtung : fichier de forme carrée au format jpg et de taille inférieure à 500 Ko</div>
 
                         </div>
                         <div class="form-group">
