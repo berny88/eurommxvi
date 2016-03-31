@@ -20,11 +20,11 @@
 
                           <label for="email" class="control-label">Email</label>
                           <input type="email" class="form-control" id="email" name="email" ng-model="user.email"
-                          placeholder="Your email" value="{{user.email}}" disabled>
+                          placeholder="Votre email" value="{{user.email}}" disabled>
 
-                          <label for="nickName" class="control-label">Nickname</label>
+                          <label for="nickName" class="control-label">Surnom</label>
                           <div ng-show="hasAuthorization()">
-                              <input type="nickName" class="form-control" id="nickName" name="nickName" ng-model="user.nickName" placeholder="NickName" value="{{user.nickName}}" required="required">
+                              <input type="nickName" class="form-control" id="nickName" name="nickName" ng-model="user.nickName" placeholder="Votre surnom" value="{{user.nickName}}" required="required">
                                 <script>
                                 $(function () {
                                     $('#nickName').focus();
@@ -32,26 +32,28 @@
                                 </script>
                           </div>
                           <div ng-show="!hasAuthorization()">
-                              <input type="nickName" class="form-control" id="nickName" name="nickName" ng-model="user.nickName" placeholder="NickName" value="{{user.nickName}}" disabled>
+                              <input type="nickName" class="form-control" id="nickName" name="nickName" ng-model="user.nickName" placeholder="Votre surnom" value="{{user.nickName}}" disabled>
                           </div>
 
                           <label for="description" class="control-label">Description</label>
                           <div ng-show="hasAuthorization()">
-                              <input type="description" class="form-control" id="description" name="description" ng-model="user.description" placeholder="Description" value="{{user.description}}" >
+                              <input type="description" class="form-control" id="description" name="description" ng-model="user.description" placeholder="Signe particulier ?" value="{{user.description}}" >
                           </div>
                           <div ng-show="!hasAuthorization()">
-                              <input type="description" class="form-control" id="description" name="description" ng-model="user.description" placeholder="Description" value="{{user.description}}" disabled>
+                              <input type="description" class="form-control" id="description" name="description" ng-model="user.description" placeholder="Signe particulier ?" value="{{user.description}}" disabled>
                           </div>
 
                           <div ng-show="hasAuthorization()">
-                            <label for="thepwd" class="control-label">Password</label>
+                            <label for="thepwd" class="control-label">Mot de passe</label>
                             <input type="password" class="form-control" id="thepwd" name="thepwd" ng-model="user.pwd"
-                              placeholder="Password" value="" required="required">
+                              placeholder="Mot de passe" value="" required="required">
+                              <br/>
+                              <div class="alert alert-info" role="alert"><span class="glyphicon glyphicon-info-sign"></span> Pour des raisons de sécurité, votre mot de passe n'est jamais affiché. Il n'est connu que de vous. Les administrateurs ont la possibilité de le réinitialiser en cas d'oubli.</div>
                           </div>
 
-                          <label for="validated" class="control-label">Validated</label>
+                          <!--<label for="validated" class="control-label">Validated</label>
                           <input type="validated" class="form-control" id="validated" name="validated" ng-model="user.validated"
-                          placeholder="Validated" value="{{user.validated}}" disabled>
+                          placeholder="Validated" value="{{user.validated}}" disabled>-->
                       </div>
                       <div class="form-group">
                           <button ng-show="hasAuthorization()" type="submit" id="submit" name="submit" value="Sauvegarder"
