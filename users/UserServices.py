@@ -6,12 +6,11 @@ import sendgrid
 from tools.Tools import ToolManager
 from bson.binary import Binary
 from flask import send_file
+import hashlib
 
 import io
 
 from tools.Tools import DbManager
-
-import os
 
 logger = logging.getLogger(__name__)
 
@@ -157,14 +156,10 @@ def login():
         return jsonify({'user': user.__dict__}), 200
 
 
-
-# This is the path to the upload directory
-#app.config['UPLOAD_FOLDER'] = 'uploads/'
-
 # For a given file, return whether it's an allowed type or not
 def allowed_file_type(filename):
     return '.' in filename and \
-           filename.rsplit('.', 1)[1] in set(['jpg'])
+           filename.rsplit('.', 1)[1] in set(['jpg','jpeg'])
 
 @users_page.route('/apiv1.0/users/<user_id>/avatar', methods=['POST'])
 def saveAvatar(user_id):
@@ -303,11 +298,17 @@ class UserManager(DbManager):
             result.append(tmpdict)
         return result
 
+    def hash_password(self,password):
+        # uuid is used to generate a random number
+        salt = uuid4().hex
+        return hashlib.sha256(salt.encode() + password.encode()).hexdigest() + ':' + salt
+
     def saveUser(self, email, nickName, description, user_id, validated, pwd):
         """ save a user"""
         localdb = self.getDb()
         bsonUser = localdb.users.find_one({"user_id": user_id})
         logger.info(u'saveUser::{} trouve ? bsonProperty ={}'.format(user_id, bsonUser ))
+
         if (bsonUser is None):
             bsonUser =dict()
             bsonUser ["email"]=email
@@ -316,7 +317,7 @@ class UserManager(DbManager):
                 user_id=str(uuid4())
             bsonUser["user_id"]=user_id
             bsonUser["validated"]=validated
-            bsonUser["pwd"]=pwd
+            bsonUser["pwd"]=self.hash_password(pwd)
             logger.info(u'\tkey None - to create : {}'.format(bsonUser))
             id = localdb.users.insert_one(bsonUser).inserted_id
             logger.info(u'\tid : {}'.format(id))
@@ -325,7 +326,7 @@ class UserManager(DbManager):
             localdb.users.update({"_id":bsonUser["_id"]},
                     {"$set":{"email":email, "nickName":nickName,
                              "description" : description, "user_id" : user_id,
-                             "validated":validated, "pwd":pwd}}, upsert=True)
+                             "validated":validated, "pwd":self.hash_password(pwd)}}, upsert=True)
         result = User()
         result.convertFromBson(bsonUser)
         return result
@@ -361,6 +362,10 @@ class UserManager(DbManager):
         else:
             return None
 
+    def check_password(self,hashed_password, user_password):
+        password, salt = hashed_password.split(':')
+        return password == hashlib.sha256(salt.encode() + user_password.encode()).hexdigest()
+
     def authenticate(self, email, pwd):
         """ authenticate user and retrieve it if ok"""
         localdb = self.getDb()
@@ -374,7 +379,7 @@ class UserManager(DbManager):
             user.convertFromBson(bsonUser)
             user.pwd = bsonUser['pwd']
             logger.info(u'authenticate::user.pwd={}'.format(user.pwd))
-            if (pwd == user.pwd):
+            if self.check_password(user.pwd, pwd):
                 logger.info(u'authenticated::user={}'.format(user))
                 return user
             else:
