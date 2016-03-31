@@ -26,12 +26,12 @@ euro2016App.controller('BetsCtrl', ['$scope', '$routeParams', '$http', '$q', '$l
                         }
                     });
 
-                    $('#spin').hide();
+                    $('#spin_bets').hide();
 
                 })
                 .error(function(data, status, headers, config) {
                     showAlertError("Erreur lors de la récupération de la liste des paris ; erreur HTTP : " + status);
-                    $('#spin').hide();
+                    $('#spin_bets').hide();
                 });
             }
 
