@@ -1,5 +1,5 @@
 <!-- include the modals -->
-<div class="jumbotron">
+<div class="jumbotron" xmlns="http://www.w3.org/1999/html">
     <div class="container">
 
         <div class="row-fluid" >
@@ -15,8 +15,10 @@
                         interêt à être habilité loulou !). Par
                         <a href="#signin?callback=admin_matchs">ici</a>.</h4>
                 </div>
-                <input type="submit" ng-show="displaySaveButton" class="btn btn-success pull-right" value="Sauvegarder les Matchs">
-
+                <input type="submit" ng-show="displaySaveButton" class="btn btn-success pull-right" value="Sauvegarder les Matchs"/>
+                <label>
+                    <input type="checkbox" ng-show="displaySaveButton" ng-model="no_save"> Calcul des points sans sauvegarde (juste email)
+                </label>
                 <table class="table table-condensed table-striped">
                     <thead>
                         <tr>

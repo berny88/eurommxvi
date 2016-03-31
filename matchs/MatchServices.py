@@ -36,6 +36,11 @@ def updateMatchsResults():
     :return the numbers of matchs updated
     """
     logger.info("updateMatchsResults::{}".format(request.json["matchs"]))
+    if "no_save" in request.json:
+        no_save=request.json["no_save"]
+    else:
+        no_save=False
+    logger.info("updateMatchsResults::no_save={}".format(no_save))
     if "cookieUserKey" in session:
         mgr = MatchsManager()
         matchsjson = request.json["matchs"]
@@ -45,7 +50,7 @@ def updateMatchsResults():
         nbHit=0
         if user.isAdmin:
             logger.info(u"updateMatchsResults::update by ={}".format(user.email))
-            nbHit = mgr.update_all_matchs(matchsjson)
+            nbHit = mgr.update_all_matchs(matchsjson, no_save)
         else:
             return "Ha ha ha ! Mais t'es pas la bonne personne pour faire ça, mon loulou", 403
         return jsonify({'nbHit': nbHit})
@@ -121,23 +126,24 @@ class Match:
         """
         nb_point=0
 
-        tool = ToolManager()
-        str_nb=tool.getProperty(key="NB_POINT_TEAM")["value"]
-        if str_nb=="":
-            NB_POINT_TEAM=3
-        else:
-            NB_POINT_TEAM=int(str_nb)
-        str_nb=tool.getProperty(key="NB_POINT_WINNER")["value"]
-        if str_nb=="":
-            NB_POINT_WINNER=5
-        else:
-            NB_POINT_WINNER=int(str_nb)
+        #tool = ToolManager()
+        #str_nb=tool.getProperty(key="NB_POINT_TEAM")["value"]
+        #if str_nb=="":
+        NB_POINT_TEAM=3
+        #else:
+    #    NB_POINT_TEAM=int(str_nb)
 
-        str_nb=tool.getProperty(key="NB_POINT_DIFF")["value"]
-        if str_nb=="":
-            NB_POINT_DIFF=2
-        else:
-            NB_POINT_DIFF=int(str_nb)
+    #str_nb=tool.getProperty(key="NB_POINT_WINNER")["value"]
+        #    if str_nb=="":
+        NB_POINT_WINNER=5
+        #else:
+    #    NB_POINT_WINNER=int(str_nb)
+
+    #str_nb=tool.getProperty(key="NB_POINT_DIFF")["value"]
+        #   if str_nb=="":
+        NB_POINT_DIFF=2
+        #else:
+    #    NB_POINT_DIFF=int(str_nb)
 
         #change nbpoints only if rightmatch
         if (self.key==bet.key):
@@ -184,11 +190,16 @@ class MatchsManager(DbManager):
         return result
 
 
-    def update_all_matchs(self, matchs_to_update):
+    def update_all_matchs(self, matchs_to_update, no_save):
         #load all match from db (because we just want to update result
+        logger.info(u"update_all_matchs::start-before getAllMatchs")
         matchs = self.getAllMatchs()
+        logger.info(u"update_all_matchs::end getAllMatchs")
         nb_hits=0
         bets_for_mail = list()
+        bet_mgr = BetsManager()
+        betList = bet_mgr.get_all_bets()
+        logger.info(u"update_all_matchs::end get_all_bets")
         for m in matchs:
             match = Match()
             match.convertFromBson(m)
@@ -197,35 +208,55 @@ class MatchsManager(DbManager):
             unique_match_list = [x for x in matchs_to_update if x["key"] == match_key]
             match_dict=unique_match_list[0]
             if match_dict is not None:
-                #mettre à jour juste les resultats
-                logger.info(u'\tupdate_all_matchs::try update match["key" : {}] with match={}'.format(match_key, match_dict))
-                result = self.getDb().matchs.update_one({"key": match_key},
-                                     {"$set": {"resultA": match_dict["resultA"],
-                                               "resultB": match_dict["resultB"]}}, upsert=True)
-                nb_hits = nb_hits + result.matched_count
+                if not no_save:
+                    # mettre à jour juste les resultats
+                    logger.info(u'\tupdate_all_matchs::try update match["key" : {}] with match={}'.format(match_key, match_dict))
+                    result = self.getDb().matchs.update_one({"key": match_key},
+                                         {"$set": {"resultA": match_dict["resultA"],
+                                                   "resultB": match_dict["resultB"]}}, upsert=True)
+                    nb_hits = nb_hits + result.matched_count
+                else:
+                    logger.info("no match updated")
             else:
                 logger.warn(u'\tmatch notfound in matchs_to_update["key" : {}]'.format(match_key))
 
             # pour chaque match demander à betmanager de calculer le nb de points de chq bet
             # le principe sera de calculer le nbde pts d'un user = somme de ses paris
-            bet_mgr = BetsManager()
-            betList = bet_mgr.get_all_bets()
             shortList = [b for b in betList if b.key == m["key"]]
             for bet in shortList:
                 match.computeResult(bet)
-                bets_for_mail.append(bet.key+" - "+bet.user_id+" - "+str(bet.nbpoints))
+                bets_for_mail.append(self.format_bet(bet, match))
+
+        if not no_save:
+            for bet in betList:
+                logger.info("bet update")
+                bet_mgr.saveScore(bet)
+
 
         message = sendgrid.Mail()
         message.add_to("eurommxvi.foot@gmail.com")
         message.set_from("eurommxvi.foot@gmail.com")
         message.set_subject("euroxxxvi - bets")
-        message.set_html(
-            "<html><head></head><body>"+"<br/>".join(bets_for_mail)+"</hr></body></html>")
+        head = u"<html><head></head><body><table border='1'><tr><td>m.key</td><td>teamA</td><td>teamB</td><td>resultA</td>"
+        head=head+u"<td>resultB</td><td>&nbsp;</td><td>bet.key</td><td>com_id</td><td>user_id</td>"
+        head=head+u"<td>bet.resultA</td><td>bet.resultB</td><td>bet.nbpoints</td></tr>"
+        content = head+"\n".join(bets_for_mail)+"</table></body></html>"
+        logger.info(content)
+        message.set_html(content)
         tool = ToolManager()
         sg = tool.get_sendgrid()
         sg.send(message)
 
         return None
+
+    def format_bet(self, bet, match):
+        result = u"<tr>"
+        result = result + u"<td>" + match.key+"</td><td>"+match.teamA+"</td><td>"+match.teamB+"</td>"
+        result = result + u"<td>" + str(match.resultA)+"</td><td>"+str(match.resultB)+"</td><td>&nbsp;&nbsp;</td>"
+        result = result + u"<td>" + bet.key+"</td><td>"+bet.com_id+"</td><td>"+bet.user_id+"</td>"
+        result = result + u"<td>" + str(bet.resultA)+"</td><td>"+ str(bet.resultB)+"</td><td>"+str(bet.nbpoints) + u"<td>"
+        result = result + u"</tr>"
+        return result
 
 
 

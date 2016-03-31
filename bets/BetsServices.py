@@ -199,6 +199,22 @@ class BetsManager(DbManager):
                                                     "resultA": bet.resultA, "resultB": bet.resultB}}, upsert=True)
         return bet
 
+
+    def saveScore(self, bet):
+        u"""
+        store just the score of a bet
+        :param bet: the bet to create or update
+        :return: the bet (i'm sure if it is good idea)
+        """
+        bsonBet = self.getDb().bets.find_one({"user_id": bet.user_id, "com_id": bet.com_id,
+                                              "key": bet.key})
+        if bsonBet is None:
+            logger.info(u"\t\tERROR - bet not found")
+        else:
+            self.getDb().bets.update({"_id": bsonBet["_id"]},
+                                         {"$set": {"nbpoints": bet.nbpoints}}, upsert=True)
+        return bet
+
     def delete(self, bet):
         u"""
         search bet in db by com_id/user_id/key match

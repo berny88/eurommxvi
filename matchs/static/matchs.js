@@ -20,7 +20,8 @@ euro2016App.controller('matchsCtrl', ['$scope', '$http', '$q', '$timeout', '$win
         }
 
         $scope.saveMatchs = function() {
-            $http.put('matchs/apiv1.0/matchs', {matchs: $scope.matchs, timeout: canceler.promise})
+            console.log("getMatchs::$scope.no_save="+$scope.no_save);
+            $http.put('matchs/apiv1.0/matchs', {matchs: $scope.matchs, no_save: $scope.no_save, timeout: canceler.promise})
             .success(function(data, status, headers, config) {
                 //showAlertSuccess("Paris sauvegardés !");
                 $.notify("Matchs sauvegardés !" , "success");
