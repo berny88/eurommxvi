@@ -194,7 +194,7 @@ def saveAvatar(user_id):
             else:
                 return "Taille du fichier ("+str(len(data))+" ko) supérieure à 500 Ko", 415
         else:
-            return "Type de fichier non supporté (jpg obligatoire)", 413
+            return "Type de fichier non supporté (jpg/jpeg obligatoire)", 413
     else:
         return "Ha ha ha ! Mais t'es pas la bonne personne pour faire ça, mon loulou", 403
 
