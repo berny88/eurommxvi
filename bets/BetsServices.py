@@ -339,13 +339,14 @@ class BetsManager(DbManager):
         draw = 0
         nbBets = 0
         for bet in bets:
-            if bet["resultA"] == bet["resultB"]:
-                draw = draw + 1
-            if bet["resultA"] > bet["resultB"]:
-                winnerA = winnerA + 1
-            if bet["resultA"] < bet["resultB"]:
-                winnerB = winnerB + 1
-            nbBets = nbBets + 1
+            if bet["resultA"] is not None and bet["resultB"] is not None:
+                if bet["resultA"] == bet["resultB"]:
+                    draw = draw + 1
+                if bet["resultA"] > bet["resultB"]:
+                    winnerA = winnerA + 1
+                if bet["resultA"] < bet["resultB"]:
+                    winnerB = winnerB + 1
+                nbBets = nbBets + 1
         result = dict()
         result["key"] = key
         result["nbBets"] = nbBets
