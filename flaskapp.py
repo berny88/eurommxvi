@@ -8,6 +8,7 @@ from chat.ChatServices import chat_page
 from communities.CommunityServices import communities_page
 from users.UserServices import users_page
 from bets.BetsServices import bets_page
+from matchs.StatsServices import stats_page
 from matchs.MatchServices import matchs_page
 from tools.Tools import ToolManager, tools_page
 # using SendGrid's Python Library - https://github.com/sendgrid/sendgrid-python
@@ -26,6 +27,7 @@ app.secret_key = u'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT#BB'
 app.register_blueprint(communities_page, url_prefix="/communities", template_folder='templates')
 app.register_blueprint(users_page, url_prefix="/users", template_folder='templates')
 app.register_blueprint(bets_page, url_prefix="/bets", template_folder='templates')
+app.register_blueprint(stats_page, url_prefix="/stats", template_folder='templates')
 app.register_blueprint(matchs_page, url_prefix="/matchs", template_folder='templates')
 app.register_blueprint(tools_page, url_prefix="/tools", template_folder='templates')
 app.register_blueprint(chat_page, url_prefix="/chat", template_folder='templates')
