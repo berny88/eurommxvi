@@ -240,3 +240,15 @@ ul.post-grid li:hover h3 {
     background-color: #8EA3D2;
 }
 
+/* Go to top */
+.scroll-to-top {
+    position: fixed;
+    background:url('/static/img/scroll-to-top.png') no-repeat;
+    cursor: pointer;
+    width:55px;
+    height: 55px;
+    bottom: 1em;
+    padding-right: 1em;
+    display: none;
+    z-index: 999;
+}
