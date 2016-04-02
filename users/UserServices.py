@@ -159,7 +159,7 @@ def login():
 # For a given file, return whether it's an allowed type or not
 def allowed_file_type(filename):
     return '.' in filename and \
-           filename.rsplit('.', 1)[1] in set(['jpg','jpeg'])
+           filename.rsplit('.', 1)[1] in set(['jpg','jpeg','JPG', 'JPEG'])
 
 @users_page.route('/apiv1.0/users/<user_id>/avatar', methods=['POST'])
 def saveAvatar(user_id):
@@ -172,6 +172,10 @@ def saveAvatar(user_id):
     if "cookieUserKey" in session:
         cookieUserKey = session['cookieUserKey']
         if (user_id==cookieUserKey):
+            checkRight=True
+        mgr = UserManager()
+        userFromCookie = mgr.getUserByUserId(cookieUserKey)
+        if (userFromCookie.isAdmin):
             checkRight=True
     if (checkRight):
         # Get the name of the uploaded file
@@ -190,7 +194,7 @@ def saveAvatar(user_id):
             else:
                 return "Taille du fichier ("+str(len(data))+" ko) supérieure à 500 Ko", 415
         else:
-            return "Type de fichier non supporté (jpg obligatoire)", 413
+            return "Type de fichier non supporté (jpg/jpeg obligatoire)", 413
     else:
         return "Ha ha ha ! Mais t'es pas la bonne personne pour faire ça, mon loulou", 403
 
