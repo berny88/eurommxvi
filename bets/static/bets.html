@@ -7,6 +7,7 @@
             <table class="table table-condensed table-striped">
                 <thead>
                 <tr>
+                    <th></th>
                     <th class="dateMatch">
                         <a ng-click="sortType='dateMatch';sortReverse=!sortReverse">Date
                             <span ng-show="sortType=='dateMatch'&&!sortReverse" class="glyphicon glyphicon-chevron-down"></span>
@@ -35,6 +36,9 @@
                 </thead>
                 <tbody ng-init="getBetsByCommunityId()">
                     <tr ng-class="{ 'danger' : (bet.resultA==null || bet.resultB==null)}" ng-repeat="bet in bets.bets | orderBy:sortType:sortReverse">
+                        <td data-title="Stats">
+                            <div><span custom-popover popover-key="{{ bet.key }}" popover-placement="bottom"><a tabindex="0" role="button" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-question-sign"></span></a></span></div>
+                        </td>
                         <td data-title="Date">{{bet.dateMatch | date:'dd/MM/yy HH:mm'}}</td>
                         <td data-title="Groupe">{{bet.categoryName}}</td>
                         <td data-title="TeamA"><span class="newflags {{bet.teamA}}"></span> {{bet.libteamA}}</td>

@@ -2,7 +2,7 @@
 import logging
 
 from datetime import datetime
-from flask import Blueprint
+from flask import Blueprint, jsonify
 
 from tools.Tools import DbManager, BetProjectClass
 from users.UserServices import UserManager
@@ -17,6 +17,12 @@ bets_page = Blueprint('bets_page', __name__,
 def bets():
     return bets_page.send_static_file('bets.html')
 
+@bets_page.route('/apiv1.0/bets/<key>/rates', methods=['GET'])
+def getRatesOfAMatch(key):
+    mgr = BetsManager()
+    rates=mgr.getRatesOfAMatch(key)
+    logger.info(">>{}".format(jsonify({'rates': rates}).data))
+    return jsonify({'rates': rates})
 
 class Bet(BetProjectClass):
     u""""
@@ -319,4 +325,32 @@ class BetsManager(DbManager):
 
         #STEP 4 : return a sorted list
         result.sort(key=lambda ranking: ranking["nbPoints"], reverse=True)
+        return result
+
+    def getRatesOfAMatch(self,key):
+        u"""
+        rates of the players for a match
+        :param key: the key of a bet (like GROUPEE_ITA_IRL)
+        :return: the rates
+        """
+        bets = self.getDb().bets.find({"key":key})
+        winnerA = 0
+        winnerB = 0
+        draw = 0
+        nbBets = 0
+        for bet in bets:
+            if bet["resultA"] == bet["resultB"]:
+                draw = draw + 1
+            if bet["resultA"] > bet["resultB"]:
+                winnerA = winnerA + 1
+            if bet["resultA"] < bet["resultB"]:
+                winnerB = winnerB + 1
+            nbBets = nbBets + 1
+        result = dict()
+        result["key"] = key
+        result["nbBets"] = nbBets
+        result["winnerAPercent"] = int(winnerA * 100 / nbBets)
+        result["drawPercent"] = int(draw * 100 / nbBets)
+        result["winnerBPercent"] = 100 - result["winnerAPercent"] - result["drawPercent"]
+
         return result

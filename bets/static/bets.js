@@ -1,3 +1,30 @@
+euro2016App.directive('customPopover', function ($http,$timeout) {
+    return {
+        restrict: 'A',
+        link: function (scope, el, attrs) {
+
+            el.bind('click', function(e) {
+
+                    $http.get('bets/apiv1.0/bets/'+attrs.popoverKey+'/rates')
+                    .success(function(data, status, headers, config) {
+
+                        $(el).popover({
+                            trigger: 'focus',
+                            html:true,
+                            title: 'Côte du match',
+                            content: '<table><tr><td>Nombre de parieurs</td><td>: '+data.rates.nbBets +'</td></tr><tr><td>TeamA vainqueur</td><td>: '+data.rates.winnerAPercent+'%</td></tr>'+'<tr><td>Match nul</td><td>: '+data.rates.drawPercent+'%</td></tr>'+'<tr><td>TeamB vainqueur</td><td>: '+data.rates.winnerBPercent+'%</td></tr></table>',
+                            placement: attrs.popoverPlacement});
+                        $(el).popover('show');
+
+                    })
+                    .error(function(data, status, headers, config) {
+                        showAlertError("Erreur lors de la récupération des statistiques ; erreur HTTP : " + status);
+                    });
+            })
+        }
+    };
+});
+
 euro2016App.controller('BetsCtrl', ['$scope', '$routeParams', '$http', '$q', '$location', '$timeout', '$window',
                             function ($scope, $routeParams, $http, $q, $location, $timeout, $window) {
 
