@@ -134,6 +134,9 @@ euro2016App.controller('UserDetailCtrl', ['$scope', '$http', '$q', '$routeParams
         .error(function(data, status, headers, config) {
             if (status==403){
                 showAlertError("Même pas en rêve ! status=" + status+ " " + data);
+            }else if (status==413){
+                showAlertError("Problème avec votre fichier : " + data);
+                $.notify("Erreur sur l'enregistrement de l'avatar !!" , "error");
             }else if (status==415){
                 showAlertError("Problème avec votre fichier : " + data);
                 $.notify("Erreur sur l'enregistrement de l'avatar !!" , "error");
