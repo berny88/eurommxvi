@@ -25,7 +25,7 @@ var svg = d3.select("body").append("svg")
     .attr("height", diameter)
     .attr("class", "bubble");
 
-d3.json("/static/testing/flare.json", function(error, root) {
+d3.json("/stats/apiv1.0/stats/teams", function(error, root) {
   if (error) throw error;
 
   var node = svg.selectAll(".node")
@@ -50,6 +50,7 @@ d3.json("/static/testing/flare.json", function(error, root) {
 
 // Returns a flattened hierarchy containing all leaf nodes under the root.
 function classes(root) {
+  console.log("root="+root.teams);
   var classes = [];
 
   function recurse(name, color, node) {
@@ -57,11 +58,12 @@ function classes(root) {
         node.children.forEach(function(child) { recurse(node.name, node.color, child); });
     } else {
         console.log("name="+name+" node.name="+ node.name+" color="+color);
-        classes.push({packageName: name, packageColor: color, className: node.name, value: node.size});
+        //nb_goal+1 to be sure to have a buble
+        classes.push({packageName: name, packageColor: color, className: node.name, value: node.nb_goal*2+1});
     }
   }
 
-  recurse(null, null, root);
+  recurse(null, null, root.teams);
   return {children: classes};
 }
 
