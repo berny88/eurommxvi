@@ -252,3 +252,15 @@ ul.post-grid li:hover h3 {
     display: none;
     z-index: 999;
 }
+
+/* Jauge */
+.liquidFillGaugeText { font-family: Helvetica; font-weight: bold; }
+
+.fillgauge-fixed {
+    position: fixed;
+    width:100px;
+    height: 100px;
+    bottom: 1em;
+    padding-right: 1em;
+    z-index: 999;
+}

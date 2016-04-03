@@ -30,6 +30,16 @@ euro2016App.controller('BetsCtrl', ['$scope', '$routeParams', '$http', '$q', '$l
 
         var canceler = $q.defer();
 
+        // Jauge :
+        var config = liquidFillGaugeDefaultSettings();
+        config.circleThickness = 0.1;
+        config.circleFillGap = 0.1;
+        config.textVertPosition = 0.8;
+        config.waveAnimateTime = 1000;
+        config.waveHeight = 0.1;
+        config.waveCount = 3;
+        var gauge= loadLiquidFillGauge("fillgauge", 0, config);
+
         $scope.getBetsByCommunityId = function() {
 
             $scope.bets = {};
@@ -55,13 +65,30 @@ euro2016App.controller('BetsCtrl', ['$scope', '$routeParams', '$http', '$q', '$l
 
                     $('#spin_bets').hide();
 
+                    $scope.gaugeUpdate($scope.bets.bets)
+
                 })
                 .error(function(data, status, headers, config) {
                     showAlertError("Erreur lors de la récupération de la liste des paris ; erreur HTTP : " + status);
                     $('#spin_bets').hide();
+                    gauge.update(0);
                 });
             }
 
+        }
+
+        $scope.gaugeUpdate = function(bets) {
+            $scope.nbBetsTot = 0;
+            $scope.nbBetsUser = 0;
+            bets.forEach(function(bet) {
+                if ((bet.resultA != null) && (bet.resultB != null)) {
+                    $scope.nbBetsUser = $scope.nbBetsUser + 1;
+                }
+                $scope.nbBetsTot = $scope.nbBetsTot +1;
+            });
+
+            $scope.gauge = Math.ceil($scope.nbBetsUser * 100 / $scope.nbBetsTot);
+            gauge.update($scope.gauge);
         }
 
         $scope.saveBets = function() {
