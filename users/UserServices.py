@@ -129,14 +129,16 @@ def confirmationSubscription(user_id):
     user = mgr.getUserByUserId(user_id)
     logger.info(u'confirmationSubscription::user={}'.format(user))
 
-    mgr.saveUser(user.email, "", "", user.user_id, True, "")
+    mgr.saveUser(user.email, user.nickName, user.description, user.user_id, True, "")
 
     message.add_to(user.email)
 
     message.add_to("eurommxvi.foot@gmail.com")
     message.set_from("eurommxvi.foot@gmail.com")
     message.set_subject("euroxxxvi - confirmation")
-    message.set_html("<html><head></head><body><h1>Félicitations pour votre inscription ! </a></h1></hr></body></html>")
+    urlcallback = u"http://euroxxxvi-typhontonus.rhcloud.com/"
+
+    message.set_html("<html><head></head><body><h1><a href='{}'>Félicitations pour votre inscription ! </a></h1></hr></body></html>".format(urlcallback))
 
     sg.send(message)
 
@@ -327,10 +329,16 @@ class UserManager(DbManager):
             logger.info(u'\tid : {}'.format(id))
         else:
             logger.info(u'\t try update to bsonUser["_id" : {}] p={}'.format(bsonUser["_id"], pwd))
-            localdb.users.update({"_id":bsonUser["_id"]},
+            if (pwd != ""):
+                localdb.users.update({"_id":bsonUser["_id"]},
                     {"$set":{"email":email, "nickName":nickName,
                              "description" : description, "user_id" : user_id,
                              "validated":validated, "pwd":self.hash_password(pwd)}}, upsert=True)
+            else:
+                localdb.users.update({"_id": bsonUser["_id"]},
+                                     {"$set": {"email": email, "nickName": nickName,
+                                               "description": description, "user_id": user_id,
+                                               "validated": validated}}, upsert=True)
         result = User()
         result.convertFromBson(bsonUser)
         return result
