@@ -222,9 +222,9 @@ def createBlogPost(com_id):
             mgr.createBlog(blog)
             #3 possibility : emailonly for admin, for all or for none
             if request.json["blogpost"]["emailOpt"] == "me":
-                mgr.send_email_to_user_id(blog, cookieUserKey)
+                mgr.send_email_to_user_id(com_id, blog, cookieUserKey)
             elif request.json["blogpost"]["emailOpt"] == "all":
-                mgr.send_email_to_all(blog)
+                mgr.send_email_to_all(com_id, blog)
             return jsonify({'blog': blog.convertIntoJson()}), 200
         else:
             return "hey poussin ! mais t'as pas le droit, mon loulou", 403

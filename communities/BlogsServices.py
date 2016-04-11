@@ -176,9 +176,10 @@ class BlogsManager(DbManager):
         return 1
 
 
-    def send_email_to_user_id(self, blog, user_id):
+    def send_email_to_user_id(self, com_id, blog, user_id):
         u""""
         send email to user_id
+        :param com_id the com id
         :param blog the blog send
         :param user_id uuid of user to notify - usually the admin od community
         """
@@ -186,23 +187,26 @@ class BlogsManager(DbManager):
         user = userMgr.getUserByUserId(user_id)
         recipients = list()
         recipients.append(user.email)
-        return self.send_email(blog, recipients)
+        return self.send_email(com_id, blog, recipients)
 
-    def send_email_to_all(self, blog):
+    def send_email_to_all(self, com_id, blog):
         u""""
         send email to all user of community
+        :param com_id the com_id
         :param blog the blog send
         """
         bet_mgr = BetsManager()
         recipients = list()
         for user in bet_mgr.players(blog.com_id):
             recipients.append(user["email"])
-        return self.send_email(blog, recipients)
+        return self.send_email(com_id, blog, recipients)
 
-    def send_email(self, blog, recipients):
+    def send_email(self, com_id, blog, recipients):
         tool = ToolManager()
         sg = tool.get_sendgrid()
         message = sendgrid.Mail()
+
+        urlBlog = "https://euroxxxvi-typhontonus.rhcloud.com/#/view_community/"+com_id
 
         for r in recipients:
             message.add_to(r)
@@ -211,7 +215,7 @@ class BlogsManager(DbManager):
         message.set_subject("eurommxvi : {}".format(blog.title))
         logger.info("email title={}".format(blog.title))
         logger.info("email body-to_mail={}".format(blog.body_to_mail()))
-        body = u"<html><head></head><body>{}</body></html>".format(blog.body_to_mail())
+        body = u"<html><head></head><body>{}<br/>Laissez vos commentaires ici : {}</body></html>".format(blog.body_to_mail(), urlBlog)
         message.set_html(body)
 
         res = sg.send(message)
