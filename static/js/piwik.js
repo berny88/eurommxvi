@@ -7,6 +7,8 @@
     var u="//euroxxxvipiwik-typhontonus2.rhcloud.com/";
     _paq.push(['setTrackerUrl', u+'piwik.php']);
     _paq.push(['setSiteId', 1]);
+    var urlTracked = window.location.href;
+    _paq.push(['setCustomUrl', urlTracked]);
     var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
     g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
   })();
