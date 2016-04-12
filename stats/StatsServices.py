@@ -53,7 +53,7 @@ class StatTeamGoal:
         self.group_name=u""
         self.nb_goal=0
 
-class StatsManager(DbManager):
+class StatsManager(DbManager,object):
 
 
     def __init__(self):

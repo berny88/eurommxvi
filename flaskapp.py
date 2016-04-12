@@ -1,16 +1,19 @@
 # -*- coding: utf-8 -*-
 
 import logging
-import os, sys
+import os
+import sys
+
 from flask import Flask
 
+from bets.BetsServices import bets_page
 from chat.ChatServices import chat_page
 from communities.CommunityServices import communities_page
-from users.UserServices import users_page
-from bets.BetsServices import bets_page
-from matchs.StatsServices import stats_page
 from matchs.MatchServices import matchs_page
+from stats.StatsServices import stats_page
 from tools.Tools import ToolManager, tools_page
+from users.UserServices import users_page
+
 # using SendGrid's Python Library - https://github.com/sendgrid/sendgrid-python
 import sendgrid
 

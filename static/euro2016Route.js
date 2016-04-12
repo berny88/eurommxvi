@@ -34,8 +34,9 @@ euro2016App.config(function($routeProvider) {
         .when('/matchs', { templateUrl:'matchs/static/matchs.html', controller:'matchsCtrl' })
         .when('/admin_matchs', { templateUrl:'matchs/static/admin_matchs.html', controller:'matchsCtrl' })
 
-        // route for stats: "buble graph"
-        .when('/stats_1', { templateUrl:'matchs/static/stats_1.html', controller:'statsCtrl' })
+        // route for stats: "buble graph" & ranking
+        .when('/stats_1', { templateUrl:'stats/static/stats_1.html', controller:'statsMatchsCtrl' })
+        .when('/stats_ranking', { templateUrl:'stats/static/stats_ranking.html', controller:'statsRankingCtrl' })
 
         // route for tirage: "static page"
         .when('/tirage', { templateUrl:'static/tirage.html', controller:'tirageCtrl' })

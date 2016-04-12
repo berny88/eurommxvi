@@ -1,4 +1,4 @@
-euro2016App.controller('statsCtrl', ['$scope', '$http', '$q', '$timeout', '$window', function ($scope, $http, $q, $timeout, $window) {
+euro2016App.controller('statsMatchsCtrl', ['$scope', '$http', '$q', '$timeout', '$window', function ($scope, $http, $q, $timeout, $window) {
 
     console.log("buble_1 ******");
 
@@ -61,5 +61,9 @@ euro2016App.controller('statsCtrl', ['$scope', '$http', '$q', '$timeout', '$wind
 
         d3.select(self.frameElement).style("height", diameter + "px");
 
+
+}]);
+
+euro2016App.controller('statsRankingCtrl', ['$scope', function ($scope) {
 
 }]);
