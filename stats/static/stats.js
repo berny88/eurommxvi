@@ -51,7 +51,7 @@ euro2016App.controller('statsMatchsCtrl', ['$scope', '$http', '$q', '$timeout', 
             } else {
                 console.log("name="+name+" node.name="+ node.name+" color="+color);
                 //nb_goal+1 to be sure to have a buble
-                classes.push({packageName: name, packageColor: color, className: node.name, value: node.nb_goal*2+1});
+                classes.push({packageName: name, packageColor: color, className: node.name, value: node.nb_goal});
             }
           }
 
