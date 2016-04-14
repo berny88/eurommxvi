@@ -1,0 +1,27 @@
+<div class="container" ng-init="getRanking();">
+    <h1>Statistiques globales</h1>
+    <br/>
+    <div class="alert alert-info" role="alert"><span class="glyphicon glyphicon-info-sign"></span> Données de tous les parieurs, toutes les communautés, et tous les paris effectués</div>
+
+    <div id="no-more-tables" class="table-responsive" ng-repeat="ranking in rankings.data.rankings">
+        <h2>{{ ranking.user.nickName }}</h2>
+        <table class="table table-condensed table-striped">
+            <tbody>
+
+                <tr ng-repeat="com in ranking.communities">
+                    <td>{{com.title}}</td>
+                    <td ng-repeat="bet in com.bets"><div class="col-sm-1">{{bet.teamA}} {{bet.resultA}}:{{bet.resultB}} {{bet.teamB}}</div></td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+    <center><span id="spin"><img src="static/img/spin.gif"></span></center>
+
+    </div>
+
+
+</div>
+
+<div ng-include src="'static/js/piwik.js'"></div>
