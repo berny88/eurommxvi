@@ -1,7 +1,7 @@
 <div class="container" ng-init="getRanking();">
     <h1>Statistiques globales</h1>
     <br/>
-    <div class="alert alert-info" role="alert"><span class="glyphicon glyphicon-info-sign"></span> Données de tous les parieurs, toutes les communautés, et tous les paris effectués</div>
+    <div class="alert alert-info" role="alert"><span class="glyphicon glyphicon-info-sign"></span> Données de tous les paris effectués par tous les joueurs, dans toutes les communautés</div>
 
     <div id="no-more-tables" class="table-responsive" ng-repeat="ranking in rankings.data.rankings">
         <h2>{{ ranking.user.nickName }}</h2>
