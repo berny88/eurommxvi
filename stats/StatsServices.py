@@ -1,17 +1,28 @@
 # -*- coding: utf-8 -*-
 import logging
 
-from datetime import datetime
 from flask import Blueprint, jsonify
 
-from tools.Tools import DbManager, BetProjectClass
-from users.UserServices import UserManager
+from tools.Tools import DbManager
+
+from bets.BetsServices import BetsManager
 
 logger = logging.getLogger(__name__)
 
 stats_page = Blueprint('stats_page', __name__,
                       template_folder='templates', static_folder='static')
 
+
+@stats_page.route('/apiv1.0/stats/ranking', methods=['GET'])
+def ranking():
+    u"""
+    :return la représentation json du classement général
+    """
+    betsMgr = BetsManager()
+    d = dict()
+    rankings = betsMgr.getRanking(None)
+    d["rankings"]=rankings
+    return jsonify({'data': d})
 
 @stats_page.route('/apiv1.0/stats/teams', methods=['GET'])
 def get_stats_teams():

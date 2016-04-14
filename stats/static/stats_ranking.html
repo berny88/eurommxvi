@@ -1,39 +1,30 @@
 <div class="container">
-    <h1>Classement des parieurs</h1>
+    <h1>Classement général des parieurs</h1>
+    <br/>
+    <div class="alert alert-info" role="alert"><span class="glyphicon glyphicon-info-sign"></span> Lorsqu'un parieur a parié dans plusieurs communautés, c'est la moyenne de ses points qui est prise en compte</div>
 
-    <h3>En construction, mais voici une simulation réaliste :-)</h3>
+    <div class="contentContainer" ng-init="getRanking();">
 
-    <div class="contentContainer">
+        <div class="skillBar" ng-repeat="ranking in rankings.data.rankings">
 
-        <div class="skillBar">
-            <h4>Stefou</h4>
-            <div class="skillBarContainer">
-                <div class="skillBarValue value-70">
-                    <img width="40px" height="40px" class="img-circle" src="users/apiv1.0/users/d75b48f9-07f9-4585-a68c-aeac8f23a1be/avatar?1460493775917">
+            <div class="row-fluid">
+                <div class="col-sm-1"><h4><span class="label label-info">{{$index + 1}}</span></h4></div>
+                <div class="col-sm-8">
+                    <img height="32px" width="32px" class="img-circle" ng-src ="users/apiv1.0/users/{{ ranking.user.user_id }}/avatar?{{ currentDateForAvoidTheCache }}" >
+                     {{ranking.user.nickName}}
                 </div>
-                <div>70 pts</div>
+                <div class="col-sm-3">
+                    {{ranking.nbPoints}} pts
+                </div>
             </div>
+
+            <div class="skillBarContainer">
+                <div class="skillBarValue value-{{ ranking.nbPointsPercent }}"></div>
+            </div>
+
         </div>
 
-        <div class="skillBar">
-            <h4>theBerny</h4>
-            <div class="skillBarContainer">
-                <div class="skillBarValue value-40">
-                    <img width="40px" height="40px" class="img-circle" src="users/apiv1.0/users/e64df74b-867a-4a80-bfa9-1438dde9754d/avatar?1460495769657">
-                </div>
-                <div>40 pts</div>
-            </div>
-        </div>
-
-        <div class="skillBar">
-            <h4>lamidesbaleines</h4>
-            <div class="skillBarContainer">
-                <div class="skillBarValue value-30">
-                    <img width="40px" height="40px" class="img-circle" src="users/apiv1.0/users/eeb044f1-8ef0-49f5-912d-0e65f31478a4/avatar?1460495840829">
-                </div>
-                <div>30 pts</div>
-            </div>
-        </div>
+        <center><span id="spin"><img src="static/img/spin.gif"></span></center>
 
     </div>
 

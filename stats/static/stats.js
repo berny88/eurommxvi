@@ -64,6 +64,30 @@ euro2016App.controller('statsMatchsCtrl', ['$scope', '$http', '$q', '$timeout', 
 
 }]);
 
-euro2016App.controller('statsRankingCtrl', ['$scope', function ($scope) {
+euro2016App.controller('statsRankingCtrl', ['$scope', '$http', '$q', function ($scope, $http, $q) {
+
+    var canceler = $q.defer();
+
+    // to avoid the cache of the images (avatars)
+    d = new Date();
+    $scope.currentDateForAvoidTheCache = d.getTime();
+
+    $scope.getRanking = function() {
+        $http.get('/stats/apiv1.0/stats/ranking', {timeout: canceler.promise})
+        .success(function(data) {
+            $scope.rankings = data;
+            $('#spin').hide();
+        })
+        .error(function(data, status, headers, config) {
+            showAlertError("Erreur lors de la récupération du classement général ; erreur HTTP : " + status);
+            $('#spin').hide();
+        });
+    }
+
+    // Aborts the $http request if it isn't finished.
+    $scope.$on('$destroy', function(){
+        hideAlerts();
+        canceler.resolve();
+    });
 
 }]);

@@ -316,17 +316,6 @@ def communityRanking(com_id):
     d["rankings"]=rankings
     return jsonify({'data': d})
 
-@communities_page.route('/apiv1.0/communities/ranking', methods=['GET'])
-def communitiesRanking():
-    u"""
-    :return la représentation json du classement de toutes les communautés confondues
-    """
-    betsMgr = BetsManager()
-    d = dict()
-    rankings = betsMgr.getRanking()
-    d["rankings"]=rankings
-    return jsonify({'data': d})
-
 u"""
 **************************************************
 Service layer

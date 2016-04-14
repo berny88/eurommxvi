@@ -261,7 +261,7 @@ class BetsManager(DbManager):
 
     def getCommunitiesIdByUser(self, user_id):
         u"""
-        list of distinct communities uuid for a player
+        list of distinct sorted communities uuid for a player
         :param user_id: the user id
         :return: the list of communities uuid where the user has bet
         """
@@ -269,7 +269,7 @@ class BetsManager(DbManager):
 
         logger.info(u'\t\tuser_id : {} and comIdList'.format(user_id,comIdList))
 
-        return comIdList
+        return sorted(comIdList)
 
     def get_all_bets(self):
         betBsonList = self.getDb().bets.find()
@@ -304,23 +304,41 @@ class BetsManager(DbManager):
 
         #STEP 2 : for each user, get the list of bets
         for user in userList:
+            comList = list()
             if com_id is not None:
-                betsList = self.getDb().bets.find({"user_id": user["user_id"], "com_id": com_id})
+                com = self.getDb().communities.find_one({"com_id": com_id})
+                comList.append(com)
             else:
-                betsList = self.getDb().bets.find({"user_id": user["user_id"]})
+                comIdList = self.getCommunitiesIdByUser(user["user_id"])
+                for comId in comIdList:
+                    com = self.getDb().communities.find_one({"com_id": comId})
+                    comList.append(com)
 
-            #STEP 3 : compute the number of points
-            nbPoints = 0
-            betsTab = []
-            for bet in betsList:
-                nbPoints = nbPoints + bet["nbpoints"]
-                del bet["_id"]
-                betsTab.append(bet)
+            communitiesTab = []
+            nbPointsTot = 0
+            #STEP 3 : for each com, compute the number of points
+            for com in comList:
+                betsList = self.getDb().bets.find({"user_id": user["user_id"], "com_id": com["com_id"]}).sort("key")
+                nbPointsInCom = 0
+                betsTab = []
+                for bet in betsList:
+                    nbPointsInCom = nbPointsInCom + bet["nbpoints"]
+                    del bet["_id"]
+                    betsTab.append(bet)
+                nbPointsTot = nbPointsTot + nbPointsInCom
+                com["bets"] = betsTab
+                del com["_id"]
+                communitiesTab.append(com)
 
             ranking = dict()
-            ranking["nbPoints"] = nbPoints
+            ranking["nbPoints"] = int(nbPointsTot / len(comList))
+            # Pour exprimer le nb de pt en % du nb de point total possible :
+            #   36 = nb de match au total
+            #   13 = nb de pt max par match
+            val = int((ranking["nbPoints"] * 100) / (36 * 13))
+            ranking["nbPointsPercent"] = val - val % 5
             ranking["user"] = user
-            ranking["bets"] = betsTab
+            ranking["communities"] = communitiesTab
             result.append(ranking)
 
         #STEP 4 : return a sorted list
