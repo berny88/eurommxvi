@@ -10,7 +10,7 @@
 
                 <tr ng-repeat="com in ranking.communities">
                     <td>{{com.title}}</td>
-                    <td ng-repeat="bet in com.bets"><div class="col-sm-1">{{bet.teamA}} {{bet.resultA}}:{{bet.resultB}} {{bet.teamB}}</div></td>
+                    <td ng-repeat="bet in com.bets" ng-class="{ 'danger' : (bet.resultA==null || bet.resultB==null)}"><div class="col-sm-1">{{bet.teamA}} {{bet.resultA}}:{{bet.resultB}} {{bet.teamB}}</div></td>
                 </tr>
 
             </tbody>

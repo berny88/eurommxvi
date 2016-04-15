@@ -335,8 +335,7 @@ class BetsManager(DbManager):
             # Pour exprimer le nb de pt en % du nb de point total possible :
             #   36 = nb de match au total
             #   13 = nb de pt max par match
-            val = int((ranking["nbPoints"] * 100) / (36 * 13))
-            ranking["nbPointsPercent"] = val - val % 5
+            ranking["nbPointsPercent"] = int((ranking["nbPoints"] * 100) / (36 * 13))
             ranking["user"] = user
             ranking["communities"] = communitiesTab
             result.append(ranking)
