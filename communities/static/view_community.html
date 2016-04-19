@@ -43,12 +43,11 @@
                                     <div class="clearfix"></div>
                                 </h4>
                             </div>
-                            <div class="panel-body" ng-init="getHistoryRanking()">
+                            <div ng-controller="statsRankingCtrl" class="panel-body" ng-init="getHistoryRanking()">
 
-                                <h2>Under construction !!!</h2>
-                                <br/>
-
+                                <center><span id="spin"><img src="static/img/spin.gif"></span></center>
                                 <div class="ct-chart ct-chart-line"></div>
+
                             </div>
                         </div>
                     </div>

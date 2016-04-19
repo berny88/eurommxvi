@@ -64,7 +64,7 @@ euro2016App.controller('statsMatchsCtrl', ['$scope', '$http', '$q', '$timeout', 
 
 }]);
 
-euro2016App.controller('statsRankingCtrl', ['$scope', '$http', '$q', function ($scope, $http, $q) {
+euro2016App.controller('statsRankingCtrl', ['$scope', '$http', '$q', '$routeParams','$filter', function ($scope, $http, $q, $routeParams,$filter) {
 
     var canceler = $q.defer();
 
@@ -83,6 +83,120 @@ euro2016App.controller('statsRankingCtrl', ['$scope', '$http', '$q', function ($
             $('#spin').hide();
         });
     }
+
+$scope.getHistoryRanking = function() {
+
+        var community_id = $routeParams.com_id;
+        if (!$routeParams.com_id) {
+            community_id = 'all'
+        }
+        $http.get('/stats/apiv1.0/stats/historyrankings?com_id='+community_id, {timeout: canceler.promise})
+        .success(function(data) {
+            $scope.historyrankings = data.data.historyrankings;
+            dates = [];
+            users_id =[];
+            users_nickname =[];
+            var mapHistoryRankings = {};
+            for (var index = 0; index < $scope.historyrankings.length; ++index) {
+                ranking = $scope.historyrankings[index];
+                dates.push(ranking.date_ranking);
+                users_id.push(ranking.user_id);
+                users_nickname.push(ranking.user_nickname)
+                mapHistoryRankings[ranking.date_ranking+'__'+ranking.user_id] = ranking;
+            }
+
+            // Prepare datas for the chart (unique values)
+            var uniqueDates = [];
+            $.each(dates, function(i, el){
+                if($.inArray(el, uniqueDates) === -1) uniqueDates.push(el);
+            });
+            var uniqueUsers_id = [];
+            $.each(users_id, function(i, el){
+                if($.inArray(el, uniqueUsers_id) === -1) uniqueUsers_id.push(el);
+            });
+            var uniqueUsers_nickname = [];
+            $.each(users_nickname, function(i, el){
+                if($.inArray(el, uniqueUsers_nickname) === -1) uniqueUsers_nickname.push(el);
+            });
+            var series = [];
+            for (var indexA = 0; indexA < uniqueUsers_id.length; ++indexA) {
+                user_id = uniqueUsers_id[indexA];
+                var serie = [];
+                for (var indexB = 0; indexB < uniqueDates.length; ++indexB) {
+                    date = uniqueDates[indexB];
+                    key = date+'__'+user_id;
+                    if (key in mapHistoryRankings) {
+                        serie.push(mapHistoryRankings[key].nb_points);
+                    } else {
+                        serie.push(null);
+                    }
+                }
+                series.push(serie);
+            }
+
+            // Display dates in a short format :
+            var uniqueDates_shortFormat = [];
+            for (var index = 0; index < uniqueDates.length; ++index) {
+                dateFromDB = uniqueDates[index];
+                uniqueDates_shortFormat.push($filter('date')(dateFromDB, "dd/MM"));
+            }
+
+            var data = {
+              // A labels array that can contain any sort of values
+              labels: uniqueDates_shortFormat,
+              // Our series array
+              series: series
+            };
+
+            var options = {
+              lineSmooth: Chartist.Interpolation.cardinal({
+                fillHoles: true,
+               }),
+               plugins: [
+                    Chartist.plugins.legend({legendNames: uniqueUsers_nickname}),
+
+                    Chartist.plugins.ctAxisTitle({
+                          axisX: {
+                            axisTitle: 'Dates',
+                            axisClass: 'ct-axis-title',
+                            offset: {
+                              x: 0,
+                              y: 35
+                            },
+                            textAnchor: 'middle'
+                          },
+                          axisY: {
+                            axisTitle: 'Points',
+                            axisClass: 'ct-axis-title',
+                            offset: {
+                              x: 0,
+                              y: -5
+                            },
+                            textAnchor: 'middle',
+                            flipTitle: false
+                          }
+                        })
+
+                    ]
+            }
+
+            // Create a new line chart object where as first parameter we pass in a selector
+            // that is resolving to our chart container element. The Second parameter
+            // is the actual data object.
+
+            if (uniqueDates_shortFormat.length > 0) {
+                new Chartist.Line('.ct-chart', data, options);
+            }
+            $('#spin').hide();
+
+        })
+        .error(function(data, status, headers, config) {
+            showAlertError("Erreur lors de la récupération de l'historique des classements ; erreur HTTP : " + status);
+            $('#spin').hide();
+        });
+
+    }
+
 
     // Aborts the $http request if it isn't finished.
     $scope.$on('$destroy', function(){

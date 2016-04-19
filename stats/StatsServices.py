@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import logging
 
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 
 from tools.Tools import DbManager
 
@@ -12,6 +12,18 @@ logger = logging.getLogger(__name__)
 stats_page = Blueprint('stats_page', __name__,
                       template_folder='templates', static_folder='static')
 
+
+@stats_page.route('/apiv1.0/stats/historyrankings', methods=['GET'])
+def historyrankings():
+    u"""
+    :return la représentation json de l'historique du classement (d'une communauté, ou général)
+    """
+    com_id=request.args.get('com_id')
+    statsMgr = StatsManager()
+    d = dict()
+    historyrankings = statsMgr.getHistoryRankings(com_id)
+    d["historyrankings"]=historyrankings
+    return jsonify({'data': d})
 
 @stats_page.route('/apiv1.0/stats/ranking', methods=['GET'])
 def ranking():
@@ -77,6 +89,25 @@ class StatsManager(DbManager,object):
         d["GROUPEE"] = u"#E86620"
         d["GROUPEF"] = u"#DAEB49"
         self.color=d
+
+    def getHistoryRankings(self,com_id):
+        u"""
+        return the list of historyRanking
+        """
+        localdb = self.getDb()
+        historyrankingListBson = localdb.historyrankings.find({"com_id": com_id}).sort("date_ranking")
+
+        historyrankingList = list()
+        for hr in historyrankingListBson:
+            d = dict()
+            d["com_id"] = hr["com_id"]
+            d["date_ranking"] = hr["date_ranking"]
+            d["user_id"] = hr["user_id"]
+            d["user_nickname"] = hr["user_nickname"]
+            d["nb_points"] = hr["nb_points"]
+            historyrankingList.append(d)
+
+        return historyrankingList
 
     def get_team_stats(self):
         u"""

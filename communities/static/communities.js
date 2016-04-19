@@ -173,56 +173,6 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
             canceler.resolve();
         });
 
-        $scope.getHistoryRanking = function() {
-
-            var data = {
-              // A labels array that can contain any sort of values
-              labels: ['10/06', '11/06', '12/06', '13/06', '14/06','15/06','16/06','17/06','18/06','19/06'],
-              // Our series array that contains series objects or in this case series data arrays
-              series: [
-                [0, 10, 15, 20, 25, 30, 40, 50, 55, 63],[0, 7, null, 12, 15, 20, 25, 33, 38, 42],[0, 5, 7, 12, 15, 17, 17, 17, 20, 23]
-              ]
-            };
-
-            var options = {
-              lineSmooth: Chartist.Interpolation.cardinal({
-                fillHoles: true,
-               }),
-               plugins: [
-                    Chartist.plugins.legend({legendNames: ['Stefou','TheBerny','Lamidesbaleines']}),
-
-                    Chartist.plugins.ctAxisTitle({
-                          axisX: {
-                            axisTitle: 'Dates',
-                            axisClass: 'ct-axis-title',
-                            offset: {
-                              x: 0,
-                              y: 35
-                            },
-                            textAnchor: 'middle'
-                          },
-                          axisY: {
-                            axisTitle: 'Points',
-                            axisClass: 'ct-axis-title',
-                            offset: {
-                              x: 0,
-                              y: -5
-                            },
-                            textAnchor: 'middle',
-                            flipTitle: false
-                          }
-                        })
-
-                    ]
-            }
-
-            // Create a new line chart object where as first parameter we pass in a selector
-            // that is resolving to our chart container element. The Second parameter
-            // is the actual data object.
-
-            new Chartist.Line('.ct-chart', data, options);
-
-        }
 
 /* *********** */
 /* Blog block  */
