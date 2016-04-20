@@ -2,6 +2,8 @@ euro2016App.controller('matchsCtrl', ['$scope', '$http', '$q', '$timeout', '$win
 
         var canceler = $q.defer();
 
+        $('#spin').hide();
+
         $scope.getMatchs = function() {
             $http.get('matchs/apiv1.0/matchs', {timeout: canceler.promise})
             .success(function(data) {
@@ -32,6 +34,23 @@ euro2016App.controller('matchsCtrl', ['$scope', '$http', '$q', '$timeout', '$win
                 } else {
                     showAlertError("Erreur lors de la mise à jour des matchs ; erreur HTTP : " + status);
                 }
+            })
+        }
+
+        $scope.createHistoryRankings = function() {
+            $('#spin').show();
+            $http.put('stats/apiv1.0/stats/historyrankings', {timeout: canceler.promise})
+            .success(function(data, status, headers, config) {
+                $.notify("Historique des classements enregistrés !" , "success");
+                $('#spin').hide();
+            })
+            .error(function(data, status, headers, config) {
+                if (status==403){
+                    showAlertError("Même pas en rêve ! status=" + status+ " " + data);
+                } else {
+                    showAlertError("Erreur lors de l'enregistrement de l'historique des classements ; erreur HTTP : " + status);
+                }
+                $('#spin').hide();
             })
         }
 

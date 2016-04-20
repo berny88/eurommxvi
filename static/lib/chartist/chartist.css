@@ -237,6 +237,56 @@
 .ct-series-p .ct-slice-pie, .ct-series-p .ct-area {
   fill: #574888; }
 
+.ct-series-q .ct-point, .ct-series-q .ct-line, .ct-series-q .ct-bar, .ct-series-q .ct-slice-donut {
+  stroke: #574000; }
+.ct-series-q .ct-slice-pie, .ct-series-q .ct-area {
+  fill: #574000; }
+
+.ct-series-r .ct-point, .ct-series-r .ct-line, .ct-series-r .ct-bar, .ct-series-r .ct-slice-donut {
+  stroke: #574100; }
+.ct-series-r .ct-slice-pie, .ct-series-r .ct-area {
+  fill: #574100; }
+
+.ct-series-s .ct-point, .ct-series-s .ct-line, .ct-series-s .ct-bar, .ct-series-s .ct-slice-donut {
+  stroke: #574200; }
+.ct-series-s .ct-slice-pie, .ct-series-s .ct-area {
+  fill: #574200; }
+
+.ct-series-t .ct-point, .ct-series-t .ct-line, .ct-series-t .ct-bar, .ct-series-t .ct-slice-donut {
+  stroke: #574300; }
+.ct-series-t .ct-slice-pie, .ct-series-t .ct-area {
+  fill: #574300; }
+
+.ct-series-u .ct-point, .ct-series-u .ct-line, .ct-series-u .ct-bar, .ct-series-u .ct-slice-donut {
+  stroke: #574400; }
+.ct-series-u .ct-slice-pie, .ct-series-u .ct-area {
+  fill: #574400; }
+
+.ct-series-v .ct-point, .ct-series-v .ct-line, .ct-series-v .ct-bar, .ct-series-v .ct-slice-donut {
+  stroke: #574500; }
+.ct-series-v .ct-slice-pie, .ct-series-v .ct-area {
+  fill: #574500; }
+
+.ct-series-w .ct-point, .ct-series-w .ct-line, .ct-series-w .ct-bar, .ct-series-w .ct-slice-donut {
+  stroke: #574600; }
+.ct-series-w .ct-slice-pie, .ct-series-w .ct-area {
+  fill: #574600; }
+
+.ct-series-x .ct-point, .ct-series-x .ct-line, .ct-series-x .ct-bar, .ct-series-x .ct-slice-donut {
+  stroke: #574700; }
+.ct-series-x .ct-slice-pie, .ct-series-x .ct-area {
+  fill: #574700; }
+
+.ct-series-y .ct-point, .ct-series-y .ct-line, .ct-series-y .ct-bar, .ct-series-y .ct-slice-donut {
+  stroke: #574800; }
+.ct-series-y .ct-slice-pie, .ct-series-y .ct-area {
+  fill: #574800; }
+
+.ct-series-z .ct-point, .ct-series-z .ct-line, .ct-series-z .ct-bar, .ct-series-z .ct-slice-donut {
+  stroke: #574900; }
+.ct-series-z .ct-slice-pie, .ct-series-z .ct-area {
+  fill: #574900; }
+
 .ct-square {
   display: block;
   position: relative;

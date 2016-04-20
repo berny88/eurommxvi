@@ -1,16 +1,41 @@
 # -*- coding: utf-8 -*-
 import logging
+from datetime import datetime
 
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, session
 
 from tools.Tools import DbManager
 
 from bets.BetsServices import BetsManager
 
+from communities.CommunityServices import CommunityManager
+
+from users.UserServices import UserManager
+
 logger = logging.getLogger(__name__)
 
 stats_page = Blueprint('stats_page', __name__,
                       template_folder='templates', static_folder='static')
+
+@stats_page.route('/apiv1.0/stats/historyrankings', methods=['PUT'])
+def createhistoryrankings():
+    u"""
+    :return enregistre l'historique du classement pour toutes les communautés, ainsi que le classement général
+    """
+    if "cookieUserKey" in session:
+        mgr = StatsManager()
+        cookieUserKey = session['cookieUserKey']
+        user_mgr = UserManager()
+        user = user_mgr.getUserByUserId(cookieUserKey)
+        nbHit=0
+        if user.isAdmin:
+            logger.info(u"createhistoryrankings: by ={}".format(user.email))
+            nbHit = mgr.createHistoryRankings()
+        else:
+            return "Ha ha ha ! Mais t'es pas la bonne personne pour faire ça, mon loulou", 403
+        return jsonify({'nbHit': nbHit})
+    else:
+        return "Ha ha ha ! Mais t'es qui pour faire ça, mon loulou ?", 403
 
 
 @stats_page.route('/apiv1.0/stats/historyrankings', methods=['GET'])
@@ -89,6 +114,51 @@ class StatsManager(DbManager,object):
         d["GROUPEE"] = u"#E86620"
         d["GROUPEF"] = u"#DAEB49"
         self.color=d
+
+    def createHistoryRankings(self):
+        u"""
+        Create the history rankings (all communities, and for the general ranking)
+        """
+        localdb = self.getDb()
+        betsManager = BetsManager()
+        comManager = CommunityManager()
+        comList = comManager.getAllCommunities()
+        nbHits = 0
+        currDate = datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
+
+        # Communities ranking
+        for com in comList:
+            rankings = betsManager.getRanking(com["com_id"])
+            for ranking in rankings:
+                bsonHR =dict()
+                bsonHR["com_id"]=com["com_id"]
+                bsonHR["date_ranking"]=currDate
+                bsonHR["nb_points"]=ranking["nbPoints"]
+                bsonHR["user_id"]=ranking["user"]["user_id"]
+                bsonHR["user_nickname"]=ranking["user"]["nickName"]
+
+                logger.info(u'\tHistory ranking - to create : {}'.format(bsonHR))
+                id = localdb.historyrankings.insert_one(bsonHR).inserted_id
+                logger.info(u'\tid : {}'.format(id))
+                nbHits = nbHits + 1
+
+        # General ranking
+        rankings = betsManager.getRanking(None)
+        for ranking in rankings:
+            bsonHR =dict()
+            bsonHR["com_id"]="all"
+            bsonHR["date_ranking"]=currDate
+            bsonHR["nb_points"]=ranking["nbPoints"]
+            bsonHR["user_id"]=ranking["user"]["user_id"]
+            bsonHR["user_nickname"]=ranking["user"]["nickName"]
+
+            logger.info(u'\tHistory ranking - to create : {}'.format(bsonHR))
+            id = localdb.historyrankings.insert_one(bsonHR).inserted_id
+            logger.info(u'\tid : {}'.format(id))
+            nbHits = nbHits + 1
+
+        return nbHits
+
 
     def getHistoryRankings(self,com_id):
         u"""

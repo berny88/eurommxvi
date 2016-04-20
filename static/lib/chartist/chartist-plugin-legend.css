@@ -93,5 +93,43 @@
   background-color: #574888;
   border-color: #574888;
 }
-
-
+.ct-legend .ct-series-16:before {
+  background-color: #574000;
+  border-color: #574000;
+}
+.ct-legend .ct-series-17:before {
+  background-color: #574100;
+  border-color: #574100;
+}
+.ct-legend .ct-series-18:before {
+  background-color: #574200;
+  border-color: #574200;
+}
+.ct-legend .ct-series-19:before {
+  background-color: #574300;
+  border-color: #574300;
+}
+.ct-legend .ct-series-20:before {
+  background-color: #574400;
+  border-color: #574400;
+}
+.ct-legend .ct-series-21:before {
+  background-color: #574500;
+  border-color: #574500;
+}
+.ct-legend .ct-series-22:before {
+  background-color: #574600;
+  border-color: #574600;
+}
+.ct-legend .ct-series-23:before {
+  background-color: #574700;
+  border-color: #574700;
+}
+.ct-legend .ct-series-24:before {
+  background-color: #574800;
+  border-color: #574800;
+}
+.ct-legend .ct-series-25:before {
+  background-color: #574900;
+  border-color: #574900;
+}
