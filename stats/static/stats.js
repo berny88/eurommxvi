@@ -126,7 +126,7 @@ $scope.getHistoryRanking = function() {
                     date = uniqueDates[indexB];
                     key = date+'__'+user_id;
                     if (key in mapHistoryRankings) {
-                        serie.push(mapHistoryRankings[key].nb_points);
+                        serie.push({meta:  mapHistoryRankings[key].user_nickname, value: mapHistoryRankings[key].nb_points});
                     } else {
                         serie.push(null);
                     }
@@ -175,7 +175,9 @@ $scope.getHistoryRanking = function() {
                             textAnchor: 'middle',
                             flipTitle: false
                           }
-                        })
+                        }),
+
+                    Chartist.plugins.tooltip()
 
                     ]
             }
