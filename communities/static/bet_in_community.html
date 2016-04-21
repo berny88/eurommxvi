@@ -80,7 +80,7 @@
 
                                 <tbody ng-init="getRankingInCommunity();">
                                 <tr ng-repeat="ranking in rankings.data.rankings">
-                                    <td data-title="Classement">{{$index + 1}}</td>
+                                    <td data-title="Classement"><span class="badge">{{$index + 1}}</span></td>
                                     <td data-title="NickName">{{ranking.user.nickName}}</td>
                                     <td data-title="Points">{{ranking.nbPoints}}</td>
                                 </tr>
