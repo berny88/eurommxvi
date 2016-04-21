@@ -43,6 +43,21 @@
     opacity: 1;
 }
 
+/* Effets sur les avatars */
+.img-focus-avatar {
+    width: 32px;
+    position: relative;
+    opacity: 1;
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+
+.img-focus-avatar:hover {
+    z-index: 1000;
+    transform: scale(5, 5);
+    opacity: 1;
+}
+
 /* Pour le chat : */
 .fa {
   color:#0000;

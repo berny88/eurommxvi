@@ -24,9 +24,9 @@
                 <tbody>
                     <tr ng-repeat="user in users.users">
                         <td ng-if="$odd" style="background-color:#f1f1f1">
-                        <img height="32px" width="32px" class="img-circle" ng-src ="users/apiv1.0/users/{{ user.user_id }}/avatar?{{ currentDateForAvoidTheCache }}" > {{ user.nickName }}</td>
+                        <img height="32px" width="32px" class="img-focus-avatar img-circle" ng-src ="users/apiv1.0/users/{{ user.user_id }}/avatar?{{ currentDateForAvoidTheCache }}" > {{ user.nickName }}</td>
                         <td ng-if="$even">
-                        <img height="32px" width="32px" class="img-circle" ng-src ="users/apiv1.0/users/{{ user.user_id }}/avatar?{{ currentDateForAvoidTheCache }}" > {{ user.nickName }}</td>
+                        <img height="32px" width="32px" class="img-focus-avatar img-circle" ng-src ="users/apiv1.0/users/{{ user.user_id }}/avatar?{{ currentDateForAvoidTheCache }}" > {{ user.nickName }}</td>
                         <td ng-if="$odd" style="background-color:#f1f1f1">
                         {{ user.description }}</td>
                         <td ng-if="$even">
