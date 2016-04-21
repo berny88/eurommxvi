@@ -12,37 +12,34 @@
 
         <div class="row-fluid" >
             <div class="col-xs-12">
-                <table class="table table-condensed table-striped">
-                <thead>
-                    <tr>
-                        <th class="nickName">Surnom</th>
-                        <th class="description">Description</th>
-                        <!--<th class="validated">Validé ?</th>-->
-                        <th></th>
-                    </tr>
+                <div id="no-more-tables" class="table-responsive">
+                    <table class="table table-condensed table-striped">
+                    <thead>
+                        <tr>
+                            <th class="nickName">Surnom</th>
+                            <th class="avatar">Avatar</th>
+                            <th class="description">Description</th>
+                            <th></th>
+                        </tr>
                     </thead>
-                <tbody>
-                    <tr ng-repeat="user in users.users">
-                        <td ng-if="$odd" style="background-color:#f1f1f1">
-                        <img height="32px" width="32px" class="img-focus-avatar img-circle" ng-src ="users/apiv1.0/users/{{ user.user_id }}/avatar?{{ currentDateForAvoidTheCache }}" > {{ user.nickName }}</td>
-                        <td ng-if="$even">
-                        <img height="32px" width="32px" class="img-focus-avatar img-circle" ng-src ="users/apiv1.0/users/{{ user.user_id }}/avatar?{{ currentDateForAvoidTheCache }}" > {{ user.nickName }}</td>
-                        <td ng-if="$odd" style="background-color:#f1f1f1">
-                        {{ user.description }}</td>
-                        <td ng-if="$even">
-                        {{ user.description }}</td>
-                        <!--<td ng-if="$odd" style="background-color:#f1f1f1">
-                        {{ user.validated }}</td>
-                        <td ng-if="$even">
-                        {{ user.validated }}</td>-->
-                        <td>
-                            <!--<span><a class="btn btn-danger" href="#del_community/{{community.com_id}}"><i class="glyphicon glyphicon-remove-sign"></i></a></span>
-                            <span><a class="btn btn-info" href="#edit_community/{{community.com_id}}"><i class="glyphicon glyphicon-pencil"></i></a></span>-->
-                            <span><a class="btn btn-default" href="#/user_detail/{{user.user_id}}"><i class="glyphicon glyphicon-pencil"></i></a></span>
-                        </td>
-                    </tr>
-                </tbody>
-                </table>
+                    <tbody>
+                        <tr ng-repeat="user in users.users">
+                            <td data-title="Surnom">
+                                {{ user.nickName }}
+                            </td>
+                            <td data-title="Avatar">
+                                <img height="32px" width="32px" class="img-focus-avatar img-circle" ng-src ="users/apiv1.0/users/{{ user.user_id }}/avatar?{{ currentDateForAvoidTheCache }}">
+                            </td>
+                            <td data-title="Description">
+                                {{ user.description }}
+                            </td>
+                            <td>
+                                <span><a class="btn btn-default" href="#/user_detail/{{user.user_id}}"><i class="glyphicon glyphicon-pencil"></i></a></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
