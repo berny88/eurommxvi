@@ -12,9 +12,43 @@ euro2016App.run(function($rootScope, $templateCache) {
 });
 
 // create the controller and inject Angular's $scope
-euro2016App.controller('indexCtrl', function($scope) {
+euro2016App.controller('indexCtrl', function($scope, $window) {
     $scope.message = 'EURO 2016';
     $scope.comment = 'Amazing bet site';
+
+    $scope.isConnected = function() {
+        return isConnected($window);
+    }
+
+    $("#DateCountdown").TimeCircles({
+        "animation": "smooth",
+        "bg_width": 1.2,
+        "fg_width": 0.1,
+        "circle_bg_color": "#60686F",
+        "time": {
+            "Days": {
+                "text": "Jours",
+                "color": "#FFCC66",
+                "show": true
+            },
+            "Hours": {
+                "text": "Heures",
+                "color": "#99CCFF",
+                "show": true
+            },
+            "Minutes": {
+                "text": "Minutes",
+                "color": "#BBFFBB",
+                "show": true
+            },
+            "Seconds": {
+                "text": "Secondes",
+                "color": "#FF9999",
+                "show": true
+            }
+        }
+    });
+
 });
 
 // create the controller and inject Angular's $scope
