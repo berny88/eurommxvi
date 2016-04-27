@@ -182,12 +182,33 @@ $scope.getHistoryRanking = function() {
                     ]
             }
 
+            var responsiveOptions = [
+              ['screen and (max-width: 640px)', {
+                axisX: {
+                  labelInterpolationFnc: function(value, index) {
+                    if (uniqueDates.length > 4) {
+                        return index % 10 === 0 ? value : null;
+                    }
+                  }
+                }
+              }],
+              ['screen and (min-width: 640px)', {
+                axisX: {
+                  labelInterpolationFnc: function(value, index) {
+                    if (uniqueDates.length > 15) {
+                        return index % 3 === 0 ? value : null;
+                    }
+                  }
+                }
+              }]
+            ];
+
             // Create a new line chart object where as first parameter we pass in a selector
             // that is resolving to our chart container element. The Second parameter
             // is the actual data object.
 
             if (uniqueDates_shortFormat.length > 0) {
-                new Chartist.Line('.ct-chart', data, options);
+                new Chartist.Line('.ct-chart', data, options, responsiveOptions);
             }
             $('#spin').hide();
 
