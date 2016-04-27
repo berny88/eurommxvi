@@ -89,6 +89,11 @@ euro2016App.controller('calendrierCtrl', function($scope, $window) {
 
 });
 
+// create the controller and inject Angular's $scope
+euro2016App.controller('tirageCtrl', function($scope, $window) {
+
+});
+
 //Go to top
 jQuery(document).ready(function() {
     var offset = 200;
