@@ -197,6 +197,8 @@ $scope.getHistoryRanking = function() {
                   labelInterpolationFnc: function(value, index) {
                     if (uniqueDates.length > 15) {
                         return index % 3 === 0 ? value : null;
+                    } else {
+                        return value;
                     }
                   }
                 }
