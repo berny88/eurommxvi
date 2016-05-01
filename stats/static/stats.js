@@ -215,11 +215,13 @@ $scope.getHistoryRanking = function() {
                 new Chartist.Line('.ct-chart', data, options, responsiveOptions);
             }
             $('#spin').hide();
+            $('#spin3').hide();
 
         })
         .error(function(data, status, headers, config) {
             showAlertError("Erreur lors de la récupération de l'historique des classements ; erreur HTTP : " + status);
             $('#spin').hide();
+            $('#spin3').hide();
         });
 
     }

@@ -318,7 +318,7 @@ class BetsManager(DbManager):
             nbPointsTot = 0
             #STEP 3 : for each com, compute the number of points
             for com in comList:
-                betsList = self.getDb().bets.find({"user_id": user["user_id"], "com_id": com["com_id"]}).sort("key")
+                betsList = self.getDb().bets.find({"user_id": user["user_id"], "com_id": com["com_id"]}).sort([("dateMatch",1), ("key",1) ])
                 nbPointsInCom = 0
                 betsTab = []
                 for bet in betsList:

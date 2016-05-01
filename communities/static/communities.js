@@ -145,10 +145,12 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
             .success(function(data) {
                 $scope.rankings = data;
                 $('#spin').hide();
+                $('#spin2').hide();
             })
             .error(function(data, status, headers, config) {
                 showAlertError("Erreur lors de la récupération du classement de la communauté ; erreur HTTP : " + status);
                 $('#spin').hide();
+                $('#spin2').hide();
             });
         }
 
