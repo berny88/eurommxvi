@@ -40,6 +40,7 @@ euro2016App.config(function($routeProvider) {
         .when('/stats_ranking', { templateUrl:'stats/static/stats_ranking.html', controller:'statsRankingCtrl' })
         .when('/stats_global', { templateUrl:'stats/static/stats_global.html', controller:'statsRankingCtrl' })
         .when('/stats_historyranking', { templateUrl:'stats/static/stats_historyranking.html', controller:'statsRankingCtrl' })
+        .when('/stats_communities_ranking', { templateUrl:'stats/static/stats_communities_ranking.html', controller:'statsRankingCtrl' })
 
         // route for tirage: "static page"
         .when('/tirage', { templateUrl:'static/tirage.html', controller:'tirageCtrl' })

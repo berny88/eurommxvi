@@ -84,7 +84,7 @@ euro2016App.controller('statsRankingCtrl', ['$scope', '$http', '$q', '$routePara
         });
     }
 
-$scope.getHistoryRanking = function() {
+    $scope.getHistoryRanking = function() {
 
         var community_id = $routeParams.com_id;
         if (!$routeParams.com_id) {
@@ -226,6 +226,97 @@ $scope.getHistoryRanking = function() {
 
     }
 
+    $scope.getCommunitiesRanking = function () {
+
+        $http.get('communities/apiv1.0/communities', {timeout: canceler.promise})
+        .success(function(data, status, headers, config) {
+            $scope.communities = data.communities;
+
+            var tasks = fillValuesAndLabels($scope.communities);
+
+            // wait the alls 'tasks' are done :
+            $.when.apply($, tasks).done(function() {
+
+                var data = [{
+                  values: $scope.values,
+                  labels: $scope.labels,
+                  domain: {
+                    x: [0, 1]
+                  },
+                  hoverinfo: 'label+percent+value',
+                  hole: .4,
+                  type: 'pie'
+                }];
+
+                var layout = {
+                  annotations: [
+                    {
+                      font: {
+                        size: 14
+                      },
+                      showarrow: false,
+                      text: 'Classement',
+                      x: 0.5,
+                      y: 0.5
+                    }
+                  ],
+                  height: 800,
+                  width: 700
+                };
+
+                Plotly.newPlot('plotly_pie', data, layout);
+
+                $('#spin_communities_ranking').hide();
+            });
+
+        })
+        .error(function(data, status, headers, config) {
+            showAlertError("Erreur lors de la récupération de la liste des communautés ; erreur HTTP : " + status);
+            $('#spin_communities_ranking').hide();
+        });
+
+    }
+
+    function fillValuesAndLabels(communities) {
+
+        $scope.labels = [];
+        $scope.values = [];
+        var tasks = [];
+        for (var index = 0; index < communities.length; ++index) {
+            community = communities[index];
+
+            // array of deferreds :
+            tasks.push(
+
+                $.get('/communities/apiv1.0/communities/'+community.com_id+'/ranking')
+                .success(function(data) {
+                    $scope.rankings = data.data.rankings;
+
+                    nbPointsTot = 0;
+                    for (var index = 0; index < $scope.rankings.length; ++index) {
+                        ranking = $scope.rankings[index];
+                        nbPointsTot = nbPointsTot + ranking.nbPoints;
+                    }
+
+                    if (nbPointsTot == 0) {
+                        // Just here to display a donut until the competition start
+                        $scope.values.push(1);
+                    } else{
+                        $scope.values.push(nbPointsTot / $scope.rankings.length);
+                    }
+                    $scope.labels.push($scope.rankings[0].communities[0].title);
+
+                })
+                .error(function(data, status, headers, config) {
+                    showAlertError("Erreur lors de la récupération du classement de la communauté ; erreur HTTP : " + status);
+                })
+            );
+
+        }
+
+        return tasks;
+
+    }
 
     // Aborts the $http request if it isn't finished.
     $scope.$on('$destroy', function(){

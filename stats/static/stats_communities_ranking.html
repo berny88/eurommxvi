@@ -1,0 +1,16 @@
+<div class="container">
+    <h1>Classement des communautés</h1>
+    <br/>
+    <div class="alert alert-info" role="alert"><span class="glyphicon glyphicon-info-sign"></span> Le score réalisé par une communauté est la moyenne des points de ses membres.</div>
+
+        <div ng-init="getCommunitiesRanking()">
+
+            <center><span id="spin_communities_ranking"><img src="static/img/spin.gif"></span></center>
+
+            <center><div id="plotly_pie" style="width: 800px; height: 700px;"></center>
+
+        </div>
+
+</div>
+
+<div ng-include src="'static/js/piwik.js'"></div>
