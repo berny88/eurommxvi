@@ -245,7 +245,13 @@ euro2016App.controller('statsRankingCtrl', ['$scope', '$http', '$q', '$routePara
                   },
                   hoverinfo: 'label+percent+value',
                   hole: .4,
-                  type: 'pie'
+                  type: 'pie',
+                  pull:0.04,
+                  marker:{
+                      line:{
+                          width:2
+                      }
+                  },
                 }];
 
                 var layout = {
