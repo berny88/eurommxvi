@@ -259,9 +259,7 @@ euro2016App.controller('statsRankingCtrl', ['$scope', '$http', '$q', '$routePara
                       x: 0.5,
                       y: 0.5
                     }
-                  ],
-                  height: 800,
-                  width: 700
+                  ]
                 };
 
                 Plotly.newPlot('plotly_pie', data, layout);
