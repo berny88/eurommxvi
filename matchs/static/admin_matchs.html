@@ -116,19 +116,20 @@
                 </div>
                 <div class="panel-body">
 
-                    <div class="jumbotron">
-                        <samp>{{ listEmails }}</samp>
+                    <div ng-show="!displaySaveButton">
+                        <h4 class="text-center">Vous devez être connectés pour consulter les @mails (mais attention, t'as
+                            interêt à être habilité loulou !). Par
+                            <a href="#signin?callback=admin_matchs">ici</a>.</h4>
                     </div>
 
-                    <div id="no-more-tables" class="table-responsive">
+                    <div ng-show="displaySaveButton">
 
-                        <div ng-show="!displaySaveButton">
-                            <h4 class="text-center">Vous devez être connectés pour consulter les @mails (mais attention, t'as
-                                interêt à être habilité loulou !). Par
-                                <a href="#signin?callback=admin_matchs">ici</a>.</h4>
+                        <div class="jumbotron">
+                            <samp>{{ listEmails }}</samp>
                         </div>
 
-                        <div ng-show="displaySaveButton">
+                        <div id="no-more-tables" class="table-responsive">
+
                             <table class="table table-condensed table-striped">
                                 <thead>
                                     <tr>
