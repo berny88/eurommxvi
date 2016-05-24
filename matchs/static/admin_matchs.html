@@ -3,8 +3,8 @@
     <div class="container">
 
         <div class="row-fluid" >
-            <h1>Administration des matchs </h1>
-            <h2>(De grands pouvoirs impliquent de grandes responsabilités)</h2>
+            <h1>Administration des matchs ... et bien plus encore ! </h1>
+            <h2>(de grands pouvoirs impliquent de grandes responsabilités)</h2>
             <br/>
         </div>
 
@@ -19,7 +19,7 @@
                 <div class="panel-body">
 
                     <div ng-show="!displaySaveButton">
-                        <h4 class="text-center">Vous devez être connectés pour sauvegarder le résultat des matchs (mais attention, t'as
+                        <h4 class="text-center">Vous devez être connectés pour enregistrer l'historique des classements (mais attention, t'as
                             interêt à être habilité loulou !). Par
                             <a href="#signin?callback=admin_matchs">ici</a>.</h4>
                     </div>
@@ -105,6 +105,63 @@
                 </div>
             </div>
         </div>
+
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <h4>Adresses mail des parieurs</h4>
+                        <div class="clearfix"></div>
+                    </h4>
+                </div>
+                <div class="panel-body">
+
+                    <div class="jumbotron">
+                        <samp>{{ listEmails }}</samp>
+                    </div>
+
+                    <div id="no-more-tables" class="table-responsive">
+
+                        <div ng-show="!displaySaveButton">
+                            <h4 class="text-center">Vous devez être connectés pour consulter les @mails (mais attention, t'as
+                                interêt à être habilité loulou !). Par
+                                <a href="#signin?callback=admin_matchs">ici</a>.</h4>
+                        </div>
+
+                        <div ng-show="displaySaveButton">
+                            <table class="table table-condensed table-striped">
+                                <thead>
+                                    <tr>
+                                        <th class="avatar">Avatar</th>
+                                        <th class="nickName">
+                                            <a ng-click="sortType='nickName';sortReverse=!sortReverse">NickName
+                                                <span ng-show="sortType=='nickName'&&!sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+                                                <span ng-show="sortType=='nickName' && sortReverse" class="glyphicon glyphicon-chevron-up"></span></a>
+                                        </th>
+                                        <th class="email">
+                                            <a ng-click="sortType='email';sortReverse=!sortReverse">e-Mail
+                                                <span ng-show="sortType=='email'&&!sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+                                                <span ng-show="sortType=='email' && sortReverse" class="glyphicon glyphicon-chevron-up"></span></a>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody ng-init="getEmails();">
+                                    <tr ng-repeat="user in users | orderBy:sortType:sortReverse">
+                                        <td data-title="Avatar">
+                                            <img height="32px" width="32px" class="img-focus-avatar img-circle" ng-src ="users/apiv1.0/users/{{ user.user_id }}/avatar?{{ currentDateForAvoidTheCache }}">
+                                        </td>
+                                        <td data-title="NickName">{{user.nickName}}</td>
+                                        <td data-title="e-Mail">{{user.email}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     </div>
 </div>
 
