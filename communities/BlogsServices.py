@@ -206,7 +206,7 @@ class BlogsManager(DbManager):
         sg = tool.get_sendgrid()
         message = sendgrid.Mail()
 
-        urlBlog = "https://euroxxxvi-typhontonus.rhcloud.com/#/view_community/"+com_id
+        urlBlog = "https://euroxxxvi-typhontonus.rhcloud.com/#/blog_in_community/"+com_id
 
         for r in recipients:
             message.add_to(r)

@@ -300,20 +300,21 @@ euro2016App.controller('statsRankingCtrl', ['$scope', '$http', '$q', '$routePara
                 .success(function(data) {
                     $scope.rankings = data.data.rankings;
 
-                    nbPointsTot = 0;
-                    for (var index = 0; index < $scope.rankings.length; ++index) {
-                        ranking = $scope.rankings[index];
-                        nbPointsTot = nbPointsTot + ranking.nbPoints;
-                    }
+                    if ($scope.rankings.length != 0) {
+                        nbPointsTot = 0;
+                        for (var index = 0; index < $scope.rankings.length; ++index) {
+                            ranking = $scope.rankings[index];
+                            nbPointsTot = nbPointsTot + ranking.nbPoints;
+                        }
 
-                    if (nbPointsTot == 0) {
-                        // Just here to display a donut until the competition start
-                        $scope.values.push(1);
-                    } else{
-                        $scope.values.push(nbPointsTot / $scope.rankings.length);
+                        if (nbPointsTot == 0) {
+                            // Just here to display a donut until the competition start
+                            $scope.values.push(1);
+                        } else{
+                            $scope.values.push(nbPointsTot / $scope.rankings.length);
+                        }
+                        $scope.labels.push($scope.rankings[0].communities[0].title);
                     }
-                    $scope.labels.push($scope.rankings[0].communities[0].title);
-
                 })
                 .error(function(data, status, headers, config) {
                     showAlertError("Erreur lors de la récupération du classement de la communauté ; erreur HTTP : " + status);
