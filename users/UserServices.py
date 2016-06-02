@@ -103,7 +103,9 @@ def subscriptionPost():
         logger.info(u"subscriptionPost::user_id:{}".format(uuid))
         mgr.saveUser(email, "", "", uuid, False, "")
         logger.info(u"\tsubscriptionPost::save done")
-        urlcallback=u"http://euroxxxvi-typhontonus.rhcloud.com/users/{}/confirmation".format(uuid)
+        tool_mgr = ToolManager()
+        url_root = tool_mgr.getProperty("url_root")
+        urlcallback=u"http://{}/users/{}/confirmation".format(url_root, uuid)
         message.set_html("<html><head></head><body><h1>MERCI DE</h1><h1><a href='{}'>Confirmer votre inscription</a></h1></hr></body></html>".format(urlcallback))
 
         sg.send(message)
@@ -136,7 +138,9 @@ def confirmationSubscription(user_id):
     message.add_to("eurommxvi.foot@gmail.com")
     message.set_from("eurommxvi.foot@gmail.com")
     message.set_subject("euroxxxvi - confirmation")
-    urlcallback = u"http://euroxxxvi-typhontonus.rhcloud.com/"
+    tool_mgr = ToolManager()
+    url_root = tool_mgr.getProperty("url_root")
+    urlcallback = u"http://{}/".format(url_root)
 
     message.set_html("<html><head></head><body><h1><a href='{}'>Félicitations pour votre inscription ! </a></h1></hr></body></html>".format(urlcallback))
 

@@ -38,7 +38,7 @@
                   <li><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#contact">Contact</a></li>
               </ul>
               <ul class="nav navbar-nav navbar-right">
-                  <li ng-show="!isConnected()"><a href="#signin"  ><span class="label label-success">Vous n'êtes pas connectés !</span></a></li>
+                  <li ng-show="!isConnected()"><a href="#signin"  ><span class="label label-success">Pour se connecter ...</span></a></li>
                   <li ng-show="isConnected()"><a href="#logout" ><span id="connectedUserInTopbar" class="label label-success"></span></a></li>
                   <li ng-show="!isConnected()"><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#signin"><span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp;Connexion</a></li>
                   <li ng-show="isConnected()"><a data-toggle="collapse" data-target=".navbar-collapse.in" href="#logout"><span class="glyphicon glyphicon-off" aria-hidden="true"></span>&nbsp;Déconnexion</a></li>
