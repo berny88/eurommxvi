@@ -104,7 +104,7 @@ def subscriptionPost():
         mgr.saveUser(email, "", "", uuid, False, "")
         logger.info(u"\tsubscriptionPost::save done")
         tool_mgr = ToolManager()
-        url_root = tool_mgr.getProperty("url_root")
+        url_root = tool_mgr.getProperty("url_root")["value"]
         urlcallback=u"http://{}/users/{}/confirmation".format(url_root, uuid)
         message.set_html("<html><head></head><body><h1>MERCI DE</h1><h1><a href='{}'>Confirmer votre inscription</a></h1></hr></body></html>".format(urlcallback))
 
@@ -139,7 +139,7 @@ def confirmationSubscription(user_id):
     message.set_from("eurommxvi.foot@gmail.com")
     message.set_subject("euroxxxvi - confirmation")
     tool_mgr = ToolManager()
-    url_root = tool_mgr.getProperty("url_root")
+    url_root = tool_mgr.getProperty("url_root")["value"]
     urlcallback = u"http://{}/".format(url_root)
 
     message.set_html("<html><head></head><body><h1><a href='{}'>Félicitations pour votre inscription ! </a></h1></hr></body></html>".format(urlcallback))

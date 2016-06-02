@@ -205,7 +205,7 @@ class BlogsManager(DbManager):
         tool = ToolManager()
         sg = tool.get_sendgrid()
         message = sendgrid.Mail()
-        url_root = tool.getProperty("url_root")
+        url_root = tool.getProperty("url_root")["value"]
 
         urlBlog = "https://{}/#/blog_in_community/{}".format(url_root, com_id);
 
