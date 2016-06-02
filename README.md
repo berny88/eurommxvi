@@ -38,5 +38,5 @@ A good bet web site must display many view about bets and rankings.
 This package groups services to request in DB to show many view on statistics.
 
 
-
+to be continued
 
