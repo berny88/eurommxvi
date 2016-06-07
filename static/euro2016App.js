@@ -75,6 +75,7 @@ euro2016App.controller('topbarCtrl', function($scope, $window) {
     // security.js
     if (isConnected($window)) {
         $("#connectedUserInTopbar").html(getConnectedUser($window).nickName);
+        $scope.user_id = getConnectedUser($window).user_id;
     }
 
     // to display the button "connexion" or "deconnexion" in the topbar
