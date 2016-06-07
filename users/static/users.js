@@ -58,6 +58,7 @@ euro2016App.controller('UserDetailCtrl', ['$scope', '$http', '$q', '$routeParams
         if (isConnected($window)) {
             currentUser = getConnectedUser($window);
         }
+        $scope.firstConnection = $routeParams.firstConnection;
         return ((currentUser.user_id == $scope.user.user_id) || $routeParams.firstConnection || isAdmin($window)) ? true : false;
     }
 
@@ -149,8 +150,8 @@ euro2016App.controller('UserDetailCtrl', ['$scope', '$http', '$q', '$routeParams
 
 }]);
 
-euro2016App.controller('LoginCtrl', ['$scope', '$http', '$q', '$routeParams', '$location','$timeout', '$window', '$sce',
-    function ($scope, $http, $q, $routeParams, $location, $timeout, $window, $sce) {
+euro2016App.controller('LoginCtrl', ['$scope', '$http', '$q', '$routeParams', '$location','$timeout', '$window', '$sce', '$rootScope',
+    function ($scope, $http, $q, $routeParams, $location, $timeout, $window, $sce, $rootScope) {
 
         $scope.login = function(){
             connect={email:$scope.email, thepwd:$scope.thepwd};
@@ -161,6 +162,7 @@ euro2016App.controller('LoginCtrl', ['$scope', '$http', '$q', '$routeParams', '$
                 setConnectedUserInStorage($window, data.user)
                 // Display the user in the topbar :
                 $("#connectedUserInTopbar").html(data.user.nickName);
+                $rootScope.user_id = data.user.user_id;
                 if ($routeParams.callback) {
                     $location.path("/" + $sce.trustAsResourceUrl($routeParams.callback))
                 } else {

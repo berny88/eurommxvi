@@ -64,7 +64,7 @@
                 </div>
             </div>
 
-            <div ng-show="hasAuthorization()" class="panel panel-default">
+            <div ng-show="hasAuthorization() && !firstConnection" class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
                         <div class="pull-left">

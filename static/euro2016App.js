@@ -71,11 +71,11 @@ euro2016App.controller('indexCtrl', function($scope, $window) {
 });
 
 // create the controller and inject Angular's $scope
-euro2016App.controller('topbarCtrl', function($scope, $window) {
+euro2016App.controller('topbarCtrl', function($scope, $window, $rootScope) {
     // security.js
     if (isConnected($window)) {
         $("#connectedUserInTopbar").html(getConnectedUser($window).nickName);
-        $scope.user_id = getConnectedUser($window).user_id;
+        $rootScope.user_id = getConnectedUser($window).user_id;
     }
 
     // to display the button "connexion" or "deconnexion" in the topbar
