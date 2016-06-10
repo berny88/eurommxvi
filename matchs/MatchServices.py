@@ -166,6 +166,7 @@ class Match:
                     ((self.resultA - self.resultB) < 0 and (bet.resultA - bet.resultB) < 0) or
                     ((self.resultA - self.resultB) == 0 and (bet.resultA - bet.resultB) == 0)):
                     nb_point = nb_point+NB_POINT_WINNER
+                logger.info(u'\t\tMatchs::computeResult=nb_point={}'.format(nb_point))
         #finally we update nb of points
         bet.nbpoints = nb_point
 
