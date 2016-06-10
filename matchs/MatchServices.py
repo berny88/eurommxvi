@@ -148,8 +148,11 @@ class Match:
     #    NB_POINT_DIFF=int(str_nb)
 
         #change nbpoints only if rightmatch
+        logger.info(u'\tMatchs::computeResult={}'.format(self.key, bet.key))
         if (self.key==bet.key):
             if (bet.resultA!="") and (bet.resultB!="") and (self.resultA!="") and (self.resultB!="") and  (bet.resultA is not None) and (bet.resultB is not None) and (self.resultA is not None) and (self.resultB is not None):
+                logger.info(u'\t\tMatchs::computeResult=bet.resA={} - self.resA={}'.format(bet.resultA,self.resultA))
+                logger.info(u'\t\tMatchs::computeResult=bet.resA={} - self.resA={}'.format(bet.resultB,self.resultB))
                 #3 points si le parieur a deviné le nombre de point d'une équipe
                 if bet.resultA==self.resultA:
                     nb_point=nb_point+NB_POINT_TEAM
