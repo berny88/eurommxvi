@@ -231,6 +231,8 @@ class MatchsManager(DbManager):
             shortList = [b for b in betList if b.key == m["key"]]
             for bet in shortList:
                 match.computeResult(bet)
+                logger.info(
+                    u'\t\tupdate_all_matchs::bet={}/{} - nbpts={}'.format(bet.key, bet.user_id, bet.nbpoints))
                 bets_for_mail.append(self.format_bet(bet, match))
 
         if not no_save:
