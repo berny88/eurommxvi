@@ -47,11 +47,13 @@ def updateMatchsResults():
         cookieUserKey = session['cookieUserKey']
         user_mgr = UserManager()
         user = user_mgr.getUserByUserId(cookieUserKey)
+        logger.info(u"updateMatchsResults::cookieUserKey by ={}".format(cookieUserKey))
+        logger.info(u"updateMatchsResults::update by ={}".format(user.email))
         nbHit=0
         if user.isAdmin:
-            logger.info(u"updateMatchsResults::update by ={}".format(user.email))
             nbHit = mgr.update_all_matchs(matchsjson, no_save)
         else:
+            logger.info(u"updateMatchsResults::No Admin = 403")
             return "Ha ha ha ! Mais t'es pas la bonne personne pour faire ça, mon loulou", 403
         return jsonify({'nbHit': nbHit})
     else:
