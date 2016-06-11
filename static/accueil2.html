@@ -1,0 +1,94 @@
+<br/>
+
+<div class=" jumbotron container-fluid">
+    <div class="row-fluid">
+
+        <div class="row-fluid" >
+            <div class="col-xs-12">
+                <div id="no-more-tables" class="table-responsive">
+                    <table class="table table-condensed table-striped">
+                        <thead>
+                        <tr>
+                            <!--<th class="id">Id</th>-->
+                            <th class="title">
+                                <a ng-click="sortType='title';sortReverse=!sortReverse">Titre<span ng-show="sortType=='title'&&!sortReverse" class="glyphicon glyphicon-chevron-down"></span><span ng-show="sortType=='title' && sortReverse" class="glyphicon glyphicon-chevron-up"></span></a>
+                            </th>
+                            <th class="description">Description</th>
+                            <th class="numberOfPlayers"></th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody ng-init="getCommunities();">
+                        <tr ng-repeat="community in communities.communities | filter : community_filter | orderBy:sortType:sortReverse">
+                            <!--<td>{{community.com_id}}</td>-->
+                            <td data-title="Titre">{{community.title}}</td>
+                            <td data-title="Desc.">{{community.description}}</td>
+                            <td data-title="# Parieurs"><span class="badge" ng-init="getNumberOfPlayersInCommunity(community.com_id)" id="nbPlayers_{{ community.com_id }}"></span></td>
+                            <td>
+                                <span><a class="btn btn-danger" href="#bet_in_community/{{community.com_id}}"><i class="glyphicon glyphicon-stats"></i> Pariez !</a></span>
+                                <span><a class="btn btn-success" href="#view_community/{{community.com_id}}"><i class="fa fa-line-chart" aria-hidden="true"></i> Stats</a></span>
+                                <span><a class="btn btn-info" href="#blog_in_community/{{community.com_id}}"><i class="glyphicon glyphicon-bullhorn"></i> Blog</a></span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <center><span id="spin"><img src="static/img/spin.gif"></span></center>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<br/>
+
+<div ng-show="!isConnected()" class="container-fluid">
+    <div class=" jumbotron container-fluid">
+    <div class="row-fluid">
+
+            <center>
+                <h2>Le spectacle a commencé !</h2>
+                <!-- counter will be injected here trought javascript -->
+                <span ng-init="injectCounter()" id="counter"></span>
+            </center>
+
+    </div>
+</div>
+
+<br/>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <center>
+                <a href="#signin">
+                    <img class="img-focus img-circle img-responsive img-center" src="/static/img/france-champion-europe-1984.jpg" alt="">
+                    <h2>Connectez-vous !</h2>
+                </a>
+            </center>
+        </div>
+        <div class="col-sm-6">
+            <center>
+                <a href="#signon">
+                    <img class="img-focus img-circle img-responsive img-center" src="/static/img/euro_84_champion.jpg" alt="">
+                    <h2>Inscrivez-vous !</h2>
+                </a>
+            </center>
+        </div>
+    </div>
+</div>
+
+<br/>
+
+
+<br/><br/>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-4 col-sm-offset-4">
+            <img class="img-responsive img-center" src="/static/img/devices.png" alt="Site compatible sur tous les écrans !">
+            <center><h4>Site compatible sur tous les écrans !</h4></center>
+        </div>
+    </div>
+</div>
+
+<div ng-include src="'static/js/piwik.js'"></div>
