@@ -29,6 +29,7 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
             $http.get('communities/apiv1.0/communities?userId='+getConnectedUser($window).user_id, {timeout: canceler.promise})
             .success(function(data, status, headers, config) {
                 $scope.communities = data;
+                console.log(data);
                 $('#spin').hide();
             })
             .error(function(data, status, headers, config) {
