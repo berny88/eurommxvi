@@ -218,15 +218,13 @@ class BetsManager(DbManager):
             logger.info(u"\t\tERROR - bet not found")
         else:
             currDate = datetime.utcnow()
-            logger.info(u'\t\t****** CtrlDateFront - currDate : {}'.format(currDate))
-            logger.info(u'\t\t****** CtrlDateFront - deadLine : {}'.format(datetime.strptime(bet.dateDeadLineBet, "%Y-%m-%dT%H:%M:%SZ")))
-            if datetime.strptime(bet.dateDeadLineBet, "%Y-%m-%dT%H:%M:%SZ") < currDate:
+            if datetime.strptime(bet.dateMatch, "%Y-%m-%dT%H:%M:%SZ") < currDate:
                 logger.warn(u'\tdate limite dépassée !')
                 self.getDb().bets.update({"_id": bsonBet["_id"]},
                                          {"$set": {"nbpoints": bet.nbpoints, "notClosed" : False}}, upsert=True)
             else:
                 self.getDb().bets.update({"_id": bsonBet["_id"]},
-                                         {"$set": {"nbpoints": bet.nbpoints}}, upsert=True)
+                                         {"$set": {"nbpoints": bet.nbpoints, "notClosed" : True}}, upsert=True)
         return bet
 
     def delete(self, bet):
