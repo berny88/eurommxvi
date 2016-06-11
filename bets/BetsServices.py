@@ -208,7 +208,7 @@ class BetsManager(DbManager):
 
     def saveScore(self, bet):
         u"""
-        store just the score of a bet
+        store just the score of a bet, and eventually the state "closed" or not of a bet.
         :param bet: the bet to create or update
         :return: the bet (i'm sure if it is good idea)
         """
@@ -217,7 +217,15 @@ class BetsManager(DbManager):
         if bsonBet is None:
             logger.info(u"\t\tERROR - bet not found")
         else:
-            self.getDb().bets.update({"_id": bsonBet["_id"]},
+            currDate = datetime.utcnow()
+            logger.info(u'\t\t****** CtrlDateFront - currDate : {}'.format(currDate))
+            logger.info(u'\t\t****** CtrlDateFront - deadLine : {}'.format(datetime.strptime(bet.dateDeadLineBet, "%Y-%m-%dT%H:%M:%SZ")))
+            if datetime.strptime(bet.dateDeadLineBet, "%Y-%m-%dT%H:%M:%SZ") < currDate:
+                logger.warn(u'\tdate limite dépassée !')
+                self.getDb().bets.update({"_id": bsonBet["_id"]},
+                                         {"$set": {"nbpoints": bet.nbpoints, "notClosed" : False}}, upsert=True)
+            else:
+                self.getDb().bets.update({"_id": bsonBet["_id"]},
                                          {"$set": {"nbpoints": bet.nbpoints}}, upsert=True)
         return bet
 
