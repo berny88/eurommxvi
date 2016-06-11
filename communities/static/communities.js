@@ -28,7 +28,7 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
             hideAlerts();
             $http.get('communities/apiv1.0/communities?userId='+getConnectedUser($window).user_id, {timeout: canceler.promise})
             .success(function(data, status, headers, config) {
-                $scope.my_communities = data;
+                $scope.my_communities = data.communities;
                 console.log(data);
                 $('#spin').hide();
             })
