@@ -24,6 +24,19 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
             });
         }
 
+        $scope.getMyCommunities = function() {
+            hideAlerts();
+            $http.get('communities/apiv1.0/communities?'+getConnectedUser($window).user_id, {timeout: canceler.promise})
+            .success(function(data, status, headers, config) {
+                $scope.communities = data;
+                $('#spin').hide();
+            })
+            .error(function(data, status, headers, config) {
+                showAlertError("Erreur lors de la récupération de la liste des communautés ; erreur HTTP : " + status);
+                $('#spin').hide();
+            });
+        }
+
         $scope.getCommunity = function() {
             hideAlerts();
             $http.get('communities/apiv1.0/communities/' + $routeParams.com_id, {timeout: canceler.promise})

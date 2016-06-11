@@ -18,7 +18,7 @@
                             <th></th>
                         </tr>
                         </thead>
-                        <tbody ng-init="getCommunities();">
+                        <tbody ng-init="getMyCommunities();">
                         <tr ng-repeat="community in communities.communities | filter : community_filter | orderBy:sortType:sortReverse">
                             <!--<td>{{community.com_id}}</td>-->
                             <td data-title="Titre">{{community.title}}</td>
