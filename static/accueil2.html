@@ -1,7 +1,7 @@
 <!-- include the modals -->
 <div ng-include src="'static/lib/modals/modals.html'"></div>
 
-<div class=" jumbotron container-fluid">
+<div ng-show="isConnected()" class=" jumbotron container-fluid">
     <div class="row-fluid">
 
         <div class="row-fluid" >
@@ -27,7 +27,8 @@
                             <td data-title="# Parieurs"><span class="badge" ng-init="getNumberOfPlayersInCommunity(community.com_id)" id="nbPlayers_{{ community.com_id }}"></span></td>
                             <td>
                                 <span><a class="btn btn-danger" href="#bet_in_community/{{community.com_id}}"><i class="glyphicon glyphicon-stats"></i> Pariez !</a></span>
-                                <span><a class="btn btn-success" href="#view_community/{{community.com_id}}"><i class="fa fa-line-chart" aria-hidden="true"></i> Stats</a></span>
+                                <span><a class="btn btn-success" href="#view_community/{{community.com_id}}"><i class="fa fa-line-chart" aria-hidden="true"></i> Classement</a></span>
+                                <span><a class="btn btn-success" href="javascript:alerte('classement')"><i class="fa fa-line-chart" aria-hidden="true"></i> Paris</a></span>
                                 <span><a class="btn btn-info" href="#blog_in_community/{{community.com_id}}"><i class="glyphicon glyphicon-bullhorn"></i> Blog</a></span>
                             </td>
                         </tr>
