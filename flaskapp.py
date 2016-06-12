@@ -52,10 +52,10 @@ def add_header(response):
     Add headers to both force latest IE rendering engine or Chrome Frame,
     and also to cache the rendered page for 10 minutes.
     """
-    response.headers['X-UA-Compatible'] = 'IE=Edge,chrome=1'
-    response.headers['Cache-Control'] = 'public, max-age=0, no-cache, no-store, must-revalidate'
-    response.headers["Pragma"] = "no-cache"
-    response.headers["Expires"] = "0"
+    #response.headers['X-UA-Compatible'] = 'IE=Edge,chrome=1'
+    #response.headers['Cache-Control'] = 'public, max-age=0, no-cache, no-store, must-revalidate'
+    #response.headers["Pragma"] = "no-cache"
+    #response.headers["Expires"] = "0"
     #logger.info(u'response.headers={}'.format(response.headers))
     return response
 

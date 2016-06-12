@@ -1,13 +1,4 @@
 ﻿<div class="panel panel-default">
-    <div class="panel-heading">
-        <h4 class="panel-title">
-            <div class="pull-left">
-                <h4>Classement de la communauté</h4>
-            </div>
-            <div class="pull-right"></div>
-            <div class="clearfix"></div>
-        </h4>
-    </div>
     <div class="panel-body">
         <form ng-init="getCommunity()" class="form-horizontal">
             <!--<div class="form-group">
@@ -30,9 +21,8 @@
             </div>     
         <br>
 
-        <a class="btn" href="#accueil2">Retour</a>
-        <a class="btn" ng-href="#bets_in_community/{{community.community.com_id}}">Les paris (des matchs terminés)</a>
-        <a class="btn" ng-href="#bet_in_community/{{community.community.com_id}}">Parier </a>
+        <span><a class="btn btn-success" ng-href="#bet_in_community/{{community.community.com_id}}"><i class="fa fa-line-chart" aria-hidden="true"></i> Parier</a></span>
+        <span><a class="btn btn-success" ng-href="#bets_in_community/{{community.community.com_id}}"><i class="fa fa-line-chart" aria-hidden="true"></i> Les paris (des matchs terminés)</a></span>
         </form>
 
 
