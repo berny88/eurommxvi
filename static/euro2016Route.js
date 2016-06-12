@@ -48,6 +48,9 @@ euro2016App.config(function($routeProvider) {
         // route for calendrier: "static page"
         .when('/calendrier', { templateUrl:'static/calendrier.html', controller:'calendrierCtrl' })
 
+        // route for pictures and videos
+        .when('/entertainment', { templateUrl:'static/entertainment.html', controller:'indexCtrl' })
+
         // route for rules of games and bets : "static page"
         .when('/rules', { templateUrl:'static/rules.html', controller:'indexCtrl' })
 
