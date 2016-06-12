@@ -58,6 +58,20 @@
     opacity: 1;
 }
 
+/* Effets sur les photos */
+.img-focus-picture {
+    width: 100%;
+    position: relative;
+    opacity: 0.8;
+    transition: 0.3s ease;
+    cursor: pointer;
+}
+
+.img-focus-picture:hover {
+    transform: scale(1.5, 1.5);
+    opacity: 1;
+}
+
 /* Pour le chat : */
 .fa {
   color:#0000;
