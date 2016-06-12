@@ -30,8 +30,8 @@ euro2016App.config(function($routeProvider) {
         .when('/create_community', { templateUrl:'communities/static/create_community.html', controller:'CommunitiesCtrl' })
         .when('/update_community/:com_id', { templateUrl:'communities/static/update_community.html', controller:'CommunitiesCtrl' })
 		.when('/bet_in_community/:com_id', { templateUrl:'communities/static/bet_in_community.html', controller:'CommunitiesCtrl' })
-		.when('/rank_in_comnunity/:com_id', { templateUrl:'communities/static/rank_in_community.html', controller:'CommunitiesCtrl' })
-		.when('/bets_in_comnunity/:com_id', { templateUrl:'communities/static/bets_in_community.html', controller:'CommunitiesCtrl' })
+		.when('/rank_in_community/:com_id', { templateUrl:'communities/static/rank_in_community.html', controller:'CommunitiesCtrl' })
+		.when('/bets_in_community/:com_id', { templateUrl:'communities/static/bets_in_community.html', controller:'CommunitiesCtrl' })
 		.when('/blog_in_community/:com_id', { templateUrl:'communities/static/blog_in_community.html', controller:'CommunitiesCtrl' })
 
         // route for matchs page: "static page"
