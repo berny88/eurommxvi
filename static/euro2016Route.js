@@ -64,5 +64,5 @@ euro2016App.config(function($routeProvider) {
         .when('/contact', { templateUrl:'static/contact.html', controller:'indexCtrl' })
 
         // default
-        .otherwise({ templateUrl:'static/accueil.html', controller:'indexCtrl' });
+        .otherwise({ templateUrl:'static/accueil2.html', controller:'CommunitiesCtrl' });
 });
