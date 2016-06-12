@@ -1,0 +1,122 @@
+﻿<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <div class="pull-left">
+                <h4>Classement de la communauté</h4>
+            </div>
+            <div class="pull-right"></div>
+            <div class="clearfix"></div>
+        </h4>
+    </div>
+    <div class="panel-body">
+        <form ng-init="getCommunity()" class="form-horizontal">
+            <!--<div class="form-group">
+                <label class="control-label col-xs-3" for="id">Id:</label>
+                <div class="col-xs-9">
+                    <input ng-model="community.community.com_id" type="text" class="form-control" id="id" placeholder="Id" readonly="readonly">
+                </div>
+            </div>  -->
+    		<div class="form-group">
+                <label class="control-label col-xs-3" for="title">Titre:</label>
+                <div class="col-xs-9">
+                    <input ng-model="community.community.title" type="text" class="form-control" id="title" placeholder="Titre" readonly="readonly">
+                </div>
+            </div>     
+            <div class="form-group">
+                <label class="control-label col-xs-3" for="description">Description:</label>
+                <div class="col-xs-9">
+                    <input ng-model="community.community.description" type="text" class="form-control" id="description" placeholder="Description" readonly="readonly">
+                </div>
+            </div>     
+        </form>
+
+        <br>
+
+        <a class="btn" href="#accueil2">Retour</a>
+        <a class="btn" href="#bets_of_comnunity/{{community.com_id}}">Les paris (des matchs terminés)</a>
+        <a class="btn" href="#bet_in_community/{{community.com_id}}">Parier </a>
+
+        <br/>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="row">
+                        <div class="col-md-offset-3 col-md-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <div class="pull-left">
+                                            <h4>Classement de la communauté</h4>
+                                        </div>
+                                        <div class="pull-right"></div>
+                                        <div class="clearfix"></div>
+                                    </h4>
+                                </div>
+                                <div class="panel-body">
+
+                                    <div id="no-more-tables" class="table-responsive">
+                                        <table class="table table-condensed table-striped">
+
+                                            <tbody ng-init="getRankingInCommunity();">
+                                            <tr ng-repeat="ranking in rankings.data.rankings">
+                                                <td data-title="Classement"><span class="badge">{{$index + 1}}</span></td>
+                                                <td data-title="NickName"><img height="32px" width="32px" class="img-circle" ng-src ="users/apiv1.0/users/{{ ranking.user.user_id }}/avatar?{{ currentDateForAvoidTheCache }}" > {{ranking.user.nickName}}</td>
+                                                <td data-title="Points">{{ranking.nbPoints}}</td>
+                                            </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <center><span id="spin"><img src="static/img/spin.gif"></span></center>
+                                    <center><a href="#stats_ranking"><i class="fa fa-bar-chart" aria-hidden="true"></i>&nbsp;Classement général</a></center>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br/>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <div class="pull-left">
+                                    <h4>Les paris (des matchs terminés)</h4>
+                                </div>
+                                <div class="pull-right"></div>
+                                <div class="clearfix"></div>
+                            </h4>
+                        </div>
+                        <div class="panel-body" ng-init="getRankingInCommunity()">
+
+                            <center><span id="spin2"><img src="static/img/spin.gif"></span></center>
+
+                            <div id="no-more-tables" class="table-responsive">
+                                <table class="table table-condensed table-striped">
+                                    <thead>
+                                        <th></th>
+                                        <th ng-repeat="bet in rankings.data.rankings[0].communities[0].bets">
+                                            <center>{{bet.teamA}} vs {{bet.teamB}}</center>
+                                        </th>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="ranking in rankings.data.rankings">
+                                            <td><b>{{ ranking.user.nickName }}</b></td>
+                                            <td ng-repeat="bet in ranking.communities[0].bets" data-title="{{bet.teamA}} vs {{bet.teamB}}" ><span ng-show="!bet.notClosed"><center>{{bet.resultA}}:{{bet.resultB}}<br/> Pts:{{bet.nbpoints}}</center></span><span ng-show="bet.notClosed"><center>&nbsp;</center></span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<div ng-include src="'static/js/piwik.js'"></div>
