@@ -214,6 +214,8 @@ class MatchsManager(DbManager):
             unique_match_list = [x for x in matchs_to_update if x["key"] == match_key]
             match_dict=unique_match_list[0]
             if match_dict is not None:
+                match.resultA = match_dict["resultA"]
+                match.resultB = match_dict["resultB"]
                 if not no_save:
                     # mettre à jour juste les resultats
                     logger.info(u'\tupdate_all_matchs::try update match["key" : {}] with match={}'.format(match_key, match_dict))
