@@ -242,7 +242,7 @@ class StatsManager(DbManager,object):
 
     def get_result(self, dict_bson, type_team):
         if "result"+type_team in dict_bson:
-            if dict_bson["result"+type_team] is not None or dict_bson["result"+type_team] != "":
+            if dict_bson["result"+type_team] is not None and  dict_bson["result"+type_team] != "":
                 return int(dict_bson["result"+type_team])
             else:
                 return 0
