@@ -75,9 +75,5 @@ euro2016App.controller('matchsCtrl', ['$scope', '$http', '$q', '$timeout', '$win
             canceler.resolve();  // Aborts the $http request if it isn't finished.
         });
 
-        //$scope.getMatchs();
-        // to disable the input fields in the form
-
-        $('#spin_histo').hide();
 
 }]);
