@@ -2,8 +2,6 @@ euro2016App.controller('matchsCtrl', ['$scope', '$http', '$q', '$timeout', '$win
 
         var canceler = $q.defer();
 
-        $('#spin').hide();
-
         $scope.getMatchs = function() {
             $http.get('matchs/apiv1.0/matchs', {timeout: canceler.promise})
             .success(function(data) {
@@ -38,11 +36,11 @@ euro2016App.controller('matchsCtrl', ['$scope', '$http', '$q', '$timeout', '$win
         }
 
         $scope.createHistoryRankings = function() {
-            $('#spin').show();
+            $('#spin_histo').show();
             $http.put('stats/apiv1.0/stats/historyrankings', {timeout: canceler.promise})
             .success(function(data, status, headers, config) {
                 $.notify("Historique des classements enregistrés !" , "success");
-                $('#spin').hide();
+                $('#spin_histo').hide();
             })
             .error(function(data, status, headers, config) {
                 if (status==403){
@@ -50,7 +48,7 @@ euro2016App.controller('matchsCtrl', ['$scope', '$http', '$q', '$timeout', '$win
                 } else {
                     showAlertError("Erreur lors de l'enregistrement de l'historique des classements ; erreur HTTP : " + status);
                 }
-                $('#spin').hide();
+                $('#spin_histo').hide();
             })
         }
 
@@ -80,6 +78,6 @@ euro2016App.controller('matchsCtrl', ['$scope', '$http', '$q', '$timeout', '$win
         //$scope.getMatchs();
         // to disable the input fields in the form
 
-
+        $('#spin_histo').hide();
 
 }]);
