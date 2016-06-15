@@ -393,9 +393,9 @@ class CommunityManager(DbManager):
             else:
                 community.admin_user_nickName = user.nickName
 
-            logger.info(u'\tgetAllCommunities::community={}'.format(community))
+            logger.info(u"\tgetAllCommunities::community={}".format(community))
             tmpdict = community.__dict__
-            logger.info(u'\tgetAllCommunities::tmpdict={}'.format(tmpdict))
+            logger.info(u"\tgetAllCommunities::tmpdict={}".format(tmpdict))
             result.append(tmpdict)
         return result
 
