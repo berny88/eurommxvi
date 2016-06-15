@@ -436,7 +436,7 @@ class CommunityManager(DbManager):
             else:
                 community.admin_user_nickName = user.nickName
 
-            logger.info(u'\tgetcommunityBycommunityId::res={}'.format(community))
+            logger.info(u"\tgetcommunityBycommunityId::res={}".format(community))
             return community
         else:
             return None
