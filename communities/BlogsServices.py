@@ -122,7 +122,7 @@ class BlogsManager(DbManager):
         result = list()
 
         for blogbson in blogsList:
-            logger.info(u'\tgetBlogByCommunity::blogbson={}'.format(blogbson))
+            logger.info(u"\tgetBlogByCommunity::blogbson={}".format(blogbson))
             #tmpdict = blog.__dict__
             #logger.info(u'\tgetAllCommunities::tmpdict={}'.format(tmpdict))
             blog = Blog()
