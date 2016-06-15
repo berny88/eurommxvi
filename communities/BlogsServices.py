@@ -216,7 +216,7 @@ class BlogsManager(DbManager):
         message.set_subject("eurommxvi : {}".format(blog.title))
         logger.info("email title={}".format(blog.title))
         logger.info("email body-to_mail={}".format(blog.body_to_mail()))
-        body = u"<html><head></head><body>{}<br/>Laissez vos commentaires ici : {}</body></html>".format(blog.body_to_mail(), urlBlog)
+        body = u"<html><head></head><body><pre>{}</pre><br/>Laissez vos commentaires ici : {}</body></html>".format(blog.body_to_mail(), urlBlog)
         message.set_html(body)
 
         res = sg.send(message)
