@@ -38,23 +38,26 @@ app.register_blueprint(chat_page, url_prefix="/chat", template_folder='templates
 
 #logging.basicConfig(format='%(asctime)s|%(levelname)s|%(name)s|%(message)s',\
 #    filename='{}/euroxxxvi.log'.format(os.environ['OPENSHIFT_LOG_DIR']), level=logging.INFO)
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
 handler = logging.handlers.RotatingFileHandler(
-    "{}/euroxxxvi.log".format(os.environ['OPENSHIFT_LOG_DIR']), maxBytes=1000000, backupCount=2,
-    )
-handler.setLevel(logging.INFO)
+    "{}/euroxxxvi.log".format(os.environ['OPENSHIFT_LOG_DIR']), maxBytes=10000000, backupCount=2)
+logger.setLevel(logging.INFO)
 formatter = logging.Formatter('%(asctime)s|%(levelname)s|%(name)s|%(message)s')
 handler.setFormatter(formatter)
-
-logger = logging.getLogger(__name__)
-
 logger.addHandler(handler)
-app.logger.info('Started')
-ch = logging.StreamHandler(sys.stdout)
-ch.setLevel(logging.DEBUG)
-ch.setFormatter(formatter)
 
+ch = logging.StreamHandler()
+ch.setLevel(logging.INFO)
 logger.addHandler(ch)
 
+logger.info('Started')
+logger.debug('test debug message')
+logger.info('test info message')
+logger.warn('test warn message')
+logger.error('test error message')
+logger.critical('test critical message')
 
 @app.after_request
 def add_header(response):
