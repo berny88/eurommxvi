@@ -44,7 +44,10 @@ ch.setLevel(logging.DEBUG)
 logger = logging.getLogger(__name__)
 logger.addHandler(ch)
 
+handler = logging.handlers.RotatingFileHandler(
+    "{}/euroxxxvi.log".format(os.environ['OPENSHIFT_LOG_DIR']), maxBytes=10000000, backupCount=2)
 
+logger.addHandler(handler)
 
 @app.after_request
 def add_header(response):
