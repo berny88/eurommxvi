@@ -39,7 +39,7 @@ app.register_blueprint(chat_page, url_prefix="/chat", template_folder='templates
 #logging.basicConfig(format='%(asctime)s|%(levelname)s|%(name)s|%(message)s',\
 #    filename='{}/euroxxxvi.log'.format(os.environ['OPENSHIFT_LOG_DIR']), level=logging.INFO)
 handler = logging.handlers.RotatingFileHandler(
-    "{}/euroxxxvi.log".format(os.environ['OPENSHIFT_LOG_DIR']), maxBytes=10000000, backupCount=2,
+    "{}/euroxxxvi.log".format(os.environ['OPENSHIFT_LOG_DIR']), maxBytes=1000000, backupCount=2,
     format='%(asctime)s|%(levelname)s|%(name)s|%(message)s', level=logging.INFO)
 
 logger = logging.getLogger(__name__)
