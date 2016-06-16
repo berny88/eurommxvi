@@ -36,19 +36,21 @@ app.register_blueprint(matchs_page, url_prefix="/matchs", template_folder='templ
 app.register_blueprint(tools_page, url_prefix="/tools", template_folder='templates')
 app.register_blueprint(chat_page, url_prefix="/chat", template_folder='templates')
 
-logging.basicConfig(format='%(asctime)s|%(levelname)s|%(name)s|%(message)s',\
-    filename='{}/euroxxxvi.log'.format(os.environ['OPENSHIFT_LOG_DIR']), level=logging.INFO)
+#logging.basicConfig(format='%(asctime)s|%(levelname)s|%(name)s|%(message)s',\
+#    filename='{}/euroxxxvi.log'.format(os.environ['OPENSHIFT_LOG_DIR']), level=logging.INFO)
+handler = logging.handlers.RotatingFileHandler(
+    "{}/euroxxxvi.log".format(os.environ['OPENSHIFT_LOG_DIR']), maxBytes=10000000, backupCount=2,
+    format='%(asctime)s|%(levelname)s|%(name)s|%(message)s', level=logging.INFO)
+
+logger = logging.getLogger(__name__)
+
+logger.addHandler(handler)
 app.logger.info('Started')
 ch = logging.StreamHandler(sys.stdout)
 ch.setLevel(logging.DEBUG)
 
-logger = logging.getLogger(__name__)
 logger.addHandler(ch)
 
-handler = logging.handlers.RotatingFileHandler(
-    "{}/euroxxxvi.log".format(os.environ['OPENSHIFT_LOG_DIR']), maxBytes=10000000, backupCount=2)
-
-logger.addHandler(handler)
 
 @app.after_request
 def add_header(response):
