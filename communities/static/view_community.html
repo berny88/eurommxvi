@@ -97,13 +97,22 @@
                                         <th ng-repeat="bet in rankings.data.rankings[0].communities[0].bets">
                                             <center>{{bet.teamA}} vs {{bet.teamB}}</center>
                                         </th>
+                                        <th></th>
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat="ranking in rankings.data.rankings  | orderBy:'user.nickName'">
                                             <td><b>{{ ranking.user.nickName }}</b><br/>{{ ranking.nbPoints }} pts</td>
                                             <td ng-repeat="bet in ranking.communities[0].bets" data-title="{{bet.teamA}} vs {{bet.teamB}}" ><span ng-show="!bet.notClosed"><center>{{bet.resultA}}:{{bet.resultB}}<br/> Pts:{{bet.nbpoints}}</center></span><span ng-show="bet.notClosed"><center>&nbsp;</center></span></td>
+                                            <td><b>{{ ranking.user.nickName }}</b><br/>{{ ranking.nbPoints }} pts</td>
                                         </tr>
                                     </tbody>
+                                    <tfoot>
+                                        <th></th>
+                                        <th ng-repeat="bet in rankings.data.rankings[0].communities[0].bets">
+                                            <center>{{bet.teamA}} vs {{bet.teamB}}</center>
+                                        </th>
+                                        <th></th>
+                                    </tfoot>
                                 </table>
                             </div>
 
