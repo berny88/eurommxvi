@@ -4,7 +4,7 @@ euro2016App.config(function($routeProvider) {
     $routeProvider
 
         // route for index
-        .when('/accueil', { templateUrl:'static/accueil.html', controller:'indexCtrl' })
+        .when('/accueil', { templateUrl:'static/accueil2.html', controller:'CommunitiesCtrl' })
         .when('/accueil2', { templateUrl:'static/accueil2.html', controller:'CommunitiesCtrl' })
         .when('/', { templateUrl:'static/accueil2.html', controller:'CommunitiesCtrl' })
 
