@@ -19,6 +19,28 @@ euro2016App.controller('matchsCtrl', ['$scope', '$http', '$q', '$timeout', '$win
             }
         }
 
+        $scope.getMatchsOfTheDay = function() {
+            $http.get('matchs/apiv1.0/matchs', {timeout: canceler.promise})
+            .success(function(data) {
+
+                $scope.allMatchs = data.matchs;
+                $scope.matchs = [];
+                var now = new Date();
+                $scope.displayMatchsOfTheDay = false;
+
+                $scope.allMatchs.forEach(function(match) {
+                        var matchDate = new Date(match.dateMatch);
+                        //var matchDate = Date.parse(match.dateMatch)
+                        //var timeDiff = Math.abs(matchDate - now.getTime());
+                        //if (Math.ceil(timeDiff / (1000 * 3600 * 24)) == 1) {
+                        if ((matchDate.getDate() - now.getDate()) == 0) {
+                            $scope.matchs.push(match)
+                            $scope.displayMatchsOfTheDay = true;
+                        }
+                })
+            });
+        }
+
         $scope.saveMatchs = function() {
             console.log("getMatchs::$scope.no_save="+$scope.no_save);
             $http.put('matchs/apiv1.0/matchs', {matchs: $scope.matchs, no_save: $scope.no_save, timeout: canceler.promise})

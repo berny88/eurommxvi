@@ -9,13 +9,64 @@
 
 <br/>
 
-<div class=" jumbotron container-fluid">
+<div class=" jumbotron container-fluid" ng-controller="matchsCtrl">
     <div class="row-fluid">
-        <div class="col-xs-12">
+        <div class="col-xs-12" ng-init="getMatchsOfTheDay();">
 
             <fieldset>
                 <legend><marquee><h2><b>Breaking news : matchs of the day</b></h2></marquee></legend>
-                <center><h3>A venir bientôt : liste des matchs du jour, avec les scores</h3></center>
+
+                <div ng-show="displayMatchsOfTheDay == false">
+                    <center><h2>Pas de matchs aujourd'hui</h2></center>
+                </div>
+
+                <div ng-show="displayMatchsOfTheDay == true" id="no-more-tables" class="table-responsive">
+                    <div class="col-xs-12">
+
+                        <table class="table table-condensed table-striped">
+                            <thead>
+                            <tr>
+                                <th class="dateMatch">
+                                    <a ng-click="sortType='dateMatch';sortReverse=!sortReverse">Date
+                                        <span ng-show="sortType=='dateMatch'&&!sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+                                        <span ng-show="sortType=='dateMatch' && sortReverse" class="glyphicon glyphicon-chevron-up"></span></a>
+                                </th>
+                                <th class="categoryName">
+                                    <a ng-click="sortType='categoryName';sortReverse=!sortReverse">Groupe
+                                        <span ng-show="sortType=='categoryName'&&!sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+                                        <span ng-show="sortType=='categoryName' && sortReverse" class="glyphicon glyphicon-chevron-up"></span></a>
+                                </th>
+                                <th class="teamA">
+                                    <a ng-click="sortType='teamA';sortReverse=!sortReverse">Team A
+                                        <span ng-show="sortType=='teamA'&&!sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+                                        <span ng-show="sortType=='teamA' && sortReverse" class="glyphicon glyphicon-chevron-up"></span></a>
+                                </th>
+                                <th>
+                                </th>
+                                <th>
+                                </th>
+                                <th class="teamB">
+                                    <a ng-click="sortType='teamB';sortReverse=!sortReverse">Team B
+                                        <span ng-show="sortType=='teamB'&&!sortReverse" class="glyphicon glyphicon-chevron-down"></span>
+                                        <span ng-show="sortType=='teamB' && sortReverse" class="glyphicon glyphicon-chevron-up"></span></a>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="match in matchs | filter : match_filter | orderBy:sortType:sortReverse">
+                                <td data-title="Date">{{match.dateMatch | date:'dd/MM/yy HH:mm'}}</td>
+                                <td data-title="Groupe">{{match.categoryName}}</td>
+                                <td data-title="TeamA"><span class="newflags {{match.teamA}}"></span> {{match.libteamA}}</td>
+                                <td data-title="resultA"><input style="width:50px" value="{{match.resultA}}" disabled></td>
+                                <td data-title="resultB"><input style="width:50px" value="{{match.resultB}}" disabled></td>
+                                <td data-title="TeamB"><span class="newflags {{match.teamB}}"></span> {{match.libteamB}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+
             </fieldset>
 
         </div>
@@ -37,7 +88,6 @@
                                 <a ng-click="sortType='title';sortReverse=!sortReverse">Titre<span ng-show="sortType=='title'&&!sortReverse" class="glyphicon glyphicon-chevron-down"></span><span ng-show="sortType=='title' && sortReverse" class="glyphicon glyphicon-chevron-up"></span></a>
                             </th>
                             <th class="description">Description</th>
-                            <th class="numberOfPlayers"></th>
                             <th></th>
                         </tr>
                         </thead>
@@ -46,7 +96,6 @@
                             <!--<td>{{community.com_id}}</td>-->
                             <td data-title="Titre">{{community.title}}</td>
                             <td data-title="Desc.">{{community.description}}</td>
-                            <td data-title="# Parieurs"><span class="badge" ng-init="getNumberOfPlayersInCommunity(community.com_id)" id="nbPlayers_{{ community.com_id }}"></span></td>
                             <td>
                                 <span><a class="btn btn-danger" href="#bet_in_community/{{community.com_id}}"><i class="glyphicon glyphicon-stats"></i> Pariez !</a></span>
                                 <span><a class="btn btn-success" href="#rank_in_community/{{community.com_id}}"><i class="fa fa-line-chart" aria-hidden="true"></i> Classement</a></span>
