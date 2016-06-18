@@ -24,11 +24,11 @@
                     <table class="table table-condensed table-striped">
                         <tbody>
                         <tr ng-repeat="match in matchs">
-                            <td style="vertical-align:top;text-align: right;">{{match.libteamA}}</td>
-                            <td><span class="newflags {{match.teamA}}"></span></td>
-                            <td style="vertical-align:top"><center>{{match.dateMatch | date:'HH:mm'}}<br/><input style="width:35px;text-align:center;" value="{{match.resultA}}" disabled> <input style="width:35px;text-align:center;" value="{{match.resultB}}" disabled></center></td>
-                            <td style="vertical-align:toptext-align: left;"><span class="newflags {{match.teamB}}"></span></td>
-                            <td>{{match.libteamB}}</td>
+                            <td style="vertical-align:middle;text-align: center;">{{match.libteamA}}</td>
+                            <td style="vertical-align:middle;text-align: right;"><span class="newflags {{match.teamA}}"></span></td>
+                            <td style="vertical-align:middle"><center>{{match.dateMatch | date:'HH:mm'}}<br/><input style="width:35px;text-align:center;" value="{{match.resultA}}" disabled> <input style="width:35px;text-align:center;" value="{{match.resultB}}" disabled></center></td>
+                            <td style="vertical-align:middle;text-align: left;"><span class="newflags {{match.teamB}}"></span></td>
+                            <td style="vertical-align:middle;text-align: center;">{{match.libteamB}}</td>
                         </tr>
                         </tbody>
                     </table>
