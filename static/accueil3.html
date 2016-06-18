@@ -6,63 +6,39 @@
         </div>
     </div>
 </header>
+
 <br/>
-<div class="col-xs-12" ng-controller="matchsCtrl" ng-init="getMatchsOfTheDay();">
-            <fieldset>
-                <legend><marquee><h2><b>Breaking news : games of the day</b></h2></marquee></legend>
 
-                <div ng-show="displayMatchsOfTheDay == false">
-                    <center><h2>Pas de matchs aujourd'hui</h2></center>
+<div class="container-fluid" ng-controller="matchsCtrl" ng-init="getMatchsOfTheDay();">
+    <div class="row-fluid" >
+        <div class="col-xs-12">
+            <span><marquee><h2><b>Breaking news : games of the day</b></h2></marquee></span>
+
+            <div ng-show="displayMatchsOfTheDay == false">
+                <center><h2>Pas de matchs aujourd'hui</h2></center>
+            </div>
+
+            <div ng-show="displayMatchsOfTheDay == true" id="no-more-tables_a">
+                <div class="col-md-offset-3 col-md-6">
+
+                    <table class="table table-condensed table-striped">
+                        <tbody>
+                        <tr ng-repeat="match in matchs">
+                            <td style="vertical-align:middle"><center><span class="newflags {{match.teamA}}"></span> {{match.libteamA}}</center></td>
+                            <td style="vertical-align:middle"><center>{{match.dateMatch | date:'HH:mm'}}<br/><input style="width:35px;text-align:center;" value="{{match.resultA}}" disabled> <input style="width:35px;text-align:center;" value="{{match.resultB}}" disabled></center></td>
+                            <td style="vertical-align:middle"><center><span class="newflags {{match.teamB}}"></span> {{match.libteamB}}</center></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
                 </div>
-
-                <div ng-show="displayMatchsOfTheDay == true" id="no-more-tables_a">
-                    <div class="col-md-offset-3 col-md-6">
-
-                        <table class="table table-condensed table-striped">
-                            <thead>
-                            <tr>
-                                <th class="dateMatch">
-                                    <a ng-click="sortType='dateMatch';sortReverse=!sortReverse">Date
-                                        <span ng-show="sortType=='dateMatch'&&!sortReverse" class="glyphicon glyphicon-chevron-down"></span>
-                                        <span ng-show="sortType=='dateMatch' && sortReverse" class="glyphicon glyphicon-chevron-up"></span></a>
-                                </th>
-                                <th class="teamA">
-                                    <a ng-click="sortType='teamA';sortReverse=!sortReverse">Team A
-                                        <span ng-show="sortType=='teamA'&&!sortReverse" class="glyphicon glyphicon-chevron-down"></span>
-                                        <span ng-show="sortType=='teamA' && sortReverse" class="glyphicon glyphicon-chevron-up"></span></a>
-                                </th>
-                                <th>
-                                </th>
-                                <th>
-                                </th>
-                                <th class="teamB">
-                                    <a ng-click="sortType='teamB';sortReverse=!sortReverse">Team B
-                                        <span ng-show="sortType=='teamB'&&!sortReverse" class="glyphicon glyphicon-chevron-down"></span>
-                                        <span ng-show="sortType=='teamB' && sortReverse" class="glyphicon glyphicon-chevron-up"></span></a>
-                                </th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr ng-repeat="match in matchs | filter : match_filter | orderBy:sortType:sortReverse">
-                                <td data-title="Date">{{match.dateMatch | date:'HH:mm'}}</td>
-                                <td data-title="TeamA"><span class="newflags {{match.teamA}}"></span> {{match.libteamA}}</td>
-                                <td data-title="resultA"><input style="width:35px" value="{{match.resultA}}" disabled></td>
-                                <td data-title="resultB"><input style="width:35px" value="{{match.resultB}}" disabled></td>
-                                <td data-title="TeamB"><span class="newflags {{match.teamB}}"></span> {{match.libteamB}}</td>
-                            </tr>
-                            </tbody>
-                        </table>
-
-                    </div>
-                </div>
-
-            </fieldset>
+            </div>
+        </div>
+    </div>
 </div>
-<br/>
-<div ng-show="isConnected()" class=" jumbotron container-fluid">
-    <div class="row-fluid">
 
-        <div class="row-fluid" >
+<div ng-show="isConnected()" class="container-fluid">
+    <div class="row-fluid">
             <div class="col-xs-12">
                 <div id="no-more-tables" class="table-responsive">
                     <table class="table table-condensed table-striped">
@@ -94,7 +70,6 @@
                 <center><span id="spin"><img src="static/img/spin.gif"></span></center>
             </div>
         </div>
-
     </div>
 </div>
 
@@ -131,12 +106,12 @@
     </div>
 </div>
 
-<div class=" jumbotron container-fluid">
+<div class="container-fluid">
     <div class="row-fluid">
         <center><h1>TOP 5</h1></center>
         <div class="col-sm-6 col-sm-offset-3">
             <center>
-                <img class="img-focus-picture img-responsive" src="/static/img/pictures/TOP5_17062016.png" alt="">
+                <img class="img-focus-picture img-responsive" src="/static/img/pictures/TOP5_18062016.png" alt="">
             </center>
         </div>
     </div>
