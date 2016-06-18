@@ -24,9 +24,9 @@
                     <table class="table table-condensed table-striped">
                         <tbody>
                         <tr ng-repeat="match in matchs">
-                            <td style="vertical-align:middle"><center><span class="newflags {{match.teamA}}"></span> {{match.libteamA}}</center></td>
-                            <td style="vertical-align:middle"><center>{{match.dateMatch | date:'HH:mm'}}<br/><input style="width:35px;text-align:center;" value="{{match.resultA}}" disabled> <input style="width:35px;text-align:center;" value="{{match.resultB}}" disabled></center></td>
-                            <td style="vertical-align:middle"><center><span class="newflags {{match.teamB}}"></span> {{match.libteamB}}</center></td>
+                            <td style="vertical-align:top;text-align: right;">{{match.libteamA}}&nbsp;<span class="newflags {{match.teamA}}"></span></td>
+                            <td style="vertical-align:top"><center>{{match.dateMatch | date:'HH:mm'}}<br/><input style="width:35px;text-align:center;" value="{{match.resultA}}" disabled> <input style="width:35px;text-align:center;" value="{{match.resultB}}" disabled></center></td>
+                            <td style="vertical-align:toptext-align: left;"><span class="newflags {{match.teamB}}"></span>&nbsp;{{match.libteamB}}</td>
                         </tr>
                         </tbody>
                     </table>
