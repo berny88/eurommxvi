@@ -56,7 +56,6 @@
                         </thead>
                         <tbody ng-init="getMyCommunities();">
                         <tr ng-repeat="community in my_communities.communities | orderBy:sortType:sortReverse">
-                            <!--<td>{{community.com_id}}</td>-->
                             <td data-title="Titre">{{community.title}}</td>
                             <td data-title="Desc.">{{community.description}}</td>
                             <td>
