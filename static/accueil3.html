@@ -1,12 +1,12 @@
 <!-- Image Background Page Header -->
-<header class="business-header">
+<header class="business-header" ng-show="!isConnected()" >
     <div class="container">
         <div class="row">
             <h1 class="tagline"></h1>
         </div>
     </div>
 </header>
-
+<br/>
 <div class="col-xs-12" ng-controller="matchsCtrl" ng-init="getMatchsOfTheDay();">
             <fieldset>
                 <legend><marquee><h2><b>Breaking news : games of the day</b></h2></marquee></legend>
