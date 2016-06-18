@@ -30,6 +30,7 @@ euro2016App.config(function($routeProvider) {
         .when('/view_community/:com_id', { templateUrl:'communities/static/view_community.html', controller:'CommunitiesCtrl' })
         .when('/create_community', { templateUrl:'communities/static/create_community.html', controller:'CommunitiesCtrl' })
         .when('/update_community/:com_id', { templateUrl:'communities/static/update_community.html', controller:'CommunitiesCtrl' })
+		.when('/bets_of_the_day_in_community/:com_id', { templateUrl:'communities/static/bets_of_the_day__in_community.html', controller:'CommunitiesCtrl' })
 		.when('/bet_in_community/:com_id', { templateUrl:'communities/static/bet_in_community.html', controller:'CommunitiesCtrl' })
 		.when('/rank_in_community/:com_id', { templateUrl:'communities/static/rank_in_community.html', controller:'CommunitiesCtrl' })
 		.when('/bets_in_community/:com_id', { templateUrl:'communities/static/bets_in_community.html', controller:'CommunitiesCtrl' })
