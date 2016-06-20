@@ -52,6 +52,12 @@ class DbManager:
 
         return self.db
 
+
+    def setDb(self, the_db):
+        """ set Mongo DB access """
+        self.db=the_db
+
+
 class BetProjectClass:
     def __str__(self):
         return str(self.__dict__)

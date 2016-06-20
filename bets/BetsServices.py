@@ -299,6 +299,7 @@ class BetsManager(DbManager):
         else:
             userIdList = self.getDb().bets.distinct("user_id")
         usermgr = UserManager()
+        usermgr.setDb(self.getDb())
         userList=list()
         for uuid in userIdList:
             user = usermgr.getUserByUserId(uuid)
