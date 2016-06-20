@@ -26,7 +26,13 @@
                         <tr ng-repeat="match in matchs">
                             <td style="vertical-align:middle;text-align: center;">{{match.libteamA}}</td>
                             <td style="vertical-align:middle;text-align: right;"><span class="newflags {{match.teamA}}"></span></td>
-                            <td style="vertical-align:middle"><center>{{match.dateMatch | date:'HH:mm'}}<br/><input style="width:35px;text-align:center;" value="{{match.resultA}}" disabled> <input style="width:35px;text-align:center;" value="{{match.resultB}}" disabled></center></td>
+                            <td style="vertical-align:middle">
+                                <table>
+                                    <tr><td colspan="2"><center>{{match.dateMatch | date:'HH:mm'}}</center></td></tr>
+                                    <tr><td><input style="width:35px;text-align:center;" value="{{match.resultA}}" disabled></td>
+                                        <td><input style="width:35px;text-align:center;" value="{{match.resultB}}" disabled></td>
+                                    </tr>
+                                </table>
                             <td style="vertical-align:middle;text-align: left;"><span class="newflags {{match.teamB}}"></span></td>
                             <td style="vertical-align:middle;text-align: center;">{{match.libteamB}}</td>
                         </tr>
