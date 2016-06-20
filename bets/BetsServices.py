@@ -301,13 +301,13 @@ class BetsManager(DbManager):
         usermgr = UserManager()
         usermgr.setDb(self.getDb())
         userList=list()
-        logger.info(u"\t\tplayers : before loading user")
+        logger.info(u"\t\tgetRanking : before loading user")
         for uuid in userIdList:
             user = usermgr.getUserByUserId(uuid)
             userList.append(user.__dict__)
         userList.sort(key=lambda user: user["nickName"])
-        logger.info(u"\t\tplayers : after loading user")
-        logger.info(u'\t\tplayers : {}'.format(userList))
+        logger.info(u"\t\tgetRanking : after loading user")
+        logger.info(u'\t\tgetRanking:: players : {}'.format(userList))
 
         result = list()
 
@@ -326,6 +326,7 @@ class BetsManager(DbManager):
             communitiesTab = []
             nbPointsTot = 0
             #STEP 3 : for each com, compute the number of points
+            logger.info(u"\t\tgetRanking : before loading bets:{}".format(user["user_id"]))
             for com in comList:
                 betsList = self.getDb().bets.find({"user_id": user["user_id"], "com_id": com["com_id"]}).sort([("dateMatch",1), ("key",1) ])
                 nbPointsInCom = 0
@@ -339,6 +340,7 @@ class BetsManager(DbManager):
                 del com["_id"]
                 communitiesTab.append(com)
 
+            logger.info(u"\t\tgetRanking : after loading bets:{}".format(user["user_id"]))
             ranking = dict()
             ranking["nbPoints"] = int(nbPointsTot / len(comList))
             # Pour exprimer le nb de pt en % du nb de point total possible :
