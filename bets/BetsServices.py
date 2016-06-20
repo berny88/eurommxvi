@@ -301,10 +301,12 @@ class BetsManager(DbManager):
         usermgr = UserManager()
         usermgr.setDb(self.getDb())
         userList=list()
+        logger.info(u"\t\tplayers : before loading user")
         for uuid in userIdList:
             user = usermgr.getUserByUserId(uuid)
             userList.append(user.__dict__)
         userList.sort(key=lambda user: user["nickName"])
+        logger.info(u"\t\tplayers : after loading user")
         logger.info(u'\t\tplayers : {}'.format(userList))
 
         result = list()

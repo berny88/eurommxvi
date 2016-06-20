@@ -36,20 +36,15 @@ app.register_blueprint(matchs_page, url_prefix="/matchs", template_folder='templ
 app.register_blueprint(tools_page, url_prefix="/tools", template_folder='templates')
 app.register_blueprint(chat_page, url_prefix="/chat", template_folder='templates')
 
-#logging.basicConfig(format='%(asctime)s|%(levelname)s|%(name)s|%(message)s',\
-#    filename='{}/euroxxxvi.log'.format(os.environ['OPENSHIFT_LOG_DIR']), level=logging.INFO)
+logging.basicConfig(format='%(asctime)s|%(levelname)s|%(name)s|%(message)s',\
+    filename='{}/euroxxxvi.log'.format(os.environ['OPENSHIFT_LOG_DIR']), level=logging.INFO)
+app.logger.info('Started')
+ch = logging.StreamHandler(sys.stdout)
+ch.setLevel(logging.DEBUG)
 
-handler = logging.handlers.RotatingFileHandler(
-    "{}/euroxxxvi.log".format(os.environ['OPENSHIFT_LOG_DIR']), maxBytes=10000000, backupCount=2)
-formatter = logging.Formatter('%(asctime)s|%(levelname)s|%(name)s|%(message)s')
-handler.setFormatter(formatter)
-
-ch = logging.StreamHandler()
-ch.setLevel(logging.INFO)
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
 logger.addHandler(ch)
-logger.addHandler(handler)
+
 
 logger.info('Started')
 logger.debug('test debug message')
