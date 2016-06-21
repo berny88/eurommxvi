@@ -7,19 +7,17 @@
     </div>
 </header>
 
-<br/>
-
-<div class="container-fluid" ng-controller="matchsCtrl" ng-init="getMatchsOfTheDay();">
+<div class="container-fluid" ng-controller="matchsCtrl" ng-init="getMatchsOfTheDay();" style="padding-left : 0px;">
     <div class="row-fluid" >
-        <div class="col-xs-12">
-            <span><marquee><h2><b>Breaking news : games of the day</b></h2></marquee></span>
+        <div class="col-xs-12" style="padding-left : 0px;">
+            <span><marquee><h2><b>Games of the day</b></h2></marquee></span>
 
             <div ng-show="displayMatchsOfTheDay == false">
                 <center><h2>Pas de matchs aujourd'hui</h2></center>
             </div>
 
             <div ng-show="displayMatchsOfTheDay == true" id="no-more-tables_a">
-                <div class="col-md-offset-3 col-md-6">
+                <div style="padding-left : 0px; font-size : 12px" class="col-md-offset-3 col-md-6">
 
                     <table class="table table-condensed table-striped">
                         <tbody>
@@ -45,7 +43,7 @@
     </div>
 </div>
 
-<div ng-show="isConnected()" class="container-fluid">
+<div ng-show="isConnected()" class="container-fluid" style="padding-left : 3px;padding-right : 3px">
     <div class="row-fluid">
             <div class="col-xs-12">
                 <div id="no-more-tables" class="table-responsive">
@@ -65,10 +63,10 @@
                             <td data-title="Titre">{{community.title}}</td>
                             <td data-title="Desc.">{{community.description}}</td>
                             <td>
-                                <span><a class="btn btn-warning" href="#bets_of_the_day_in_community/{{community.com_id}}"><i class="fa fa-line-chart" aria-hidden="true"></i> Paris du jour</a></span>
+                                <span><a class="btn btn-warning" href="#bets_of_the_day_in_community/{{community.com_id}}"><i class="glyphicon glyphicon-fire" aria-hidden="true"></i> Hot !</a></span>
                                 <span><a class="btn btn-danger" href="#bet_in_community/{{community.com_id}}"><i class="glyphicon glyphicon-stats"></i> Pariez !</a></span>
                                 <span><a class="btn btn-success" href="#rank_in_community/{{community.com_id}}"><i class="fa fa-line-chart" aria-hidden="true"></i> Classement</a></span>
-                                <span><a class="btn btn-success" href="#bets_in_community/{{community.com_id}}"><i class="fa fa-line-chart" aria-hidden="true"></i> Nos paris</a></span>
+                                <span><a class="btn btn-success" href="#bets_in_community/{{community.com_id}}"><i class="fa fa-line-chart" aria-hidden="true"></i> <span>Nos paris</span></a></span>
                                 <span><a class="btn btn-info" href="#blog_in_community/{{community.com_id}}"><i class="glyphicon glyphicon-bullhorn"></i> Blog</a></span>
                             </td>
                         </tr>
