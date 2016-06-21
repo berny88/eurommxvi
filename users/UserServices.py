@@ -435,3 +435,21 @@ class UserManager(DbManager):
             return None
         else:
             return avatarFromDB["file"]
+
+    def getUsersByUserIdList(self, user_id_tab):
+        """ get a userlist by useridlist """
+        localdb = self.getDb()
+        logger.info(u'getUserByUserIdList::user_id_list={}'.format(user_id_tab))
+
+        usersList = localdb.users.find({"user_id": {"$in": user_id_tab}})
+
+        result = list()
+
+        for userbson in usersList:
+            user = User()
+            user.convertFromBson(userbson)
+            logger.info(u'\tgetUsersByUserIdList::user={}'.format(user))
+            tmpdict = user.__dict__
+            logger.info(u'\tgetUsersByUserIdList::tmpdict={}'.format(tmpdict))
+            result.append(tmpdict)
+        return result

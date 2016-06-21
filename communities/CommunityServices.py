@@ -316,6 +316,18 @@ def communityRanking(com_id):
     d["rankings"]=rankings
     return jsonify({'data': d})
 
+@communities_page.route('/apiv1.0/communities/<com_id>/betsoftheday', methods=['GET'])
+def betsOfTheDayInCommunity(com_id):
+    u"""
+    :return les matchs du jour dans la communauté
+    :param com_id: id of community (uuid)
+    """
+    betsMgr = BetsManager()
+    d = dict()
+    rankings = betsMgr.getBetsOfTheDay(com_id)
+    d["rankings"]=rankings
+    return jsonify({'data': d})
+
 u"""
 **************************************************
 Service layer

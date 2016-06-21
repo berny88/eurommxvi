@@ -25,7 +25,7 @@
 
         <span><a class="btn btn-danger" ng-href="#bet_in_community/{{community.community.com_id}}"><i class="glyphicon glyphicon-stats"></i> Pariez !</a></span>
         <span><a class="btn btn-success" ng-href="#rank_in_community/{{community.community.com_id}}"><i class="fa fa-line-chart" aria-hidden="true"></i> Classement</a></span>
-
+        <span><a class="btn btn-success" ng-href="#bets_in_community/{{community.community.com_id}}"><i class="fa fa-line-chart" aria-hidden="true"></i> Les paris (des matchs terminés)</a></span>
         <br/>
 
         <div class="container-fluid">
@@ -37,36 +37,39 @@
                         <div class="panel-heading">
                             <h4 class="panel-title">
                                 <div class="pull-left">
-                                    <h4>Les paris (des matchs terminés)</h4>
+                                    <h4>Les paris du jours</h4>
                                 </div>
                                 <div class="pull-right"></div>
                                 <div class="clearfix"></div>
                             </h4>
                         </div>
-                        <div class="panel-body" ng-init="getRankingInCommunity()">
+                        <div class="panel-body" ng-init="getBetsOfTheDayInCommunity()">
 
-                            <center><span id="spin2"><img src="static/img/spin.gif"></span></center>
+                            <center><span id="spin"><img src="static/img/spin.gif"></span></center>
 
                             <div id="no-more-tables" class="table-responsive">
                                 <table class="table table-condensed table-striped">
                                     <thead>
                                         <th></th>
-                                        <th ng-repeat="bet in rankings.data.rankings[0].communities[0].bets">
-                                            <center>{{bet.teamA}} vs {{bet.teamB}}</center>
+                                        <th ng-repeat="match in matchs">
+                                            <center>{{match.teamA}} vs {{match.teamB}}<br/>
+                                                {{match.dateMatch | date:'HH:mm'}}<br/>
+                                                <input style="width:50px" value="{{match.resultA}}" disabled> <input style="width:50px" value="{{match.resultB}}" disabled>
+                                            </center>
                                         </th>
                                         <th></th>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="ranking in rankings.data.rankings | orderBy:'user.nickName'">
-                                            <td><b>{{ ranking.user.nickName }}</b><br/>{{ ranking.nbPoints }} pts</td>
-                                            <td ng-repeat="bet in ranking.communities[0].bets" data-title="{{bet.teamA}} vs {{bet.teamB}}" ><span ng-show="!bet.notClosed"><center>{{bet.resultA}}:{{bet.resultB}}<br/> Pts:{{bet.nbpoints}}</center></span><span ng-show="bet.notClosed"><center>&nbsp;</center></span></td>
-                                            <td><b>{{ ranking.user.nickName }}</b><br/>{{ ranking.nbPoints }} pts</td>
+                                        <tr ng-repeat="betOfTheDay in betsOfTheDay">
+                                            <td><b>{{ betOfTheDay.user.nickName }}</b></td>
+                                            <td ng-repeat="bet in betOfTheDay.bets" data-title="{{bet.teamA}} vs {{bet.teamB}}" ><span ng-show="!bet.notClosed"><center>{{bet.resultA}}:{{bet.resultB}}<br/> Pts:{{bet.nbpoints}}</center></span><span ng-show="bet.notClosed"><center>&nbsp;</center></span></td>
+                                            <td><b>{{ betOfTheDay.user.nickName }}</b></td>
                                         </tr>
                                     </tbody>
                                     <tfoot>
                                         <th></th>
-                                        <th ng-repeat="bet in rankings.data.rankings[0].communities[0].bets">
-                                            <center>{{bet.teamA}} vs {{bet.teamB}}</center>
+                                        <th ng-repeat="match in matchs">
+                                            <center>{{match.teamA}} vs {{match.teamB}}</center>
                                         </th>
                                         <th></th>
                                     </tfoot>

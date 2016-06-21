@@ -182,6 +182,31 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
             });
         }
 
+        $scope.getBetsOfTheDayInCommunity = function() {
+            $http.get('/communities/apiv1.0/communities/'+$routeParams.com_id+'/betsoftheday', {timeout: canceler.promise})
+            .success(function(data) {
+                $scope.betsOfTheDay = data.data.rankings.betsOfTheDay;
+                $scope.matchs = data.data.rankings.matchs;
+                $('#spin').hide();
+
+                // to display the score when the match begins
+                $scope.betsOfTheDay.forEach(function(betOfTheDay) {
+                    betOfTheDay.bets.forEach(function(bet) {
+                        if (Date.parse(bet.dateMatch) > new Date()) {
+                            bet.notClosed = true;
+                        } else {
+                            bet.notClosed = false;
+                        }
+                    });
+                })
+
+            })
+            .error(function(data, status, headers, config) {
+                showAlertError("Erreur lors de la récupération des paris du jour de la communauté ; erreur HTTP : " + status);
+                $('#spin').hide();
+            });
+        }
+
         $scope.hasAuthorization = function(community) {
             var currentUser = {};
             if (isConnected($window)) {

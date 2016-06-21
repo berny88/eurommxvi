@@ -383,3 +383,71 @@ class BetsManager(DbManager):
         result["winnerBPercent"] = 100 - result["winnerAPercent"] - result["drawPercent"]
 
         return result
+
+    def getBetsOfTheDay(self, com_id):
+        u"""
+        return the result of the bets of the days
+        :param com_id: the com_id
+        :return: the bets of the days
+        """
+        #STEP 1 : bets of the day for the community
+        nowDate = datetime.utcnow()
+        nowDateMin = nowDate.replace(hour=00, minute=00, second=00).strftime('%Y-%m-%dT%H:%M:%SZ')
+        logger.info('nowDateMin : {}'.format(nowDateMin))
+        nowDateMax = nowDate.replace(hour=23, minute=59, second= 59).strftime('%Y-%m-%dT%H:%M:%SZ')
+        logger.info('nowDateMax : {}'.format(nowDateMax))
+        betsList = self.getDb().bets.find({"com_id": com_id, "dateMatch" : {"$gt" : nowDateMin, "$lt":nowDateMax} }).sort([("dateMatch",1), ("key",1) ])
+
+        result = dict()
+
+        #STEP 2 : list of distincts users
+        usermgr = UserManager()
+        userIdTab=[]
+        betsListTwo=list() #to iterate again
+        for bet in betsList:
+            del bet["_id"]
+            betsListTwo.append(bet)
+            if bet["user_id"] not in userIdTab:
+                userIdTab.append(bet["user_id"])
+        usersList = usermgr.getUsersByUserIdList(userIdTab)
+        usersList.sort(key=lambda user: user["nickName"])
+
+        #STEP 3 : list of the matchs of the day
+        keyTab=[]
+        betsListThree=list() #to iterate again
+        for bet in betsListTwo:
+            betsListThree.append(bet)
+            if bet["key"] not in keyTab:
+                keyTab.append(bet["key"])
+        matchsList = self.getMatchsByMatchKeyList(keyTab)
+        result["matchs"] = matchsList
+
+        #STEP 4 : for each user, get the list of bets
+        betsOfTheDay = list()
+        for user in usersList:
+            betsTab = []
+            for bet in betsListThree:
+                if user["user_id"] == bet["user_id"]:
+                    betsTab.append(bet)
+            ranking = dict()
+            ranking["user"] = user
+            ranking["bets"] = betsTab
+            betsOfTheDay.append(ranking)
+
+        result["betsOfTheDay"] = betsOfTheDay
+
+        return result
+
+
+    def getMatchsByMatchKeyList(self, key_tab):
+        """ get a matchlist by keylist """
+        logger.info(u'getMatchsByMatchKeyList::key_tab={}'.format(key_tab))
+
+        matchsList = self.getDb().matchs.find({"key": {"$in": key_tab}}).sort([("dateMatch",1), ("key",1) ])
+
+        matchTab = []
+        for match in matchsList:
+            del match["_id"]
+            matchTab.append(match)
+
+        return matchTab
