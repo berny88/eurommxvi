@@ -166,7 +166,7 @@ euro2016App.controller('LoginCtrl', ['$scope', '$http', '$q', '$routeParams', '$
                 if ($routeParams.callback) {
                     $location.path("/" + $sce.trustAsResourceUrl($routeParams.callback))
                 } else {
-                    $location.path("/accueil2")
+                    $location.path("/accueil")
                 }
                 $location.search('callback', null)
                 //$timeout(function() {
