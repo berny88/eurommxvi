@@ -166,7 +166,7 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
                 // to display the score when the match begins
                 $scope.rankings.data.rankings.forEach(function(ranking) {
                     ranking.communities[0].bets.forEach(function(bet) {
-                        if (Date.parse(bet.dateMatch) > new Date()) {
+                        if (Date.parse(bet.dateDeadLineBet) > new Date()) {
                             bet.notClosed = true;
                         } else {
                             bet.notClosed = false;
@@ -192,7 +192,7 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
                 // to display the score when the match begins
                 $scope.betsOfTheDay.forEach(function(betOfTheDay) {
                     betOfTheDay.bets.forEach(function(bet) {
-                        if (Date.parse(bet.dateMatch) > new Date()) {
+                        if (Date.parse(bet.dateDeadLineBet) > new Date()) {
                             bet.notClosed = true;
                         } else {
                             bet.notClosed = false;

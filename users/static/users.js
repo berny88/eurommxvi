@@ -214,7 +214,7 @@ euro2016App.controller('LogoutCtrl', ['$scope', '$http', '$q', '$location','$tim
                     //$timeout(function() {
                     //       showAlertSuccess("Goog bye  !!");
                     //    }, 1000);
-                    $.notify("Goog bye  !!" , "success");
+                    $.notify("Good bye  !!" , "success");
                 })
                 .error(function(data, status, headers, config) {
                     showAlertError("Erreur lors de connexion ; erreur HTTP : " + status + " " + data);

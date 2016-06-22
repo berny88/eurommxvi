@@ -227,7 +227,7 @@ users_page= remove cookieUserKey
 def logout():
     logger.info(u"API LOGOUT::logout - remove ={}".format(session['cookieUserKey']))
     del session['cookieUserKey']
-    return u"Goog bye", 200
+    return u"Good bye", 200
 
 
 u"""
