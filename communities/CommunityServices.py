@@ -309,10 +309,12 @@ def communityRanking(com_id):
     u"""
     :return la représentation json du classement de la communauté
     :param com_id: id of community (uuid)
+    :param filter: the phasis we want the ranking for (ALL, GROUPE or FINAL)
     """
+    filter=request.args.get('filter')
     betsMgr = BetsManager()
     d = dict()
-    rankings = betsMgr.getRanking(com_id)
+    rankings = betsMgr.getRanking(com_id,filter)
     d["rankings"]=rankings
     return jsonify({'data': d})
 

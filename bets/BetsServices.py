@@ -287,15 +287,19 @@ class BetsManager(DbManager):
         return betList
 
 
-    def getRanking(self, com_id):
+    def getRanking(self, com_id, category):
         u"""
         ranking of the community (if com_id is provided) of ranking of all the bet site
         :param com_id: the com_id (optionnal)
+        :param category: the category (ALL, GROUPE or FINAL)
         :return: the ranking
         """
         #STEP 1 : list of users
         if com_id is not None:
-            userIdList = self.getDb().bets.distinct("user_id", {"com_id":com_id})
+            if category == "ALL" or category is None:
+                userIdList = self.getDb().bets.distinct("user_id", {"com_id":com_id})
+            else:
+                userIdList = self.getDb().bets.distinct("user_id", {"com_id":com_id, "category":category})
         else:
             userIdList = self.getDb().bets.distinct("user_id")
         usermgr = UserManager()
@@ -328,7 +332,10 @@ class BetsManager(DbManager):
             #STEP 3 : for each com, compute the number of points
             logger.info(u"\t\tgetRanking : before loading bets:{}".format(user["user_id"]))
             for com in comList:
-                betsList = self.getDb().bets.find({"user_id": user["user_id"], "com_id": com["com_id"]}).sort([("dateMatch",1), ("key",1) ])
+                if category == "ALL" or category is None:
+                    betsList = self.getDb().bets.find({"user_id": user["user_id"], "com_id": com["com_id"]}).sort([("dateMatch",1), ("key",1) ])
+                else:
+                    betsList = self.getDb().bets.find({"user_id": user["user_id"], "com_id": com["com_id"], "category":category}).sort([("dateMatch",1), ("key",1) ])
                 nbPointsInCom = 0
                 betsTab = []
                 for bet in betsList:
@@ -344,9 +351,15 @@ class BetsManager(DbManager):
             ranking = dict()
             ranking["nbPoints"] = int(nbPointsTot / len(comList))
             # Pour exprimer le nb de pt en % du nb de point total possible :
-            #   36 = nb de match au total
+            #   36 = nb de match au total en poule, 15 = nb de match au total en phase finale, et 51 = nb match total
             #   13 = nb de pt max par match
-            ranking["nbPointsPercent"] = int((ranking["nbPoints"] * 100) / (36 * 13))
+            if category == "ALL" or category is None:
+                nbMaxMatchs= 51
+            elif category == "GROUPE":
+                nbMaxMatchs = 36
+            elif category == "FINAL":
+                nbMaxMatchs = 15
+            ranking["nbPointsPercent"] = int((ranking["nbPoints"] * 100) / (nbMaxMatchs * 13))
             ranking["user"] = user
             ranking["communities"] = communitiesTab
             result.append(ranking)

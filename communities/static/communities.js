@@ -157,7 +157,7 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
         }
 
         $scope.getRankingInCommunity = function() {
-            $http.get('/communities/apiv1.0/communities/'+$routeParams.com_id+'/ranking', {timeout: canceler.promise})
+            $http.get('/communities/apiv1.0/communities/'+$routeParams.com_id+'/ranking?filter=ALL', {timeout: canceler.promise})
             .success(function(data) {
                 $scope.rankings = data;
                 $('#spin').hide();

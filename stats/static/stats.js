@@ -72,11 +72,14 @@ euro2016App.controller('statsRankingCtrl', ['$scope', '$http', '$q', '$routePara
     d = new Date();
     $scope.currentDateForAvoidTheCache = d.getTime();
 
-    $scope.getRanking = function() {
-        $http.get('/stats/apiv1.0/stats/ranking', {timeout: canceler.promise})
+    $scope.getRanking = function(category) {
+        $('#spin').show();
+        $('#divRanking').hide();
+        $http.get('/stats/apiv1.0/stats/ranking?filter='+category, {timeout: canceler.promise})
         .success(function(data) {
             $scope.rankings = data;
             $('#spin').hide();
+            $('#divRanking').show();
         })
         .error(function(data, status, headers, config) {
             showAlertError("Erreur lors de la récupération du classement général ; erreur HTTP : " + status);
@@ -296,7 +299,7 @@ euro2016App.controller('statsRankingCtrl', ['$scope', '$http', '$q', '$routePara
             // array of deferreds :
             tasks.push(
 
-                $.get('/communities/apiv1.0/communities/'+community.com_id+'/ranking')
+                $.get('/communities/apiv1.0/communities/'+community.com_id+'/ranking?filter=ALL')
                 .success(function(data) {
                     $scope.rankings = data.data.rankings;
 

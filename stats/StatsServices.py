@@ -54,10 +54,12 @@ def historyrankings():
 def ranking():
     u"""
     :return la représentation json du classement général
+    :param filter: the phasis we want the ranking for (ALL, GROUPE or FINAL)
     """
+    filter=request.args.get('filter')
     betsMgr = BetsManager()
     d = dict()
-    rankings = betsMgr.getRanking(None)
+    rankings = betsMgr.getRanking(None,filter)
     d["rankings"]=rankings
     return jsonify({'data': d})
 
@@ -128,7 +130,7 @@ class StatsManager(DbManager,object):
 
         # Communities ranking
         for com in comList:
-            rankings = betsManager.getRanking(com["com_id"])
+            rankings = betsManager.getRanking(com["com_id"],"ALL")
             for ranking in rankings:
                 bsonHR =dict()
                 bsonHR["com_id"]=com["com_id"]
@@ -143,7 +145,7 @@ class StatsManager(DbManager,object):
                 nbHits = nbHits + 1
 
         # General ranking
-        rankings = betsManager.getRanking(None)
+        rankings = betsManager.getRanking(None,"ALL")
         for ranking in rankings:
             bsonHR =dict()
             bsonHR["com_id"]="all"

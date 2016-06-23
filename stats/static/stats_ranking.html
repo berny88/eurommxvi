@@ -3,7 +3,14 @@
     <br/>
     <div class="alert alert-info" role="alert"><span class="glyphicon glyphicon-info-sign"></span> Lorsqu'un parieur a parié dans plusieurs communautés, c'est la moyenne de ses points qui est prise en compte</div>
 
-    <div class="contentContainer" ng-init="getRanking();">
+    <h3>Faites votre choix :</h3>
+    <div class="btn-group" role="group" aria-label="...">
+        <button type="button" class="btn btn-default" ng-click="getRanking('GROUPE');">Classement des poules</button>
+        <button type="button" class="btn btn-default" ng-click="getRanking('FINAL');">Classement de la phase finale</button>
+        <button type="button" class="btn btn-default" ng-click="getRanking('ALL');">Classement global</button>
+    </div>
+
+    <div id="divRanking" class="contentContainer" style="display:none">
 
         <div class="skillBar" ng-repeat="ranking in rankings.data.rankings">
 
@@ -24,10 +31,11 @@
 
         </div>
 
-        <center><span id="spin"><img src="static/img/spin.gif"></span></center>
-
     </div>
 
+    <br/>
+
+    <center><span id="spin" style="display:none"><img src="static/img/spin.gif"></span></center>
 
 </div>
 
