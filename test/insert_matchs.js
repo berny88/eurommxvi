@@ -511,3 +511,118 @@ db.getCollection("matchs").insert({
   "teamA": "SWE",
   "teamB": "BEL"
 });
+
+
+/** matchs records **/
+db.getCollection("matchs").insert({
+  "category": "FINAL",
+  "categoryName": "HUITIEME",
+  "dateDeadLineBet": "2016-06-25T12:00:00Z",
+  "dateMatch": "2016-06-25T13:00:00Z",
+  "key": "HUIT_SWI_POL",
+  "libteamA": "SUISSE",
+  "libteamB": "POLOGNE",
+  "resultA": "",
+  "resultB": "",
+  "teamA": "SWI",
+  "teamB": "POL"
+});
+
+db.getCollection("matchs").insert({
+  "category": "FINAL",
+  "categoryName": "HUITIEME",
+  "dateDeadLineBet": "2016-06-25T15:00:00Z",
+  "dateMatch": "2016-06-25T16:00:00Z",
+  "key": "HUIT_WAL_IRN",
+  "libteamA": "PAYS DE GALLES",
+  "libteamB": "IRLANDE DU NORD",
+  "resultA": "",
+  "resultB": "",
+  "teamA": "WAL",
+  "teamB": "IRL"
+});
+
+db.getCollection("matchs").insert({
+  "category": "FINAL",
+  "categoryName": "HUITIEME",
+  "dateDeadLineBet": "2016-06-25T18:00:00Z",
+  "dateMatch": "2016-06-25T19:00:00Z",
+  "key": "HUIT_CRO_POR",
+  "libteamA": "CROATIE",
+  "libteamB": "PORTUGAL",
+  "resultA": "",
+  "resultB": "",
+  "teamA": "CRO",
+  "teamB": "POR"
+});
+
+/** matchs records **/
+db.getCollection("matchs").insert({
+  "category": "FINAL",
+  "categoryName": "HUITIEME",
+  "dateDeadLineBet": "2016-06-26T12:00:00Z",
+  "dateMatch": "2016-06-26T13:00:00Z",
+  "key": "HUIT_FRA_IRL",
+  "libteamA": "FRA",
+  "libteamB": "IRLANDE",
+  "resultA": "",
+  "resultB": "",
+  "teamA": "FRA",
+  "teamB": "IRL"
+});
+
+db.getCollection("matchs").insert({
+  "category": "FINAL",
+  "categoryName": "HUITIEME",
+  "dateDeadLineBet": "2016-06-26T15:00:00Z",
+  "dateMatch": "2016-06-26T16:00:00Z",
+  "key": "HUIT_ALL_SLO",
+  "libteamA": "ALLEMAGNE",
+  "libteamB": "SLOVAQUIE",
+  "resultA": "",
+  "resultB": "",
+  "teamA": "ALL",
+  "teamB": "SLO"
+});
+
+db.getCollection("matchs").insert({
+  "category": "FINAL",
+  "categoryName": "HUITIEME",
+  "dateDeadLineBet": "2016-06-26T18:00:00Z",
+  "dateMatch": "2016-06-26T19:00:00Z",
+  "key": "HUIT_HON_BEL",
+  "libteamA": "HONGRIE",
+  "libteamB": "BELGIQUE",
+  "resultA": "",
+  "resultB": "",
+  "teamA": "HON",
+  "teamB": "BEL"
+});
+
+db.getCollection("matchs").insert({
+  "category": "FINAL",
+  "categoryName": "HUITIEME",
+  "dateDeadLineBet": "2016-06-27T15:00:00Z",
+  "dateMatch": "2016-06-27T16:00:00Z",
+  "key": "HUIT_ITA_ESP",
+  "libteamA": "ITALIE",
+  "libteamB": "ESPAGNE",
+  "resultA": "",
+  "resultB": "",
+  "teamA": "ITA",
+  "teamB": "ESP"
+});
+
+db.getCollection("matchs").insert({
+  "category": "FINAL",
+  "categoryName": "HUITIEME",
+  "dateDeadLineBet": "2016-06-27T18:00:00Z",
+  "dateMatch": "2016-06-27T19:00:00Z",
+  "key": "HUIT_ENG_ISL",
+  "libteamA": "ANGLETERRE",
+  "libteamB": "ISLANDE",
+  "resultA": "",
+  "resultB": "",
+  "teamA": "ENG",
+  "teamB": "ISL"
+});
