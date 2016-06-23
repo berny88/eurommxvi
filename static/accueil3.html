@@ -10,10 +10,10 @@
 <div class="container-fluid" ng-controller="matchsCtrl" ng-init="getMatchsOfTheDay();" style="padding-left : 0px;">
     <div class="row-fluid" >
         <div class="col-xs-12" style="padding-left : 0px;">
-            <span><marquee><h2><b>Games of the day - LES PARIS SONT OUVERTS</b></h2></marquee></span>
+            <span><marquee><h2><b>Games of the day - <span style="color:red">LES HUITIEMES SONT OUVERTS !!</span></b></h2></marquee></span>
 
             <div ng-show="displayMatchsOfTheDay == false">
-                <center><h2>Pas de match aujourd'hui</h2><br/><h3>Rdv samedi pour les 8ièmes</h3><br/></center>
+                <center><h2>Pas de match aujourd'hui</h2><h3>Rdv samedi pour les 8ièmes</h3><br/></center>
             </div>
 
             <div ng-show="displayMatchsOfTheDay == true" id="no-more-tables_a">
