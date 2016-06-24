@@ -66,7 +66,7 @@ euro2016App.controller('statsMatchsCtrl', ['$scope', '$http', '$q', '$timeout', 
 
 euro2016App.controller('statsHuitMatchsCtrl', ['$scope', '$http', '$q', '$timeout', '$window', function ($scope, $http, $q, $timeout, $window) {
 
-    console.log("buble_1 ******");
+    console.log("buble_2 ******");
 
     var diameter = 960,
         format = d3.format(",d"),
@@ -77,8 +77,8 @@ euro2016App.controller('statsHuitMatchsCtrl', ['$scope', '$http', '$q', '$timeou
         .size([diameter, diameter])
         .padding(1.5);
 
-    console.log("select('buble_1')"+d3.select("buble_1"));
-    var svg = d3.select("buble_1").append("svg")
+    console.log("select('buble_2')"+d3.select("buble_2"));
+    var svg = d3.select("buble_2").append("svg")
         .attr("width", diameter)
         .attr("height", diameter)
         .attr("class", "bubble");
