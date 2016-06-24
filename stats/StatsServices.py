@@ -115,7 +115,7 @@ class StatsManager(DbManager,object):
         d["GROUPED"] = u"#F24444"
         d["GROUPEE"] = u"#E86620"
         d["GROUPEF"] = u"#DAEB49"
-        d["HUITIEME"] = u"#856F8C"
+        d["HUIT"] = u"#856F8C"
         d["QUART"] = u"#173D96"
         d["DEMI"] = u"#C99628"
         d["FINAL"] = u"#ED1A4B"
