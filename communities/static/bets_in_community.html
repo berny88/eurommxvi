@@ -45,34 +45,45 @@
                                 <div class="clearfix"></div>
                             </h4>
                         </div>
-                        <div class="panel-body" ng-init="getRankingInCommunity()">
+                        <div class="panel-body">
 
-                            <center><span id="spin2"><img src="static/img/spin.gif"></span></center>
+                            <div class="alert alert-success" role="alert">
+                                Faites votre choix :
+                                <div class="btn-group" role="group" aria-label="...">
+                                    <button type="button" class="btn btn-success" ng-click="getRankingInCommunity('GROUPE')">Paris des poules</button>
+                                    <button type="button" class="btn btn-success" ng-click="getRankingInCommunity('FINAL');">Paris de la phase finale</button>
+                                    <button type="button" class="btn btn-success" ng-click="getRankingInCommunity('ALL');">Paris globaux</button>
+                                </div>
+                            </div>
+                            <center><span id="spinRanking" style="display:none"><img src="static/img/spin.gif"></span></center>
 
-                            <div id="no-more-tables" class="table-responsive">
-                                <table class="table table-condensed table-striped">
-                                    <thead>
-                                        <th></th>
-                                        <th ng-repeat="bet in rankings.data.rankings[0].communities[0].bets">
-                                            <center>{{bet.teamA}} vs {{bet.teamB}}</center>
-                                        </th>
-                                        <th></th>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="ranking in rankings.data.rankings | orderBy:'user.nickName'">
-                                            <td><b>{{ ranking.user.nickName }}</b><br/>{{ ranking.nbPoints }} pts</td>
-                                            <td ng-repeat="bet in ranking.communities[0].bets" data-title="{{bet.teamA}} vs {{bet.teamB}}" ><span ng-show="!bet.notClosed"><center>{{bet.resultA}}:{{bet.resultB}}<br/> Pts:{{bet.nbpoints}}</center></span><span ng-show="bet.notClosed"><center>&nbsp;</center></span></td>
-                                            <td><b>{{ ranking.user.nickName }}</b><br/>{{ ranking.nbPoints }} pts</td>
-                                        </tr>
-                                    </tbody>
-                                    <tfoot>
-                                        <th></th>
-                                        <th ng-repeat="bet in rankings.data.rankings[0].communities[0].bets">
-                                            <center>{{bet.teamA}} vs {{bet.teamB}}</center>
-                                        </th>
-                                        <th></th>
-                                    </tfoot>
-                                </table>
+                            <br/>
+                            <div id="divRanking" style="display:none">
+                                <div id="no-more-tables" class="table-responsive">
+                                    <table class="table table-condensed table-striped">
+                                        <thead>
+                                            <th></th>
+                                            <th ng-repeat="bet in rankings.data.rankings[0].communities[0].bets">
+                                                <center>{{bet.teamA}} vs {{bet.teamB}}</center>
+                                            </th>
+                                            <th></th>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="ranking in rankings.data.rankings | orderBy:'user.nickName'">
+                                                <td><b>{{ ranking.user.nickName }}</b><br/>{{ ranking.nbPoints }} pts</td>
+                                                <td ng-repeat="bet in ranking.communities[0].bets" data-title="{{bet.teamA}} vs {{bet.teamB}}" ><span ng-show="!bet.notClosed"><center>{{bet.resultA}}:{{bet.resultB}}<br/> Pts:{{bet.nbpoints}}</center></span><span ng-show="bet.notClosed"><center>&nbsp;</center></span></td>
+                                                <td><b>{{ ranking.user.nickName }}</b><br/>{{ ranking.nbPoints }} pts</td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <th></th>
+                                            <th ng-repeat="bet in rankings.data.rankings[0].communities[0].bets">
+                                                <center>{{bet.teamA}} vs {{bet.teamB}}</center>
+                                            </th>
+                                            <th></th>
+                                        </tfoot>
+                                    </table>
+                                </div>
                             </div>
 
                         </div>

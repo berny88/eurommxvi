@@ -156,12 +156,19 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
             $('#title').focus();
         }
 
-        $scope.getRankingInCommunity = function() {
-            $http.get('/communities/apiv1.0/communities/'+$routeParams.com_id+'/ranking?filter=ALL', {timeout: canceler.promise})
+        $scope.getRankingInCommunity = function(category) {
+            $('#spinRanking').show();
+            $('#spinBets').show();
+            $('#divRanking').hide();
+            $('#divBets').hide();
+            $http.get('/communities/apiv1.0/communities/'+$routeParams.com_id+'/ranking?filter='+category, {timeout: canceler.promise})
             .success(function(data) {
                 $scope.rankings = data;
+                $('#spinRanking').hide();
+                $('#divRanking').show();
+                $('#divBets').show();
                 $('#spin').hide();
-                $('#spin2').hide();
+                $('#spinBets').hide();
 
                 // to display the score when the match begins
                 $scope.rankings.data.rankings.forEach(function(ranking) {
@@ -178,7 +185,8 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
             .error(function(data, status, headers, config) {
                 showAlertError("Erreur lors de la récupération du classement de la communauté ; erreur HTTP : " + status);
                 $('#spin').hide();
-                $('#spin2').hide();
+                $('#spinBets').hide();
+                $('#spinRanking').hide();
             });
         }
 

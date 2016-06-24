@@ -35,7 +35,7 @@
                 <div class="col-md-12">
 
                     <div class="row">
-                        <div class="col-md-offset-3 col-md-6">
+                        <div class="col-md-offset-2 col-md-8">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
@@ -47,21 +47,31 @@
                                     </h4>
                                 </div>
                                 <div class="panel-body">
-
-                                    <div id="no-more-tables" class="table-responsive">
-                                        <table class="table table-condensed table-striped">
-
-                                            <tbody ng-init="getRankingInCommunity();">
-                                            <tr ng-repeat="ranking in rankings.data.rankings">
-                                                <td data-title="Classement"><span class="badge">{{$index + 1}}</span></td>
-                                                <td data-title="NickName"><img height="32px" width="32px" class="img-circle" ng-src ="users/apiv1.0/users/{{ ranking.user.user_id }}/avatar?{{ currentDateForAvoidTheCache }}" > {{ranking.user.nickName}}</td>
-                                                <td data-title="Points">{{ranking.nbPoints}}</td>
-                                            </tr>
-
-                                            </tbody>
-                                        </table>
+                                    <div class="alert alert-success" role="alert">
+                                        Faites votre choix :
+                                        <div class="btn-group" role="group" aria-label="...">
+                                            <button type="button" class="btn btn-success" ng-click="getRankingInCommunity('GROUPE')">Classement des poules</button>
+                                            <button type="button" class="btn btn-success" ng-click="getRankingInCommunity('FINAL');">Classement de la phase finale</button>
+                                            <button type="button" class="btn btn-success" ng-click="getRankingInCommunity('ALL');">Classement global</button>
+                                        </div>
                                     </div>
-                                    <center><span id="spin"><img src="static/img/spin.gif"></span></center>
+                                    <br/>
+                                    <div id="divRanking" style="display:none">
+                                        <div id="no-more-tables" class="table-responsive">
+                                            <table class="table table-condensed table-striped">
+
+                                                <tbody>
+                                                <tr ng-repeat="ranking in rankings.data.rankings">
+                                                    <td data-title="Classement"><span class="badge">{{$index + 1}}</span></td>
+                                                    <td data-title="NickName"><img height="32px" width="32px" class="img-circle" ng-src ="users/apiv1.0/users/{{ ranking.user.user_id }}/avatar?{{ currentDateForAvoidTheCache }}" > {{ranking.user.nickName}}</td>
+                                                    <td data-title="Points">{{ranking.nbPoints}}</td>
+                                                </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <center><span id="spinRanking" style="display:none"><img src="static/img/spin.gif"></span></center>
                                     <center><a href="#stats_ranking"><i class="fa fa-bar-chart" aria-hidden="true"></i>&nbsp;Classement général</a></center>
                                 </div>
                             </div>

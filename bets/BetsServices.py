@@ -296,7 +296,7 @@ class BetsManager(DbManager):
         """
         #STEP 1 : list of users
         if com_id is not None:
-            if category == "ALL" or category is None:
+            if category == "ALL" or category is None or category == "undefined":
                 userIdList = self.getDb().bets.distinct("user_id", {"com_id":com_id})
             else:
                 userIdList = self.getDb().bets.distinct("user_id", {"com_id":com_id, "category":category})
@@ -332,7 +332,7 @@ class BetsManager(DbManager):
             #STEP 3 : for each com, compute the number of points
             logger.info(u"\t\tgetRanking : before loading bets:{}".format(user["user_id"]))
             for com in comList:
-                if category == "ALL" or category is None:
+                if category == "ALL" or category is None or category == "undefined":
                     betsList = self.getDb().bets.find({"user_id": user["user_id"], "com_id": com["com_id"]}).sort([("dateMatch",1), ("key",1) ])
                 else:
                     betsList = self.getDb().bets.find({"user_id": user["user_id"], "com_id": com["com_id"], "category":category}).sort([("dateMatch",1), ("key",1) ])
@@ -353,7 +353,7 @@ class BetsManager(DbManager):
             # Pour exprimer le nb de pt en % du nb de point total possible :
             #   36 = nb de match au total en poule, 15 = nb de match au total en phase finale, et 51 = nb match total
             #   13 = nb de pt max par match
-            if category == "ALL" or category is None:
+            if category == "ALL" or category is None or category == "undefined":
                 nbMaxMatchs= 51
             elif category == "GROUPE":
                 nbMaxMatchs = 36
