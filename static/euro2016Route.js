@@ -42,6 +42,7 @@ euro2016App.config(function($routeProvider) {
 
         // route for stats: "buble graph" & ranking
         .when('/stats_1', { templateUrl:'stats/static/stats_1.html', controller:'statsMatchsCtrl' })
+        .when('/stats_2', { templateUrl:'stats/static/stats_2.html', controller:'statsHuitMatchsCtrl' })
         .when('/stats_ranking', { templateUrl:'stats/static/stats_ranking.html', controller:'statsRankingCtrl' })
         .when('/stats_global', { templateUrl:'stats/static/stats_global.html', controller:'statsRankingCtrl' })
         .when('/stats_historyranking', { templateUrl:'stats/static/stats_historyranking.html', controller:'statsRankingCtrl' })

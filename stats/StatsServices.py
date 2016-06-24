@@ -96,6 +96,14 @@ def get_stats_teams():
     d["children"]=mgr.get_team_stats()
     return jsonify({'teams': d})
 
+@stats_page.route('/apiv1.0/stats/teams_huit', methods=['GET'])
+def get_stats_teams():
+    mgr = StatsManager()
+    d=dict()
+    d["name"]=u"team"
+    d["children"]=mgr.get_team_huit_stats()
+    return jsonify({'teams': d})
+
 class StatTeamGoal:
     def __init__(self):
         self.key=u""
@@ -196,6 +204,67 @@ class StatsManager(DbManager,object):
 
         # search all bets for all user and community
         betsList = localdb.bets.find()
+
+        result = list()
+
+        matchs_dict = dict()
+        group_dict = dict()
+        team_dict = dict()
+        # populate StatTeamGoal (key=team)
+        for matchbson in matchsList:
+            matchs_dict[matchbson[u"key"]] = matchbson
+            group_name = matchbson[u"key"].split("_")[0]
+            if group_name not in group_dict:
+                d = dict()
+                d["color"] = self.color[group_name]
+                d["name"] = group_name
+                d["children"] = list()
+                group_dict[group_name] = d
+            if matchbson[u"teamA"] not in team_dict:
+                stat=StatTeamGoal()
+                stat.key=matchbson["teamA"]
+                stat.name=matchbson["libteamA"]
+                stat.group_name = group_name
+                team_dict[matchbson["teamA"]]=stat
+
+            if matchbson[u"teamB"] not in team_dict:
+                stat=StatTeamGoal()
+                stat.key=matchbson["teamB"]
+                stat.name=matchbson["libteamB"]
+                stat.group_name = group_name
+                team_dict[matchbson["teamB"]]=stat
+
+        list_team=list()
+        #sum goal for each team (perhaps possible in mongo ???
+        for betbson in betsList:
+            if betbson["teamA"] in team_dict:
+                stat = team_dict[betbson["teamA"]]
+                stat.nb_goal=stat.nb_goal + self.get_result(betbson, "A")
+
+            if betbson["teamB"] in team_dict:
+                stat = team_dict[betbson["teamA"]]
+                stat.nb_goal=stat.nb_goal + self.get_result(betbson, "B")
+
+        for team_name in team_dict:
+            stat = team_dict[team_name]
+            group_dict[stat.group_name]["children"].append(stat.__dict__)
+
+        for grp in group_dict:
+            result.append(group_dict[grp])
+
+        return result
+
+    def get_team_huit_stats(self):
+        u"""
+        return the list of team with their number of goal, bet by all user.
+        """
+        localdb = self.getDb()
+        result=list()
+        # get all matchs
+        matchsList = localdb.matchs.find({"categoryName": "HUITIEME"}).sort("dateMatch")
+
+        # search all bets for all user and community
+        betsList = localdb.bets.find({"categoryName": "HUITIEME"})
 
         result = list()
 
