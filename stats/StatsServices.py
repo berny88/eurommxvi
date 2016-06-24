@@ -97,7 +97,7 @@ def get_stats_teams():
     return jsonify({'teams': d})
 
 @stats_page.route('/apiv1.0/stats/teams_huit', methods=['GET'])
-def get_stats_teams():
+def get_stats_huit_teams():
     mgr = StatsManager()
     d=dict()
     d["name"]=u"team"
