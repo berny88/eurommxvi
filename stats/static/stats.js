@@ -311,13 +311,30 @@ euro2016App.controller('statsRankingCtrl', ['$scope', '$http', '$q', '$routePara
 
     }
 
-    $scope.getCommunitiesRanking = function () {
+    $scope.getCommunitiesRanking = function (category) {
+
+        $('#spin_communities_ranking').show();
+        $('#plotly_pie').hide();
+
+        if (category == 'GROUPE') {
+            $('#btn-groupe').addClass('active');
+            $('#btn-final').removeClass('active');
+            $('#btn-all').removeClass('active');
+        } else if (category == 'FINAL') {
+            $('#btn-groupe').removeClass('active');
+            $('#btn-final').addClass('active');
+            $('#btn-all').removeClass('active');
+        } else {
+            $('#btn-groupe').removeClass('active');
+            $('#btn-final').removeClass('active');
+            $('#btn-all').addClass('active');
+        }
 
         $http.get('communities/apiv1.0/communities', {timeout: canceler.promise})
         .success(function(data, status, headers, config) {
             $scope.communities = data.communities;
 
-            var tasks = fillValuesAndLabels($scope.communities);
+            var tasks = fillValuesAndLabels($scope.communities,category);
 
             // wait the alls 'tasks' are done :
             $.when.apply($, tasks).done(function() {
@@ -360,6 +377,7 @@ euro2016App.controller('statsRankingCtrl', ['$scope', '$http', '$q', '$routePara
                 Plotly.newPlot('plotly_pie', data, layout);
 
                 $('#spin_communities_ranking').hide();
+                $('#plotly_pie').show();
             });
 
         })
@@ -370,7 +388,7 @@ euro2016App.controller('statsRankingCtrl', ['$scope', '$http', '$q', '$routePara
 
     }
 
-    function fillValuesAndLabels(communities) {
+    function fillValuesAndLabels(communities, category) {
 
         $scope.labels = [];
         $scope.values = [];
@@ -381,7 +399,7 @@ euro2016App.controller('statsRankingCtrl', ['$scope', '$http', '$q', '$routePara
             // array of deferreds :
             tasks.push(
 
-                $.get('/communities/apiv1.0/communities/'+community.com_id+'/ranking?filter=ALL')
+                $.get('/communities/apiv1.0/communities/'+community.com_id+'/ranking?filter='+category)
                 .success(function(data) {
                     $scope.rankings = data.data.rankings;
 

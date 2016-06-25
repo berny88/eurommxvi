@@ -3,11 +3,20 @@
     <br/>
     <div class="alert alert-info" role="alert"><span class="glyphicon glyphicon-info-sign"></span> Le score réalisé par une communauté est la moyenne des points de ses membres.</div>
 
-        <div ng-init="getCommunitiesRanking()">
+        <div class="alert alert-success" role="alert">
+            Faites votre choix :
+            <div class="btn-group" role="group" aria-label="...">
+                <button id="btn-groupe" type="button" class="btn btn-success" ng-click="getCommunitiesRanking('GROUPE');">Classement des poules</button>
+                <button id="btn-final" type="button" class="btn btn-success" ng-click="getCommunitiesRanking('FINAL');">Classement de la phase finale</button>
+                <button id="btn-all" type="button" class="btn btn-success" ng-click="getCommunitiesRanking('ALL');">Classement global</button>
+            </div>
+        </div>
 
-            <center><span id="spin_communities_ranking"><img src="static/img/spin.gif"></span></center>
+        <div ng-init="getCommunitiesRanking('FINAL')">
 
-            <center><div id="plotly_pie"></center>
+            <center><span id="spin_communities_ranking" style="display:none"><img src="static/img/spin.gif"></span></center>
+
+            <center><div id="plotly_pie" style="display:none"></center>
 
         </div>
 
