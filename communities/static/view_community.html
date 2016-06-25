@@ -39,15 +39,15 @@
         <div class="alert alert-success" role="alert">
             Faites votre choix :
             <div class="btn-group" role="group" aria-label="...">
-                <button type="button" class="btn btn-success" ng-click="getRankingInCommunity('GROUPE')">Classement et paris des poules</button>
-                <button type="button" class="btn btn-success" ng-click="getRankingInCommunity('FINAL');">Classement et paris de la phase finale</button>
-                <button type="button" class="btn btn-success" ng-click="getRankingInCommunity('ALL');">Classement et paris globaux</button>
+                <button id="btn-groupe" type="button" class="btn btn-success" ng-click="getRankingInCommunity('GROUPE')">Classement et paris des poules</button>
+                <button id="btn-final" type="button" class="btn btn-success" ng-click="getRankingInCommunity('FINAL');">Classement et paris de la phase finale</button>
+                <button id="btn-all" type="button" class="btn btn-success" ng-click="getRankingInCommunity('ALL');">Classement et paris globaux</button>
             </div>
         </div>
 
         <br/>
 
-        <div class="container-fluid">
+        <div class="container-fluid" ng-init="getRankingInCommunity('FINAL')">
             <div class="row">
                 <div class="col-md-12">
 

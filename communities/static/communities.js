@@ -161,6 +161,21 @@ euro2016App.controller('CommunitiesCtrl', ['$scope', '$routeParams', '$http', '$
             $('#spinBets').show();
             $('#divRanking').hide();
             $('#divBets').hide();
+
+            if (category == 'GROUPE') {
+                $('#btn-groupe').addClass('active');
+                $('#btn-final').removeClass('active');
+                $('#btn-all').removeClass('active');
+            } else if (category == 'FINAL') {
+                $('#btn-groupe').removeClass('active');
+                $('#btn-final').addClass('active');
+                $('#btn-all').removeClass('active');
+            } else {
+                $('#btn-groupe').removeClass('active');
+                $('#btn-final').removeClass('active');
+                $('#btn-all').addClass('active');
+            }
+
             $http.get('/communities/apiv1.0/communities/'+$routeParams.com_id+'/ranking?filter='+category, {timeout: canceler.promise})
             .success(function(data) {
                 $scope.rankings = data;

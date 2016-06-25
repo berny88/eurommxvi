@@ -46,13 +46,13 @@
                                         <div class="clearfix"></div>
                                     </h4>
                                 </div>
-                                <div class="panel-body">
+                                <div class="panel-body" ng-init="getRankingInCommunity('FINAL')">
                                     <div class="alert alert-success" role="alert">
                                         Faites votre choix :
                                         <div class="btn-group" role="group" aria-label="...">
-                                            <button type="button" class="btn btn-success" ng-click="getRankingInCommunity('GROUPE')">Classement des poules</button>
-                                            <button type="button" class="btn btn-success" ng-click="getRankingInCommunity('FINAL');">Classement de la phase finale</button>
-                                            <button type="button" class="btn btn-success" ng-click="getRankingInCommunity('ALL');">Classement global</button>
+                                            <button id="btn-groupe" type="button" class="btn btn-success" ng-click="getRankingInCommunity('GROUPE')">Classement des poules</button>
+                                            <button id="btn-final" type="button" class="btn btn-success" ng-click="getRankingInCommunity('FINAL');">Classement de la phase finale</button>
+                                            <button id="btn-all" type="button" class="btn btn-success" ng-click="getRankingInCommunity('ALL');">Classement global</button>
                                         </div>
                                     </div>
                                     <br/>
