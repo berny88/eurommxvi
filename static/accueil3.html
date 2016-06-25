@@ -50,16 +50,6 @@
             <div class="col-xs-12">
                 <div id="no-more-tables" class="table-responsive">
                     <table class="table table-condensed table-striped">
-                        <thead>
-                        <tr>
-                            <!--<th class="id">Id</th>-->
-                            <th class="title">
-                                <a ng-click="sortType='title';sortReverse=!sortReverse">Titre<span ng-show="sortType=='title'&&!sortReverse" class="glyphicon glyphicon-chevron-down"></span><span ng-show="sortType=='title' && sortReverse" class="glyphicon glyphicon-chevron-up"></span></a>
-                            </th>
-                            <th class="description">Description</th>
-                            <th></th>
-                        </tr>
-                        </thead>
                         <tbody ng-init="getMyCommunities();">
                         <tr ng-repeat="community in my_communities.communities | orderBy:sortType:sortReverse">
                             <td data-title="Titre">{{community.title}}</td>
