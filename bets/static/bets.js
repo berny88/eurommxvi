@@ -30,6 +30,14 @@ euro2016App.controller('BetsCtrl', ['$scope', '$routeParams', '$http', '$q', '$l
 
         var canceler = $q.defer();
 
+        // to split the table of bets :
+        $scope.onlyGroupeFilter = function (bet) {
+            return bet.category === 'GROUPE';
+        };
+        $scope.onlyFinalFilter = function (bet) {
+            return bet.category === 'FINAL';
+        };
+
         // Jauge :
         var config = liquidFillGaugeDefaultSettings();
         config.circleThickness = 0.1;
@@ -45,6 +53,9 @@ euro2016App.controller('BetsCtrl', ['$scope', '$routeParams', '$http', '$q', '$l
             $scope.bets = {};
 
             hideAlerts();
+
+            $('#spin_bets_groupe').show();
+            $('#spin_bets_final').show();
 
             if (isConnected($window)) {
                 //$http.get('communities/apiv1.0/communities/'+ com_id + '/users/'+ getConnectedUser($window).user_id +'/bets ', {timeout: canceler.promise})
@@ -63,14 +74,16 @@ euro2016App.controller('BetsCtrl', ['$scope', '$routeParams', '$http', '$q', '$l
                         }
                     });
 
-                    $('#spin_bets').hide();
+                    $('#spin_bets_groupe').hide();
+                    $('#spin_bets_final').hide();
 
                     $scope.gaugeUpdate($scope.bets.bets)
 
                 })
                 .error(function(data, status, headers, config) {
                     showAlertError("Erreur lors de la récupération de la liste des paris ; erreur HTTP : " + status);
-                    $('#spin_bets').hide();
+                    $('#spin_bets_groupe').hide();
+                    $('#spin_bets_final').hide();
                     gauge.update(0);
                 });
             }
