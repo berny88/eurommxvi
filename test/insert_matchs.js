@@ -626,3 +626,59 @@ db.getCollection("matchs").insert({
   "teamA": "ENG",
   "teamB": "ISL"
 });
+/** quart */
+db.getCollection("matchs").insert({
+  "category": "FINAL",
+  "categoryName": "QUART",
+  "dateDeadLineBet": "2016-06-30T18:00:00Z",
+  "dateMatch": "2016-06-30T19:00:00Z",
+  "key": "QUART_POL_POR",
+  "libteamA": "POLOGNE",
+  "libteamB": "PORTUGAL",
+  "resultA": "",
+  "resultB": "",
+  "teamA": "POL",
+  "teamB": "POR"
+});
+
+db.getCollection("matchs").insert({
+  "category": "FINAL",
+  "categoryName": "QUART",
+  "dateDeadLineBet": "2016-07-01T18:00:00Z",
+  "dateMatch": "2016-07-01T19:00:00Z",
+  "key": "QUART_WAL_BEL",
+  "libteamA": "PAYS DE GALLES",
+  "libteamB": "BELGIQUE",
+  "resultA": "",
+  "resultB": "",
+  "teamA": "WAL",
+  "teamB": "BEL"
+});
+
+db.getCollection("matchs").insert({
+  "category": "FINAL",
+  "categoryName": "QUART",
+  "dateDeadLineBet": "2016-07-02T18:00:00Z",
+  "dateMatch": "2016-07-02T19:00:00Z",
+  "key": "QUART_ALL_ITA",
+  "libteamA": "ALLEMGANE",
+  "libteamB": "ITALIE",
+  "resultA": "",
+  "resultB": "",
+  "teamA": "ALL",
+  "teamB": "ITA"
+});
+
+db.getCollection("matchs").insert({
+  "category": "FINAL",
+  "categoryName": "QUART",
+  "dateDeadLineBet": "2016-07-03T18:00:00Z",
+  "dateMatch": "2016-07-03T19:00:00Z",
+  "key": "QUART_FRA_",
+  "libteamA": "FRANCE",
+  "libteamB": "",
+  "resultA": "",
+  "resultB": "",
+  "teamA": "FRA",
+  "teamB": "ITA"
+});
