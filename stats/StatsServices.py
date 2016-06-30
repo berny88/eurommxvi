@@ -55,11 +55,13 @@ def ranking():
     u"""
     :return la représentation json du classement général
     :param filter: the phasis we want the ranking for (ALL, GROUPE or FINAL)
+    :param requester: COMMUNITIES_RANKING when the requester is the ranking of the communities
     """
     filter=request.args.get('filter')
+    requester=request.args.get('requester')
     betsMgr = BetsManager()
     d = dict()
-    rankings = betsMgr.getRanking(None,filter)
+    rankings = betsMgr.getRanking(None,filter,requester)
     d["rankings"]=rankings
     return jsonify({'data': d})
 

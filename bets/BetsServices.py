@@ -287,11 +287,12 @@ class BetsManager(DbManager):
         return betList
 
 
-    def getRanking(self, com_id, category):
+    def getRanking(self, com_id, category, requester):
         u"""
         ranking of the community (if com_id is provided) of ranking of all the bet site
         :param com_id: the com_id (optionnal)
         :param category: the category (ALL, GROUPE or FINAL)
+        :param requester: COMMUNITIES_RANKING when the requester is the ranking of the communities
         :return: the ranking
         """
         #STEP 1 : list of users
@@ -305,13 +306,10 @@ class BetsManager(DbManager):
         usermgr = UserManager()
         usermgr.setDb(self.getDb())
         userList=list()
-        logger.info(u"\t\tgetRanking : before loading user")
         for uuid in userIdList:
             user = usermgr.getUserByUserId(uuid)
             userList.append(user.__dict__)
         userList.sort(key=lambda user: user["nickName"])
-        logger.info(u"\t\tgetRanking : after loading user")
-        logger.info(u'\t\tgetRanking:: players : {}'.format(userList))
 
         result = list()
 
@@ -338,35 +336,54 @@ class BetsManager(DbManager):
                     betsList = self.getDb().bets.find({"user_id": user["user_id"], "com_id": com["com_id"], "category":category}).sort([("dateMatch",1), ("key",1) ])
                 nbPointsInCom = 0
                 betsTab = []
+                #To remove the users who have bet only in the groupe phasis or only in the final phasis (when category = ALL) :
+                hasBetInGroup = False
+                hasBetInFinal = False
                 for bet in betsList:
+                    if bet["category"] == "GROUPE":
+                        hasBetInGroup = True
+                    if bet["category"] == "FINAL":
+                        hasBetInFinal = True
                     nbPointsInCom = nbPointsInCom + bet["nbpoints"]
                     del bet["_id"]
                     betsTab.append(bet)
-                nbPointsTot = nbPointsTot + nbPointsInCom
                 com["bets"] = betsTab
                 del com["_id"]
-                communitiesTab.append(com)
+                if requester == "COMMUNITIES_RANKING":
+                    if category == "ALL" or category is None or category == "undefined":
+                        if hasBetInGroup is True and hasBetInFinal is True:
+                            nbPointsTot = nbPointsTot + nbPointsInCom
+                            communitiesTab.append(com)
+                    else:
+                        nbPointsTot = nbPointsTot + nbPointsInCom
+                        communitiesTab.append(com)
+                else:
+                    nbPointsTot = nbPointsTot + nbPointsInCom
+                    communitiesTab.append(com)
 
-            logger.info(u"\t\tgetRanking : after loading bets:{}".format(user["user_id"]))
-            ranking = dict()
-            ranking["nbPoints"] = int(nbPointsTot / len(comList))
-            # Pour exprimer le nb de pt en % du nb de point total possible :
-            #   36 = nb de match au total en poule, 15 = nb de match au total en phase finale, et 51 = nb match total
-            #   13 = nb de pt max par match
-            if category == "ALL" or category is None or category == "undefined":
-                nbMaxMatchs= 51
-            elif category == "GROUPE":
-                nbMaxMatchs = 36
-            elif category == "FINAL":
-                nbMaxMatchs = 15
-            ranking["nbPointsPercent"] = int((ranking["nbPoints"] * 100) / (nbMaxMatchs * 13))
-            ranking["user"] = user
-            ranking["communities"] = communitiesTab
-            result.append(ranking)
+            if len(communitiesTab) > 0:
+                result.append(self.fillRanking(nbPointsTot, comList, category, user, communitiesTab))
 
         #STEP 4 : return a sorted list
         result.sort(key=lambda ranking: ranking["nbPoints"], reverse=True)
         return result
+
+    def fillRanking(self, nbPointsTot, comList, category, user, communitiesTab):
+        ranking = dict()
+        ranking["nbPoints"] = int(nbPointsTot / len(comList))
+        # Pour exprimer le nb de pt en % du nb de point total possible :
+        #   36 = nb de match au total en poule, 15 = nb de match au total en phase finale, et 51 = nb match total
+        #   13 = nb de pt max par match
+        if category == "ALL" or category is None or category == "undefined":
+            nbMaxMatchs= 51
+        elif category == "GROUPE":
+            nbMaxMatchs = 36
+        elif category == "FINAL":
+            nbMaxMatchs = 15
+        ranking["nbPointsPercent"] = int((ranking["nbPoints"] * 100) / (nbMaxMatchs * 13))
+        ranking["user"] = user
+        ranking["communities"] = communitiesTab
+        return ranking
 
     def getRatesOfAMatch(self,key):
         u"""

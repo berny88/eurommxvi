@@ -399,7 +399,7 @@ euro2016App.controller('statsRankingCtrl', ['$scope', '$http', '$q', '$routePara
             // array of deferreds :
             tasks.push(
 
-                $.get('/communities/apiv1.0/communities/'+community.com_id+'/ranking?filter='+category)
+                $.get('/communities/apiv1.0/communities/'+community.com_id+'/ranking?filter='+category+'&requester=COMMUNITIES_RANKING')
                 .success(function(data) {
                     $scope.rankings = data.data.rankings;
 
