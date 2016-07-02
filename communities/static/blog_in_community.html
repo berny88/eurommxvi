@@ -54,7 +54,7 @@
                                         <cite>by {{post.author}} on {{post.createdOn | date:'dd/MM/yy HH:mm'}}</cite>
                                         <div class="post-body">
                                             <p ng-repeat="paragraph in post.body">
-                                                <span ng-bind-html="paragraph"></span>
+                                                <span ng-bind-html="paragraph | linky:'_blank'"></span>
                                             </p>
                                         </div>
                                         <p class="fa fa-comment push-left"> {{post.comments.length}}
@@ -68,7 +68,7 @@
                                             <h3>Commentaires</h3>
                                             <ul>
                                                 <li ng-repeat="comment in post.comments">
-                                                    "<span ng-bind-html="comment.body"></span>"
+                                                    "<span ng-bind-html="comment.body | linky:'_blank'"></span>"
                                                     <cite>- <b>{{comment.author}}</b> on {{comment.createdOn | date:'dd/MM/yy HH:mm'}}</cite>
                                                 </li>
                                             </ul>

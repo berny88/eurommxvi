@@ -47,7 +47,7 @@
                     <div class="col-md-8" ng-class-odd="'col-md-pull-3'">
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <span ng-bind-html="p.message"></span><br>
+                                <span ng-bind-html="p.message | linky:'_blank'"></span><br>
                                 <span class="label label-default">{{ p.date | date:'dd/MM/yy HH:mm' }}</span>
                             </div>
                         </div>
