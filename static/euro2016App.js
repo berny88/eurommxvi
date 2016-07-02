@@ -1,6 +1,6 @@
 // create the module and name it euro2016App
 // also include ngRoute for all our routing needs
-var euro2016App = angular.module('euro2016App', ['ngRoute', 'ngResource', 'ngAnimate']);
+var euro2016App = angular.module('euro2016App', ['ngRoute', 'ngResource', 'ngAnimate', 'ngSanitize']);
 
 // To avoid HTML caching :
 euro2016App.run(function($rootScope, $templateCache) {
