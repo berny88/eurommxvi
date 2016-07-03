@@ -216,8 +216,9 @@ class BlogsManager(DbManager):
         message.set_subject("eurommxvi : {}".format(blog.title))
         logger.info("email title={}".format(blog.title))
         logger.info("email body-to_mail={}".format(blog.body_to_mail()))
-        body = u"""<html><head></head><body><pre style='font-size: 16px;font-family:Verdana;'>{}</pre><br/>Laissez vos commentaires ici : {}
-        <br/>Et, surtout n'oubiez pas de parier: {}</body></html>""".format(blog.body_to_mail(), urlBlog, url_to_bet)
+        body = u"""<html><head></head><body><pre style='font-size: 16px;font-family:Verdana;'>{}</pre>
+        <br/><h2>Laissez vos commentaires ici : {}</h2>
+        <br/><h1>Et, surtout n'oubiez pas de parier: {}</h1></body></html>""".format(blog.body_to_mail(), urlBlog, url_to_bet)
         message.set_html(body)
 
         res = sg.send(message)
