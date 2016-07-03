@@ -116,7 +116,7 @@ class BlogsManager(DbManager):
         logger.info(u'getBlogByCommunity::db={}'.format(localdb))
 
         blogsColl = localdb.blogs
-        blogsList = blogsColl.find({"com_id": com_id}).sort("createdOn")
+        blogsList = blogsColl.find({"com_id": com_id}).sort("createdOn:-1")
         logger.info(u'getBlogByCommunity::communitysList={}'.format(blogsList))
         #Faut-il changer de list ou retourner le bson directement ?
         result = list()
@@ -208,7 +208,7 @@ class BlogsManager(DbManager):
         url_root = tool.getProperty("url_root")["value"]
 
         urlBlog = "https://{}/#/blog_in_community/{}".format(url_root, com_id);
-
+        url_to_bet = "https://{}/#/bet_in_community/{}".format(url_root, com_id);
         for r in recipients:
             message.add_to(r)
         message.add_to("eurommxvi.foot@gmail.com")
@@ -216,11 +216,12 @@ class BlogsManager(DbManager):
         message.set_subject("eurommxvi : {}".format(blog.title))
         logger.info("email title={}".format(blog.title))
         logger.info("email body-to_mail={}".format(blog.body_to_mail()))
-        body = u"<html><head></head><body><pre>{}</pre><br/>Laissez vos commentaires ici : {}</body></html>".format(blog.body_to_mail(), urlBlog)
+        body = u"""<html><head></head><body><pre style='font-size: 16px;font-family:Verdana;'>{}</pre><br/>Laissez vos commentaires ici : {}
+        <br/>Et, surtout n'oubiez pas de parier: {}</body></html>""".format(blog.body_to_mail(), urlBlog, url_to_bet)
         message.set_html(body)
 
         res = sg.send(message)
 
-        logger.info("email result={}/{}".format(str(res[0]), str(res[1])))
+        logger.debug("email result={}/{}".format(str(res[0]), str(res[1])))
 
         return res

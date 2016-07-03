@@ -674,11 +674,11 @@ db.getCollection("matchs").insert({
   "categoryName": "QUART",
   "dateDeadLineBet": "2016-07-03T18:00:00Z",
   "dateMatch": "2016-07-03T19:00:00Z",
-  "key": "QUART_FRA_",
+  "key": "QUART_FRA_ISL",
   "libteamA": "FRANCE",
-  "libteamB": "",
+  "libteamB": "ISLANDE",
   "resultA": "",
   "resultB": "",
   "teamA": "FRA",
-  "teamB": "ITA"
+  "teamB": "ISL"
 });
