@@ -44,6 +44,7 @@
                                     ng-click="selectTab($index)" >
                                     <h3>{{post.title}}</h3>
                                     <p>{{post.body[0] | limitTo:70}}...</p>
+                                    <cite>by {{post.author}} on {{post.createdOn | date:'dd/MM/yy HH:mm'}}</cite>
                                     <p class="fa fa-comment push-left"> {{post.comments.length}}
                                     </p>
                                 </li>
