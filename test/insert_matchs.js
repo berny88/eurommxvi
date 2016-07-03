@@ -682,3 +682,30 @@ db.getCollection("matchs").insert({
   "teamA": "FRA",
   "teamB": "ISL"
 });
+/* demi */
+db.getCollection("matchs").insert({
+  "category": "FINAL",
+  "categoryName": "DEMI",
+  "dateDeadLineBet": "2016-07-06T18:00:00Z",
+  "dateMatch": "2016-07-06T19:00:00Z",
+  "key": "QUART_POR_WAL",
+  "libteamA": "PORTUGAL",
+  "libteamB": "PAYS DE GALLES",
+  "resultA": "",
+  "resultB": "",
+  "teamA": "POR",
+  "teamB": "WAL"
+});
+db.getCollection("matchs").insert({
+  "category": "FINAL",
+  "categoryName": "DEMI",
+  "dateDeadLineBet": "2016-07-07T18:00:00Z",
+  "dateMatch": "2016-07-07T19:00:00Z",
+  "key": "QUART_ALL_FRA",
+  "libteamA": "ALLEMAGNE",
+  "libteamB": "FRANCE",
+  "resultA": "",
+  "resultB": "",
+  "teamA": "ALL",
+  "teamB": "FRA"
+});
