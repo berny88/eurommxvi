@@ -116,7 +116,7 @@ class BlogsManager(DbManager):
         logger.info(u'getBlogByCommunity::db={}'.format(localdb))
 
         blogsColl = localdb.blogs
-        blogsList = blogsColl.find({"com_id": com_id}).sort("createdOn:-1")
+        blogsList = blogsColl.find({"com_id": com_id}).sort([("createdOn",-1)])
         logger.info(u'getBlogByCommunity::communitysList={}'.format(blogsList))
         #Faut-il changer de list ou retourner le bson directement ?
         result = list()
