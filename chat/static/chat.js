@@ -5,6 +5,16 @@ euro2016App.controller('ChatCtrl', ['$scope', '$routeParams', '$http', '$q', '$l
 
         hideAlerts();
 
+        $('#inputText').summernote(
+        {
+          height: 200,                 // set editor height
+          minHeight: null,             // set minimum height of editor
+          maxHeight: null,             // set maximum height of editor
+          focus: true,                  // set focus to editable area after initializing summernote
+          placeholder: 'Par ici !'
+        }
+        );
+
         $scope.getPosts = function() {
             hideAlerts();
             $http.get('chat/apiv1.0/posts', {timeout: canceler.promise})
@@ -21,29 +31,35 @@ euro2016App.controller('ChatCtrl', ['$scope', '$routeParams', '$http', '$q', '$l
 
         $scope.doPost = function() {
 
-            var currentUser = {};
-            if (isConnected($window)) {
-                currentUser = getConnectedUser($window);
+            if ($('#inputText').summernote('isEmpty')) {
+                $.notify("Post vide !" , "error");
+                $('#inputText').summernote('focus');
+            } else {
+                var currentUser = {};
+                if (isConnected($window)) {
+                    currentUser = getConnectedUser($window);
+                }
+
+                var newPost = {};
+                newPost.post_user_id = currentUser.user_id;
+                //newPost.message = $('#inputText').val();
+                newPost.message = $('#inputText').summernote('code');
+                newPost.date = new Date();
+                newPost.nickName = currentUser.nickName;
+
+                $http.post('chat/apiv1.0/posts', {postToCreate: newPost, timeout: canceler.promise})
+                .success(function(data, status, headers, config) {
+                    newPost.post_id = data.post.post_id;
+                    $scope.posts.posts.unshift(newPost);
+                    $.notify("Post ajouté !!" , "success");
+                })
+                .error(function(data, status, headers, config) {
+                    showAlertError("Erreur lors de la création du post ; erreur HTTP : " + status);
+                })
+
+                $('#inputText').summernote('focus');
+                $('#inputText').summernote('reset');
             }
-
-            var newPost = {};
-            newPost.post_user_id = currentUser.user_id;
-            newPost.message = $('#inputText').val();
-            newPost.date = new Date();
-            newPost.nickName = currentUser.nickName;
-
-            $http.post('chat/apiv1.0/posts', {postToCreate: newPost, timeout: canceler.promise})
-            .success(function(data, status, headers, config) {
-                newPost.post_id = data.post.post_id;
-                $scope.posts.posts.unshift(newPost);
-                $.notify("Post ajouté !!" , "success");
-            })
-            .error(function(data, status, headers, config) {
-                showAlertError("Erreur lors de la création du post ; erreur HTTP : " + status);
-            })
-
-            $('#inputText').val('');
-            $('#inputText').focus();
 
         }
 
@@ -70,8 +86,6 @@ euro2016App.controller('ChatCtrl', ['$scope', '$routeParams', '$http', '$q', '$l
             }
             return ((currentUser.user_id == post.post_user_id) || isAdmin($window)) ? true : false;
         }
-
-        $('#inputText').focus()
 
         // only the connected people can post a message
         $scope.isConnected = function() {
