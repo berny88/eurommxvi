@@ -31,9 +31,14 @@ euro2016App.controller('ChatCtrl', ['$scope', '$routeParams', '$http', '$q', '$l
 
         $scope.doPost = function() {
 
+            var postSize = Math.round(($('#inputText').summernote('code')).length / 1024);
+
             if ($('#inputText').summernote('isEmpty')) {
                 $.notify("Post vide !" , "error");
                 $('#inputText').summernote('focus');
+            } else if (postSize > 600) { // we test "600" because of the html tags
+                $.notify("Post trop gros (" + postSize + "ko) ; doit être < 500 ko) ! " , "error");
+                $('#inputText').summernote('focus')
             } else {
                 var currentUser = {};
                 if (isConnected($window)) {
