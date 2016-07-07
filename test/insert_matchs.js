@@ -709,3 +709,17 @@ db.getCollection("matchs").insert({
   "teamA": "ALL",
   "teamB": "FRA"
 });
+/* finale */
+db.getCollection("matchs").insert({
+  "category": "FINAL",
+  "categoryName": "FINAL",
+  "dateDeadLineBet": "2016-07-10T18:30:00Z",
+  "dateMatch": "2016-07-10T19:00:00Z",
+  "key": "FINAL_ALL_FRA",
+  "libteamA": "PORTUGAL",
+  "libteamB": "FRANCE",
+  "resultA": "",
+  "resultB": "",
+  "teamA": "POR",
+  "teamB": "FRA"
+});
