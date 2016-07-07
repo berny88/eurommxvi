@@ -16,7 +16,8 @@
                     </div>
                     <div class="col-xs-11">
                         <div class="input-group">
-                            <textarea rows="5" class="form-control input-large" placeholder="Add to the conversation" id="inputText" type="text" required="required"></textarea>
+                            <div id="inputText"></div>
+                            <!--<textarea rows="5" class="form-control input-large" placeholder="Add to the conversation" id="inputText" type="text" required="required"></textarea>-->
                             <span class="input-group-btn">
                                 <button class="btn btn-default" type="submit">Post</button>
                             </span>
@@ -47,7 +48,7 @@
                     <div class="col-md-8" ng-class-odd="'col-md-pull-3'">
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <span ng-bind-html="p.message | linky:'_blank'"></span><br>
+                                <span ng-bind-html="p.message"></span><br>
                                 <span class="label label-default">{{ p.date | date:'dd/MM/yy HH:mm' }}</span>
                             </div>
                         </div>
