@@ -144,7 +144,7 @@ class StatsManager(DbManager,object):
 
         # Communities ranking
         for com in comList:
-            rankings = betsManager.getRanking(com["com_id"],"ALL")
+            rankings = betsManager.getRanking(com["com_id"],"ALL","HISTORY_RANKING")
             for ranking in rankings:
                 bsonHR =dict()
                 bsonHR["com_id"]=com["com_id"]
@@ -159,7 +159,7 @@ class StatsManager(DbManager,object):
                 nbHits = nbHits + 1
 
         # General ranking
-        rankings = betsManager.getRanking(None,"ALL")
+        rankings = betsManager.getRanking(None,"ALL","HISTORY_RANKING")
         for ranking in rankings:
             bsonHR =dict()
             bsonHR["com_id"]="all"
