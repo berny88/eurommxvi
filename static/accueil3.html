@@ -10,12 +10,32 @@
 <div class="container-fluid" ng-controller="matchsCtrl" ng-init="getMatchsOfTheDay();" style="padding-left : 0px;">
     <div class="row-fluid" >
         <div class="col-xs-12" style="padding-left : 0px;">
-            <center><h2><span style="color:green"><b>LES PARIS DE LA FINALE SONT OUVERTS !!!</b></span></h2></center>
             <br/>
-            <span><marquee><h2><b>Games of the day</b></h2></marquee></span>
+            <span><marquee><h2><b>Compétition terminée</b></h2></marquee></span>
 
             <div ng-show="displayMatchsOfTheDay == false">
-                <center><h2>Rdv DIMANCHE pour la finale</h2><br/></center>
+                <div style="padding-left : 0px; font-size : 12px" class="col-md-offset-3 col-md-6">
+
+                    <table class="table table-condensed table-striped">
+                        <tbody>
+                        <tr>
+                            <td style="vertical-align:middle;text-align: center;">PORTUGAL</td>
+                            <td style="vertical-align:middle;text-align: right;"><span class="newflags POR"></span></td>
+                            <td style="vertical-align:middle;">
+                                <center>
+                                    <table>
+                                        <tr><td><input style="width:35px;text-align:center;" value="1" disabled></td>
+                                            <td><input style="width:35px;text-align:center;" value="0" disabled></td>
+                                        </tr>
+                                    </table>
+                                </center>
+                            <td style="vertical-align:middle;text-align: left;"><span class="newflags FRA"></span></td>
+                            <td style="vertical-align:middle;text-align: center;">FRANCE</td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
             </div>
 
             <div ng-show="displayMatchsOfTheDay == true" id="no-more-tables_a">
@@ -109,9 +129,28 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <center><h1>TOP 5</h1></center>
-        <div class="col-sm-6 col-sm-offset-3">
+        <div class="col-sm-6">
             <center>
+                <h2>Individuel - Phase finale</h2>
                 <img class="img-focus-picture img-responsive" src="/static/img/pictures/TOP5.png" alt="">
+            </center>
+        </div>
+        <div class="col-sm-6">
+            <center>
+                <h2>Individuel - Général</h2>
+                <img class="img-focus-picture img-responsive" src="/static/img/pictures/TOP5_phase_finale.png" alt="">
+            </center>
+        </div>
+        <div class="col-sm-6">
+            <center>
+                <h2>Communautés - Phase finale</h2>
+                <img class="img-focus-picture img-responsive" src="/static/img/pictures/TOP_com.png" alt="">
+            </center>
+        </div>
+        <div class="col-sm-6">
+            <center>
+                <h2>Communautés - Général</h2>
+                <img class="img-focus-picture img-responsive" src="/static/img/pictures/TOP_com_phase_finale.png" alt="">
             </center>
         </div>
     </div>
