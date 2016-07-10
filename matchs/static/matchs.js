@@ -33,7 +33,9 @@ euro2016App.controller('matchsCtrl', ['$scope', '$http', '$q', '$timeout', '$win
                         //var matchDate = Date.parse(match.dateMatch)
                         //var timeDiff = Math.abs(matchDate - now.getTime());
                         //if (Math.ceil(timeDiff / (1000 * 3600 * 24)) == 1) {
-                        if ((matchDate.getDate() - now.getDate()) == 0) {
+                        if (((matchDate.getDate() - now.getDate()) == 0)
+                            && ((matchDate.getMonth() - now.getMonth()) == 0)
+                            && ((matchDate.getYear() - now.getYear()) == 0)) {
                             $scope.matchs.push(match)
                             $scope.displayMatchsOfTheDay = true;
                         }
